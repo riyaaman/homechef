@@ -1,0 +1,68 @@
+/* ----------------------------------------------------------------
+	Custom CSS
+
+	Add all your Custom Styled CSS here for New Styles or
+	Overwriting Default Theme Styles for Better Handling Updates
+-----------------------------------------------------------------*/
+
+
+:root {
+	--themecolor: #c92317;
+}
+
+
+
+/*** 
+====================================================================
+     Global 
+==================================================================== 
+***/
+.bg-color{
+	background-color:var(--themecolor) !important;
+}
+.color{
+	color:var(--themecolor) !important;
+}
+.text-base{
+	color:var(--themecolor);
+}
+
+
+.bg-dark {
+    background-color: #343a40 !important;
+}
+.button-lightgreen{
+	background-color:#1ABC9C;
+}
+      
+/*** 
+====================================================================
+     Header 
+==================================================================== 
+***/
+
+
+/* removing border bottom */
+#header.transparent-header.full-header #header-wrap {
+	border-bottom:none;
+}
+#header.full-header #logo {
+	border:none;
+}
+#header.full-header #primary-menu > ul{
+	border:none;
+}
+
+
+@media (min-width: 992px){
+	.dark #header.full-header, #header.full-header.dark {
+		border:none;
+	}
+	.dark .full-header .primary-menu .menu-container, .full-header.dark .primary-menu .menu-container {
+		border:none;
+	}
+	.full-header .primary-menu .menu-container {
+		border:none;
+	}
+}
+

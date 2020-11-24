@@ -1,0 +1,159 @@
+<!-- Page Title
+		============================================= -->
+{{!-- <section id="page-title">
+
+	<div class="container clearfix">
+		<h1>Navigation Tree</h1>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item"><a href="#">Submenu1</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Submenu2</li>
+		</ol>
+	</div>
+
+</section> --}}
+<!-- #page-title end -->
+
+<style>
+.chart-samples ul { list-style: none; }
+
+.chart-samples h4 {
+	text-transform: uppercase;
+	margin-bottom: 20px;
+	font-weight: 400;
+}
+
+.chart-samples li {
+	font-size: 16px;
+	line-height: 2.2;
+	font-weight: 600;
+}
+
+.chart-samples li a:not(:hover) { color: #AAA; }
+</style>
+
+<!-- Content
+============================================= -->
+<section id="content">
+	<div class="content-wrap">
+
+
+		<!-- Summary Area
+		============================================= -->
+
+		<div class="container clearfix">
+		
+			<div class="row">
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-white bg-primary o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+					<i class="fas fa-fw fa-comments"></i>
+					</div>
+					<div class="mr-5">9 Total Products!</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1" href="#">
+					<span class="float-left">View Details</span>
+					<span class="float-right">
+					<i class="fas fa-angle-right"></i>
+					</span>
+				</a>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-white bg-warning o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+					<i class="fas fa-fw fa-list"></i>
+					</div>
+					<div class="mr-5">4 Item Sold!</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1" href="#">
+					<span class="float-left">View Details</span>
+					<span class="float-right">
+					<i class="fas fa-angle-right"></i>
+					</span>
+				</a>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-white bg-success o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+					<i class="fas fa-fw fa-shopping-cart"></i>
+					</div>
+					<div class="mr-5">400 Total Amount!</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1" href="#">
+					<span class="float-left">View Details</span>
+					<span class="float-right">
+					<i class="fas fa-angle-right"></i>
+					</span>
+				</a>
+				</div>
+			</div>
+			<div class="col-xl-3 col-sm-6 mb-3">
+				<div class="card text-white bg-danger o-hidden h-100">
+				<div class="card-body">
+					<div class="card-body-icon">
+					<i class="fas fa-fw fa-life-ring"></i>
+					</div>
+					<div class="mr-5">6 Sales Amount!</div>
+				</div>
+				<a class="card-footer text-white clearfix small z-1" href="#">
+					<span class="float-left">View Details</span>
+					<span class="float-right">
+					<i class="fas fa-angle-right"></i>
+					</span>
+				</a>
+				</div>
+			</div>
+			</div>
+
+		</div>
+
+		<!-- Charts Area
+		============================================= -->
+		<div class="container section">		
+			<div class="row clearfix">			
+				
+				
+				<div class="col-lg-6">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fas fa-chart-pie"></i>
+							Sales Report</div>
+						<div class="card-body">
+							<canvas id="myPieChart" width="100%" height="100"></canvas>
+						</div>
+						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+					</div>
+				</div>
+				<div class="col-lg-6 ">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fas fa-chart-pie"></i>
+							Total Sales In This Month</div>
+						<div class="card-body">
+							<canvas id="chart-0" width="100%" height="100"></canvas>
+						</div>
+						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+					</div>
+				</div>
+			</div>
+			
+
+					{{!-- <div class="toolbar center">
+						<button class="btn btn-secondary btn-sm" id="randomizeData">Randomize Data</button>
+						<button class="btn btn-secondary btn-sm" id="addDataset">Add Dataset</button>
+						<button class="btn btn-secondary btn-sm" id="removeDataset">Remove Dataset</button>
+						<button class="btn btn-secondary btn-sm" id="addData">Add Data</button>
+						<button class="btn btn-secondary btn-sm" id="removeData">Remove Data</button>
+					</div> --}}
+					<!-- Charts Area End -->
+
+		</div>
+	</div>
+</section> 
+<!-- #content end -->
+ 
