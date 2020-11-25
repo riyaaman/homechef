@@ -5,6 +5,19 @@ var router            =   express.Router();
 var userHelpers       =   require('../helpers/user-helpers')
 const session         =   require('express-session');
 
+
+
+/* Verify Is Vendor Loggedin
+============================================= */
+const verifyVendorLogin  = (req,res,next)=>{
+  if(req.session.vendorLoggedIn){
+    next()
+  }
+  else{
+    res.redirect('/vendor')
+  }
+}
+
 /* Login For  Vendor
 ============================================= */
 
@@ -39,7 +52,7 @@ router.post('/vendor_login', (req,res)=> {
   
 })
 
-router.get('/ven_dashboard', (req,res)=> { 
+router.get('/ven_dashboard',verifyVendorLogin, (req,res)=> { 
   if( req.session.vendorLoggedIn)
   vendor_status = true
   // vendor_status   =   req.session.vendor.status

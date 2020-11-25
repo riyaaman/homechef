@@ -1,0 +1,62 @@
+<!-- Content
+		============================================= -->
+<section id="content">
+    <div class="content-wrap" style="padding: 20px 0">
+        <div class="container clearfix">
+
+
+            <div class="row mt-2">
+                <a href="/admin/vendor_add" class="btn btn-success ml-auto mb-5">Add Vendor</a>
+            </div>
+              {{#if isVendorDeleted}}
+                    <div class="style-msg successmsg">
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i> {{isVendorDeleted}}</div>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+                      
+                    {{/if}}
+            <table class="table mt-2" id="vendorsTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Shop Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Actions</th>
+                        {{!-- <th scope="col"></th> --}}
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each vendors}}
+                    <tr>
+                        <th scope="row">{{@index}}</th>
+                        <td>{{this.ven_name}}</td>
+                        <td>{{this.ven_shop}}</td>
+                        <td>{{this.ven_email}}</td>
+                        <td>{{this.ven_phone}}</td>
+                        <td><img style="width: 50px;height: 50px;" src="../images/vendor-images/{{this._id}}.jpg"
+                                alt="{{this.ven_shop}}" /></td>
+                        <td><a href="/admin/edit_vendor/{{this._id}}" class="btn btn-primary">Edit</a>
+                            <a href="/admin/delete_vendor/{{this._id}}" class="btn btn-danger"
+                                onclick="return confirm('Are You Want To Delete {{this.ven_name}}?')">Delete</a></td>
+                        {{!-- <td><a href="/admin/delete-product?id={{this._id}}&name={{this.Name}}" class="btn btn-danger">Delete</a></td> --}}
+
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</section><!-- #content end -->
+
+<script>
+    $(document).ready(function () {
+        $('#vendorsTable').DataTable();
+    });
+</script>
+
+

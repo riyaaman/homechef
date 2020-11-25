@@ -57,23 +57,44 @@ module.exports={
             var vendorDetails = { ven_name:vendorData.ven_name,ven_shop:vendorData.ven_shop_name,
                 ven_phone:vendorData.ven_phone,ven_email:vendorData.ven_email,
                 ven_password:vendorData.password,status:"vendor",active:"true",created:new Date() };
-                
-            let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:vendorData.ven_email})
-            // console.log(vendorDetails)
-            if(user){
-                resolve({signup_status:false})
-            //   console.log("failed")
-            }
-            else{                   
-                db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendorDetails).then((vendorDetails)=>{
-                     resolve(vendorDetails.ops[0])
-                    // console.log(vendorDetails.ops[0])
+                let user =  db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendorDetails).then((vendorDetails)=>{
+                   
+                    resolve(vendorDetails.ops[0])
                 })
-            }
+            // let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:vendorData.ven_email})
+         
+            // if(user){
+            //     resolve({signup_status:false})
+          
+            // }
+            // else{                   
+            //     db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendorDetails).then((vendorDetails)=>{
+            //          resolve(vendorDetails.ops[0])
+                    
+            //     })
+            // }
 
          
         })
     },
+
+    checkemail_exist:(ven_email)=>{
+       
+        // console.log(vendorData)
+        let signup_status   =   true
+        return new Promise(async(resolve,reject)=>{
+            let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:ven_email})
+       
+            if(user){
+                resolve({signup_status:true})               
+            }
+            else{
+                resolve({signup_status:false}) 
+            }
+        
+        })
+    },
+
 
      /* Login For Vendors
     ============================================= */
@@ -106,5 +127,59 @@ module.exports={
            
         })
     },
+
+
+     /* Get All Vendors
+    ============================================= */
+    get_AllVendors:()=>{
+        return new Promise (async(resolve,reject)=>{
+            let vendors     =   await db.get().collection(collection.VENDOR_COLLECTION).find().toArray()           
+            resolve(vendors)
+
+        })
+    },
+
+
+    
+     /* Get  Vendor Details by id 
+    ============================================= */
+    get_VendorDetails:(venId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.VENDOR_COLLECTION).findOne({_id:objectId(venId)}).then((vendor)=>{
+                resolve(vendor)
+            })
+        })
+    },
+
+     /* Delete Vendor
+    ============================================= */
+    delete_Vendor:(venId)=>{
+        return new Promise((resolve,reject)=>{
+                db.get().collection(collection.VENDOR_COLLECTION).removeOne({_id:objectId(venId)}).then((vendor)=>{
+                    resolve(response)
+                    
+                })
+                // .catch(err => {
+                //     console.error(err)
+                //   })
+        })
+    },
+    update_Vendor:(venDetails,venId)=>{
+        return new Promise((resolve,reject)=>{
+            // venDetails.password     =   await bcrypt.hash(venDetails.ven_password,10)   
+            // venDetails.ven_password     =   await bcrypt.hash(venDetails.ven_password,10)   
+            db.get().collection(collection.VENDOR_COLLECTION).
+            updateOne({_id:objectId(venId)},{
+                $set:{
+                    ven_name    :   venDetails.ven_name,                  
+                    ven_shop    :   venDetails. ven_shop_name,
+                    ven_phone   :   venDetails.ven_phone,
+                    // ven_password:   venDetails.ven_password,
+                }
+            }).then((response)=>{
+                resolve()
+            })
+        })
+    }
 
 }

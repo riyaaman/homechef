@@ -7,9 +7,8 @@
 
 
 :root {
-	--themecolor: #c92317;
+	--themecolor: #1ABC9C;
 }
-
 
 
 /*** 
@@ -23,7 +22,7 @@
 .color{
 	color:var(--themecolor) !important;
 }
-.text-base{
+.text-theme{
 	color:var(--themecolor);
 }
 
@@ -34,6 +33,11 @@
 .button-lightgreen{
 	background-color:#1ABC9C;
 }
+.content-wrap{
+	padding: 40px 0
+
+}
+
       
 /*** 
 ====================================================================

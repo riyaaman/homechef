@@ -1,0 +1,124 @@
+<!-- Content
+============================================= -->
+<section id="content">
+    <div class="content-wrap">
+        <div class="container">
+            <div class="card mb-0">
+                <div class="card-body" style="padding: 40px;">
+                    <h3 class="text-center">Add vendor Details</h3>
+                    
+                    {{!-- {{#if vendorSignupFailed}} --}}
+                      <div class="style-msg errormsg" id="error" style="display: none;">
+								<div class="sb-msg"><i class="icon-remove"></i><strong>Oh snap!</strong>Email Already Registered</div>
+						</div>
+                    
+                    {{!-- {{else if vendorSignupSuccess}} --}}
+                        <div class="style-msg successmsg" id="success" style="display: none;">
+                            <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> You Successfully Added the Vendor</div>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        </div>
+                      
+                    {{!-- {{/if}} --}}
+
+                    <form id="vendor" name="vendor" class="row mb-0" action="" method="post" enctype="multipart/form-data">
+                      
+                        <div class="col-12 form-group">
+                            <label for="ven_name">Name:</label>
+                            <input type="text" id="ven_name" name="ven_name"  class="form-control"  required>
+                        </div>
+                          <div class="col-12 form-group">
+                            <label for="ven_shop_name">Shop Name:</label>
+                            <input type="text" id="ven_shop_name" name="ven_shop_name" value="" class="form-control" required>
+                        </div>
+
+
+
+                        <div class="col-12 form-group">
+                            <label for="ven_phone">Phone:</label>
+                            <input type="text"  title="Error Message" pattern="[1-9]{1}[0-9]{9}" id="ven_phone" name="ven_phone" value="" class="form-control" required>
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <label for="ven_email">Email Address:</label>
+                            <input type="email" id="ven_email" name="ven_email" value="" class="form-control" required>
+                        </div>
+
+
+
+                        {{!-- <div class="col-12 form-group">
+                            <label for="ven-username">Choose a Username:</label>
+                            <input type="text" id="ven-username" name="ven-username" value=""
+                                class="form-control">
+                        </div> --}}
+
+                        <div class="col-12 form-group">
+                            <label for="ven_password">Choose a Password:</label>
+                            <input type="password" id="ven_password" name="ven_password" value="" class="form-control" required>
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <label for="confirm_password">Re-enter Password:</label>
+                            <input type="password" id="confirm_password" name="confirm_password" value="" required
+                                class="form-control">
+                            <span id='message'></span>
+                        </div>
+
+                        <div class="col-12 form-group">
+                            <label for="ven_image">Image</label>
+                            <input type="file" class="form-control" name="ven_image" id="ven_image" placeholder="Image" readonly>
+                        </div>
+
+                        <div class="col-12 form-group mt-2">
+                            <button type="submit" class="button button-3d button-lightgreen  m-0" id="ven-submit" 
+                                name="ven-submit" value="register">Add Ventor</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<script>
+    $('#confirm_password').on('keyup', function () {
+        if ($('#ven_password').val() == $('#confirm_password').val()) {
+            $('#message').html('').css('color', 'green');
+        } else
+            $('#message').html('Passwords must match').css('color', 'red');
+    });
+</script>
+
+
+<script>
+  $("#vendor").submit((e)=>{  
+    e.preventDefault()
+
+    var fileUpload = $("#ven_image").get(0).files;
+    var ven_image = fileUpload.files;
+  // Serialize the entire form:
+    var data = new FormData(this.form);
+    
+    $.ajax({
+        url:'/admin/vendor_add',
+        method:'post',
+          data:data,
+       //data:$('#vendor').serialize(),
+         processData: false,
+        contentType: false,
+        success:(response)=>{
+            if(response.add_failed){
+                 alert("success")
+                //location.href='/order-success'
+                $("#error").show();
+               //document.getElementById("error").display=block;
+            }
+            else{
+                alert("success")
+                $("#success").show();
+            }
+        }
+    })
+})
+</script>

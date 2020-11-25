@@ -39,12 +39,12 @@
                         
                         
                             <li class="menu-item sub-menu">
-                                <a class="menu-link" href="" style="padding-top: 27px; padding-bottom: 27px;">
+                                <a class="menu-link" style="padding-top: 27px; padding-bottom: 27px;">
                                     <div><i class="icon-user"></i>User<i class="icon-angle-down"></i></div>
                                 </a>
                                 <ul class="sub-menu-container" style="">
                                     <li class="menu-item" style=""> <a class="menu-link" href=""><div>Settings</div></a> </a></li>
-                                    <li class="menu-item" style=""> <a class="menu-link" href="/admin/logout">Logout</a> </a></li>
+                                    <li class="menu-item" style=""> <a class="menu-link" href="/admin/logout" onclick="return confirm('Are you sure?')">Logout</a> </a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -74,31 +74,14 @@
 <div id="vertical-nav" >
     <div class="container clearfix">
 
-        <nav>
-            <ul>
-                <li><a href="/admin" class="admin-menu-item">Dashboard</a> </li>
-                <li><a href="/admin/vendor_add">Vendor Management</a>
-                    <ul>
-                        <li><a href="/admin/vendor_view">View</a></li>
-                        <li><a href="/admin/vendor_add">Add</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Order Management</a>
-                    {{!-- <ul>
-                        <li><a href="#">View</a></li>
-                        <li><a href="#">Add</a></li>
-                    </ul> --}}
-                </li>
-                <li><a href="#">User Management</a>
-                    {{!-- <ul>
-                        <li><a href="#">View</a></li>
-                        <li><a href="#">Add</a></li>
-                    </ul> --}}
-                </li>
-                {{!-- <li><a href="#">Contact</a></li> --}}
-            </ul>
+       
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="/admin">Dashboard</a>
+            <a class="nav-link" href="/admin/vendor_view">Vendors</a>
+             <a class="nav-link" href="#">Categories </a>
+            <a class="nav-link" href="#">Order Management</a>
+            <a class="nav-link " href="#">User Management</a>
         </nav>
-
     </div>
 </div>
 
@@ -129,7 +112,6 @@
         left: 0;
         width: 240px;
         z-index: 99;
-
         /*background: #F9F9F9;*/
         background: #212529;
         border-right: 1px solid #EEE;
@@ -145,71 +127,36 @@
         padding-top: 100px;
     }
 
-    #vertical-nav nav ul {
-        margin-bottom: 0;
-        list-style: none;
-    }
+   
 
-    #vertical-nav nav li a {
+    #vertical-nav nav  a {
         display: block;
         padding: 10px 30px;
         /*color: #333;*/
-        text-transform: uppercase;
-        font-size: 13px;
-        font-weight: 700;
+        /*text-transform: uppercase;*/
+        font-size: 18px;
+       font-weight: 400;
         letter-spacing: 2px;
-        font-family: 'Poppins', sans-serif;
+        /*font-family: 'Poppins', sans-serif;*/
+        font-family: 'Lato', sans-serif;
         color: #fff;
          padding: .75rem 1.25rem;
    
     }
 
-    #vertical-nav nav li i {
-        font-size: 14px;
-        width: 16px;
-        text-align: center;
-    }
+   
 
-    #vertical-nav nav li i:not(.icon-angle-down) {
-        margin-right: 8px;
-        position: relative;
-        top: 1px;
-    }
-
-    #vertical-nav nav li a i.icon-angle-down {
-        width: auto;
-        margin-left: 5px;
-    }
-
-    #vertical-nav nav li:hover>a,
-    #vertical-nav nav li.current>a,
-    #vertical-nav nav li.active>a {
+    #vertical-nav nav>a:hover
+   /* #vertical-nav nav>a.current,*/
+   /* #vertical-nav nav>a.active */
+   {
         background-color: #FFF;
         color: #1ABC9C;
     }
 
-    #vertical-nav nav ul ul {
-        display: none;
-    }
+    
 
-    #vertical-nav nav ul ul a {
-        font-size: 12px;
-        letter-spacing: 1px;
-        padding-left: 45px;
-        font-family: 'Lato', sans-serif;
-    }
-
-    #vertical-nav nav ul ul a i.icon-angle-down {
-        font-size: 12px;
-    }
-
-    #vertical-nav nav ul ul ul a {
-        padding-left: 60px;
-    }
-
-    #vertical-nav nav ul ul ul ul a {
-        padding-left: 75px;
-    }
+   
   
     @media (min-width: 992px) {
 
@@ -282,21 +229,4 @@
 
     }
 </style>
-<script>
-    jQuery(document).ready(function ($) {
-        $('#vertical-nav nav ul li:has(ul)').addClass('sub-menu');
-        $('#vertical-nav nav ul li:has(ul) > a').append(' <i class="icon-angle-down"></i>');
 
-        $('#vertical-nav nav ul li:has(ul) > a').click(function (e) {
-            var element = $(this);
-            $('#vertical-nav nav ul li').not(element.parents()).removeClass('active');
-            element.parent().children('ul').slideToggle(function () {
-                $(this).find('ul').hide();
-                $(this).find('li.active').removeClass('active');
-            });
-            $('#vertical-nav nav ul li > ul').not(element.parent().children('ul')).not(element.parents('ul')).slideUp();
-            element.parent('li:has(ul)').toggleClass('active');
-            e.preventDefault();
-        });
-    });
-</script>

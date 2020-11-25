@@ -1,58 +1,76 @@
 <!-- Content
-============================================= -->
+		============================================= -->
 <section id="content">
-    <div class="content-wrap">
-        <div class="container">
-            <div class="table-responsive">
-                <table class="table" id="vendorTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Vendor Name</th>
-                            <th scope="col">shop Name</th>
-                            <th scope="col">Image</th>
-                             <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                             <td>
-                                 <a href="">Edit/</a>
-                                 <a href="">Delete</a>
-                             </td>
-                        </tr>
-                        <tr>
-                            <td scope="row">2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                             <td>
-                                 <a href="">Edit/</a>
-                                 <a href="">Delete</a>
-                             </td>
-                        </tr>
-                        <tr>
-                            <td scope="row">3</td>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                             <td>
-                                 <a href="">Edit/</a>
-                                 <a href="">Delete</a>
-                             </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="content-wrap " style="padding: 20px;">
+        <div class="container clearfix">
+          
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h2 class="m-0 font-weight-bold text-theme float-left">Vendor details</h2>
+                      <a href="/admin/vendor_add" class="btn button-lightgreen text-white float-right mr-auto">Add Vendor Details</a>
+                </div>
+                <div class="card-body">
+
+                    {{#if isVendorDeleted}}
+                    <div class="style-msg successmsg">
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i> {{isVendorDeleted}}</div>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+
+                    {{/if}}
+                    <div class="table-responsive">
+                        <table class="table mt-4" id="vendorsTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Shop Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Actions</th>
+                                    {{!-- <th scope="col"></th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each vendors}}
+                                <tr>
+                                    <td scope="row">{{@index}}</td>
+                                    <td>{{this.ven_name}}</td>
+                                    <td>{{this.ven_shop}}</td>
+                                    <td>{{this.ven_email}}</td>
+                                    <td>{{this.ven_phone}}</td>
+                                    <td><img style="width: 50px;height: 50px;"
+                                            src="../images/vendor-images/{{this._id}}.jpg" alt="{{this.ven_shop}}" />
+                                    </td>
+                                    <td><a href="/admin/vendor_edit/{{this._id}}" class="btn button-lightgreen text-white">Edit</a>
+                                        <a href="/admin/vendor_delete/{{this._id}}" class="btn btn-danger"
+                                            onclick="return confirm('Are You Want To Delete {{this.ven_name}}?')">Delete</a>
+                                    </td>
+
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
             </div>
+
+
         </div>
     </div>
-</section>
+</section><!-- #content end -->
+
 <script>
-    $(document).ready( function () {      
-        $('#vendorTable').DataTable();
+    $(function () {
+        $('#vendorsTable').DataTable();
     });
 </script>
+
+{{!-- <script>
+    $(document).ready(function () {
+        $('#vendorsTable').DataTable();
+    });
+</script> --}}
