@@ -18,7 +18,7 @@
 
                     {{/if}}
 
-                    <form id="vendor" name="vendor" class="row mb-0" action="" method="post"
+                    <form id="vendor" name="vendor" class="row mb-0" action="/admin/vendor_add" method="post"
                         enctype="multipart/form-data">
 
                         <div class="col-12 form-group">
@@ -69,7 +69,7 @@
                         </div>
 
                         <div class="col-12 form-group mt-2">
-                            <button type="submit" class="button button-3d button-lightgreen  m-0" id="ven-submit"
+                            <button type="submit" class="button button-3d bg-color  m-0" id="ven-submit"
                                 name="ven-submit" value="register">Add Ventor</button>
                         </div>
 
@@ -81,8 +81,11 @@
 
     </div>
 </section>
-<script>
 
+
+<!--Calling Function for  Checking Email Exist or Not
+============================================= -->
+<script>
 
     $("#ven_email").keyup(function () {
        
@@ -97,7 +100,7 @@
                 success: function (response) {
                 
                     if (response.add_failed == "true") {
-                      
+
                         document.getElementById('email_error').style.display = "block";                        
                         $('#ven_email').val("");
 
@@ -108,6 +111,7 @@
                 }
             })
         }
+        
     });
     $('#confirm_password').on('keyup', function () {
         if ($('#ven_password').val() == $('#confirm_password').val()) {

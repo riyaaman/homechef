@@ -1,10 +1,9 @@
-var express = require("express");
-var router = express.Router();
-var userHelpers = require("../helpers/user-helpers");
-
-const session = require("express-session");
-
-var fs = require("fs")
+var express           =   require("express");
+var router            =   express.Router();
+var userHelpers       =   require("../helpers/user-helpers");
+var productHelpers    =   require("../helpers/product-helpers");
+const session         =   require("express-session");
+var fs                =   require("fs");
 //  const { response }    =   require('../app');
 
 /* Verify Is Admin Loggedin
@@ -31,8 +30,7 @@ router.get("/", function (req, res, next) {
 router.post("/admin_login", (req, res) => {
     userHelpers.doLogin(req.body).then((response) => {
         if (response.loginStatus) {
-            req.session.user = response.user;
-
+            req.session.user  =   response.user;
             req.session.adminLoggedIn = true;
             res.redirect("dashboard");
         } else {
@@ -46,7 +44,6 @@ router.post("/admin_login", (req, res) => {
 ============================================= */
 router.get("/dashboard", verifyAdminLogin, (req, res) => {
     if (req.session.adminLoggedIn) admin_status = true;
-    // admin_status   =   req.session.user.status
     res.render("admin/dashboard", { admin_status });
 });
 
@@ -64,7 +61,6 @@ router.get("/logout", (req, res) => {
 ============================================= */
 
 router.get("/vendor_add", verifyAdminLogin, (req, res) => {
-    // admin_status   =  "admin"
     if (req.session.adminLoggedIn) admin_status = true;
 
     if (req.session.vendorSignupSuccess) {
@@ -77,8 +73,8 @@ router.get("/vendor_add", verifyAdminLogin, (req, res) => {
 
 router.post("/vendor_add", (req, res) => {
     userHelpers.doSignup_Vendor(req.body).then((response) => {
-        let image = req.files.ven_image;
-        let id = response._id;
+        let image   =   req.files.ven_image;
+        let id      =   response._id;
 
         image.mv("./public/images/vendor-images/" + id + ".jpg", (err, done) => {
             if (!err) {
@@ -91,19 +87,20 @@ router.post("/vendor_add", (req, res) => {
     });
 });
 
+
+/* Check  Email Exist or not
+============================================= */
 router.post("/vendor_email_check", (req, res) => {
-    let ven_email = req.body.ven_email;
+    let ven_email   =   req.body.ven_email;
     userHelpers.checkemail_exist(ven_email).then((response) => {
         if (response.signup_status == true) {
-       
             res.json({ add_failed: "true" });
-        } 
-        else {
-         
-            res.json({  add_failed: "false" });
+        } else {
+            res.json({ add_failed: "false" });
         }
     });
 });
+
 
 /* View Vendor Details
 ============================================= */
@@ -130,19 +127,15 @@ router.get("/vendor_delete/:id", (req, res) => {
 
     userHelpers.delete_Vendor(ven_id).then((response) => {
         try {
-        
-          const DIR="./public/images/vendor-images"       
-          fs.unlinkSync(DIR+'/'+ven_id+'.jpg');
-          req.session.isVendorDeleted = "You Successfully Deleted the Vendor";
-          res.redirect("../vendor_view");
-          // return res.status(200).send('Successfully! Image has been Deleted');
+            const DIR = "./public/images/vendor-images";
+            fs.unlinkSync(DIR + "/" + ven_id + ".jpg");
+            req.session.isVendorDeleted = "You Successfully Deleted the Vendor";
+            res.redirect("../vendor_view");
+            // return res.status(200).send('Successfully! Image has been Deleted');
         } catch (err) {
-         
-          res.render('/error',{title:"Sorry,Something Went Wrong"})
-          // return res.status(400).send(err);
+            res.render("/error", { title: "Sorry,Something Went Wrong" });
+            // return res.status(400).send(err);
         }
-
-       
     });
 });
 
@@ -186,5 +179,73 @@ router.post("/vendor_edit/:id", (req, res) => {
     });
 });
 
-/*-------------------------------------------------End Vendor Management--------------------------------------------------*/
+/*-------------------------------------------------Category Management--------------------------------------------------*/
+
+/* Add  Category 
+============================================= */
+
+router.get("/category_add", verifyAdminLogin, (req, res) => {
+  if (req.session.adminLoggedIn) admin_status = true;
+
+  if (req.session.isCategoryAdded) {
+      res.render("admin/category-add", { admin_status, isCategoryAdded: req.session.isCategoryAdded });
+      req.session.vendorSignupSuccess = false;
+  } else {
+      res.render("admin/category-add", { admin_status });
+  }
+});
+
+router.post("/category_add", (req, res) => {
+ 
+  productHelpers.add_Category(req.body).then((response) => {
+    res.redirect("category_manage");
+     
+  });
+});
+
+
+router.get("/category_manage1", verifyAdminLogin, (req, res) => {
+  if (req.session.adminLoggedIn) admin_status = true;
+  res.render("admin/category-manage",{admin_status})
+});
+
+router.get("/category_manage", verifyAdminLogin, function (req, res, next) {
+  if (req.session.adminLoggedIn) {
+      admin_status = true;
+  }
+
+  productHelpers.get_Allcategories().then((category) => {
+    // console.log("ki:"+category)
+      if (req.session.iscategoryDeleted) {
+          res.render("admin/category-manage", { admin_status, category, iscategoryDeleted: req.session.iscategoryDeleted });
+          req.session.iscategoryDeleted = false;
+      } else {
+          res.render("admin/category-manage", { admin_status, category });
+          req.session.iscategoryDeleted = false;
+      }
+  });
+});
+router.post("/category_update", (req, res) => {
+ 
+  let catId   =   req.body.cat_id;
+  
+  productHelpers.update_Category(req.body,catId).then((response) => {
+    res.redirect("category_manage")
+      
+  });
+});
+router.post("/category_delete", (req, res) => {
+ 
+  let cat_id = req.body.cat_id;
+  
+  productHelpers.delete_Category(cat_id).then((response) => {
+        
+    res.redirect("category_manage")
+      
+  });
+});
+
+
+
+
 module.exports = router;

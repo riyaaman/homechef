@@ -44,7 +44,9 @@
                                 </a>
                                 <ul class="sub-menu-container" style="">
                                     <li class="menu-item" style=""> <a class="menu-link" href=""><div>Settings</div></a> </a></li>
-                                    <li class="menu-item" style=""> <a class="menu-link" href="/admin/logout" onclick="return confirm('Are you sure?')">Logout</a> </a></li>
+                                    <li class="menu-item" style=""> <a class="menu-link" href="/admin/logout" 
+                                    data-target="#logoutModal" data-toggle="modal" href="#logoutModal">Logout</a> </li>
+                                 
                                 </ul>
                             </li>
                         </ul>
@@ -78,7 +80,7 @@
         <nav class="nav flex-column">
             <a class="nav-link active" href="/admin">Dashboard</a>
             <a class="nav-link" href="/admin/vendor_view">Vendors</a>
-             <a class="nav-link" href="#">Categories </a>
+             <a class="nav-link" href="/admin/category_manage">Categories </a>
             <a class="nav-link" href="#">Order Management</a>
             <a class="nav-link " href="#">User Management</a>
         </nav>
@@ -99,7 +101,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="/admin/logout">Logout</a>
+                <a class="btn button-lightgreen" href="/admin/logout">Logout</a>
             </div>
         </div>
     </div>
@@ -146,7 +148,7 @@
 
    
 
-    #vertical-nav nav>a:hover
+    #vertical-nav nav a:hover
    /* #vertical-nav nav>a.current,*/
    /* #vertical-nav nav>a.active */
    {
@@ -209,24 +211,13 @@
             padding: 10px 0;
         }
 
-        #vertical-nav nav li:hover>a,
-        #vertical-nav nav li.current>a,
-        #vertical-nav nav li.active>a {
+        #vertical-nav nav a:hover,
+        /*#vertical-nav nav li.current>a,
+        #vertical-nav nav li.active>a*/ {
             background-color: transparent;
         }
 
-        #vertical-nav nav ul ul a {
-            padding-left: 15px;
-        }
-
-        #vertical-nav nav ul ul ul a {
-            padding-left: 30px;
-        }
-
-        #vertical-nav nav ul ul ul ul a {
-            padding-left: 45px;
-        }
-
+        
     }
 </style>
 

@@ -1,13 +1,14 @@
 <!-- Content
-		============================================= -->
+============================================= -->
 <section id="content">
     <div class="content-wrap " style="padding: 20px;">
         <div class="container clearfix">
-          
+
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h2 class="m-0 font-weight-bold text-theme float-left">Vendor details</h2>
-                      <a href="/admin/vendor_add" class="btn button-lightgreen text-white float-right mr-auto">Add Vendor Details</a>
+                    <h2 class="m-0 font-weight-bold text-theme float-left">Vendor Details</h2>
+                    <a href="/admin/vendor_add" class="btn bg-color text-white float-right mr-auto">Add Vendor
+                        Details</a>
                 </div>
                 <div class="card-body">
 
@@ -43,7 +44,8 @@
                                     <td><img style="width: 50px;height: 50px;"
                                             src="../images/vendor-images/{{this._id}}.jpg" alt="{{this.ven_shop}}" />
                                     </td>
-                                    <td><a href="/admin/vendor_edit/{{this._id}}" class="btn button-lightgreen text-white">Edit</a>
+                                    <td><a href="/admin/vendor_edit/{{this._id}}"
+                                            class="btn bg-color text-white">Edit</a>
                                         <a href="/admin/vendor_delete/{{this._id}}" class="btn btn-danger"
                                             onclick="return confirm('Are You Want To Delete {{this.ven_name}}?')">Delete</a>
                                     </td>
@@ -63,6 +65,9 @@
     </div>
 </section><!-- #content end -->
 
+
+<!-- Datatable for vendor details
+============================================= -->
 <script>
     $(function () {
         $('#vendorsTable').DataTable();
@@ -70,7 +75,7 @@
 </script>
 
 {{!-- <script>
-    $(document).ready(function () {
-        $('#vendorsTable').DataTable();
+    //$(document).ready(function () {
+       // $('#vendorsTable').DataTable();
     });
 </script> --}}

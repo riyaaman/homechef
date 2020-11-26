@@ -48,7 +48,7 @@ module.exports={
     ============================================= */
     doSignup_Vendor:(vendorData)=>{
        
-        // console.log(vendorData)
+        
         let signup_status   =   true
         return new Promise(async(resolve,reject)=>{
             
@@ -61,26 +61,29 @@ module.exports={
                    
                     resolve(vendorDetails.ops[0])
                 })
-            // let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:vendorData.ven_email})
-         
-            // if(user){
-            //     resolve({signup_status:false})
-          
-            // }
-            // else{                   
-            //     db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendorDetails).then((vendorDetails)=>{
-            //          resolve(vendorDetails.ops[0])
-                    
-            //     })
-            // }
+                // let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:vendorData.ven_email})
+            
+                // if(user){
+                //     resolve({signup_status:false})
+            
+                // }
+                // else{                   
+                //     db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendorDetails).then((vendorDetails)=>{
+                //          resolve(vendorDetails.ops[0])
+                        
+                //     })
+                // }
 
          
         })
     },
 
+
+     /* Check Email Exist or Not
+    ============================================= */
     checkemail_exist:(ven_email)=>{
        
-        // console.log(vendorData)
+       
         let signup_status   =   true
         return new Promise(async(resolve,reject)=>{
             let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:ven_email})
@@ -121,7 +124,7 @@ module.exports={
 
             }
             else{
-                //  console.log("email not registered")
+            
                 resolve({status:false})
             }
            
@@ -151,6 +154,7 @@ module.exports={
         })
     },
 
+
      /* Delete Vendor
     ============================================= */
     delete_Vendor:(venId)=>{
@@ -164,10 +168,13 @@ module.exports={
                 //   })
         })
     },
+
+
+    /* Update Vendor
+    ============================================= */
     update_Vendor:(venDetails,venId)=>{
         return new Promise((resolve,reject)=>{
-            // venDetails.password     =   await bcrypt.hash(venDetails.ven_password,10)   
-            // venDetails.ven_password     =   await bcrypt.hash(venDetails.ven_password,10)   
+            
             db.get().collection(collection.VENDOR_COLLECTION).
             updateOne({_id:objectId(venId)},{
                 $set:{

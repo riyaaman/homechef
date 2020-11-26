@@ -1,0 +1,155 @@
+<section id="content">
+  <div class="content-wrap " style="padding: 20px;">
+    <div class="container clearfix">
+
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h2 class="m-0 font-weight-bold text-theme float-left">Category Details</h2>
+          {{!-- <a href="/admin/category_add" class="btn bg-color text-white float-right mr-auto">Add
+            Category
+            Details</a> --}}
+          <button class="btn bg-color text-white float-right mr-auto" data-toggle="modal"
+            data-target="#myModalAdd">Add New Category</button>
+        </div>
+        <div class="card-body">
+
+          <table class="table table-striped" id="mytable">
+            <thead>
+              <tr>
+                {{!-- <th>Sl No</th> --}}
+                <th>Product Name</th>
+
+                <th>Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {{#each category}}
+              <tr>
+                {{!-- <td>{{ cat_id }}</td> --}}
+                <td>{{ cat_name }}</td>
+
+                <td>
+                  <a href="javascript:void(0);" class="btn btn-sm bg-color edit" data-id="{{ _id }}"
+                    data-cat_name="{{ cat_name }}">Edit</a>
+                  <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ _id }}">Delete</a>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- Modal Add Category-->
+<form action="/admin/category_add" method="post">
+  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add New Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" name="cat_name" class="form-control" placeholder="Category Name" required>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn bg-color">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Modal Update Product-->
+<form action="/admin/category_update" method="post">
+  <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" name="cat_name" class="form-control cat_name" placeholder="Category Name" required>
+          </div>
+
+         
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="cat_id" class="cat_id">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn bg-color">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Modal Delete Product-->
+<form id="add-row-form" action="category_delete" method="post">
+  <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Delete Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <strong>Are you sure to delete this data?</strong>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="cat_id" class="form-control cat_id2" required>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn bg-color">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{{!--  
+<script src="/assets/js/jquery-3.3.1.js"></script>
+<script src="/assets/js/bootstrap.js"></script> --}}
+<script>
+  // $(document).ready(function () { 
+  
+    //showing data to edit modal     
+     $('#mytable').on('click', '.edit', function () {
+        var cat_id = $(this).data('id');
+        var cat_name = $(this).data('cat_name');
+
+        $('#EditModal').modal('show');
+        $('.cat_name').val(cat_name);
+
+        $('.cat_id').val(cat_id);
+      });
+  //showing delete record modal
+    $('#mytable').on('click', '.delete', function () {
+
+      var cat_id = $(this).data('id');
+      
+      $('#DeleteModal').modal('show');
+      $('.cat_id2').val(cat_id);
+    });
+ 
+   // });
+</script>

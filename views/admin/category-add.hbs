@@ -1,62 +1,44 @@
 <!-- Content
-		============================================= -->
+============================================= -->
 <section id="content">
-    <div class="content-wrap" style="padding: 20px 0">
-        <div class="container clearfix">
+    <div class="content-wrap">
+        <div class="container">
+            <div class="card mb-0 shadow">
+                <div class="card-header py-3 ">
+                    <h3 class="m-0 font-weight-bold text-theme ">Add Category Details</h3>
+                </div>
+                <div class="card-body" style="padding: 40px;">
 
-
-            <div class="row mt-2">
-                <a href="/admin/vendor_add" class="btn btn-success ml-auto mb-5">Add Vendor</a>
-            </div>
-              {{#if isVendorDeleted}}
-                    <div class="style-msg successmsg">
-                        <div class="sb-msg"><i class="icon-thumbs-up"></i> {{isVendorDeleted}}</div>
+                    {{#if isCategoryadded}}
+                    <div class="style-msg successmsg" id="success">
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> You Successfully
+                            Added the Category</div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
-                      
+
                     {{/if}}
-            <table class="table mt-2" id="vendorsTable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Shop Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Actions</th>
-                        {{!-- <th scope="col"></th> --}}
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each vendors}}
-                    <tr>
-                        <th scope="row">{{@index}}</th>
-                        <td>{{this.ven_name}}</td>
-                        <td>{{this.ven_shop}}</td>
-                        <td>{{this.ven_email}}</td>
-                        <td>{{this.ven_phone}}</td>
-                        <td><img style="width: 50px;height: 50px;" src="../images/vendor-images/{{this._id}}.jpg"
-                                alt="{{this.ven_shop}}" /></td>
-                        <td><a href="/admin/edit_vendor/{{this._id}}" class="btn btn-primary">Edit</a>
-                            <a href="/admin/delete_vendor/{{this._id}}" class="btn btn-danger"
-                                onclick="return confirm('Are You Want To Delete {{this.ven_name}}?')">Delete</a></td>
-                        {{!-- <td><a href="/admin/delete-product?id={{this._id}}&name={{this.Name}}" class="btn btn-danger">Delete</a></td> --}}
 
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
+                    <form id="category" name="category" class="row mb-0" action="/admin/category_add" method="post">
+                       
+                        <div class="col-12 form-group">
+                            <label for="cat_name">Category Name:</label>
+                            <input type="text" id="cat_name" name="cat_name" value="{{category.cat_name}}"
+                                class="form-control" required>
+                        </div>
+                      
+                      
+                        <div class="col-12 form-group mt-2">
+                            <button type="submit" class="button button-3d bg-color  m-0" 
+                                >Add Category</button>
+                        </div>
 
+                    </form>
+                </div>
+            </div>
 
         </div>
-    </div>
-</section><!-- #content end -->
 
-<script>
-    $(document).ready(function () {
-        $('#vendorsTable').DataTable();
-    });
-</script>
+    </div>
+</section>
 
 
