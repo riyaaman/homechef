@@ -1,1 +1,3 @@
-node_modules
+# provide path of the file
+/node_modules
+/public/images
