@@ -1,61 +1,154 @@
-
-
 <!-- Content
 		============================================= -->
-		<section id="content">
-			<div class="content-wrap py-0">
+<section id="content">
+	<div class="content-wrap py-0">
 
-				<div class="section dark p-0 m-0 h-100 position-absolute"></div>
+		<div class="section dark p-0 m-0 h-100 position-absolute"></div>
+		<div class="section p-0 m-0 h-100 position-absolute"
+			style="background: url('/images/common/recipe-single.jpg') center center no-repeat; background-size: cover;">
+		</div>
 
-				<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
-					<div class="vertical-middle">
-						<div class="container py-5">
+		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
+			<div class="vertical-middle">
+				<div class="container py-5">
 
-							<div class="text-center">
-								<a href="index.html"><img src="images/logo-dark@2x.png" alt=" Logo" style="height: 100px;"></a>
-							</div>
+					<div class="text-center">
+						<a href="index.html"><img src="/images/logo-dark.png" alt=" Logo" style="height: 100px;"></a>
+					</div>
 
-							<div class="card mx-auto rounded-0 border-0" style="max-width: 400px;">
-								<div class="card-body" style="padding: 40px;">
-									<form id="login-form" name="login-form" class="mb-0" action="#" method="post">
-										<h3>Login to your Account</h3>
-											{{#if userLoginError}}
-											<p class=" text-danger">{{userLoginError}}</p>
-											{{/if}}
+					<div class="card mx-auto rounded-0 border-0" style="max-width: 500px;">
+						<div class="card-body" style="padding: 40px;">
+							<form id="register-form" name="register-form" class="mb-0" action="#" method="post">
+								<h3>Create Account Here</h3>
+								{{#if userLoginError}}
+								<p class=" text-danger">{{userLoginError}}</p>
+								{{/if}}
 
+								<div class="row">
+									<div class="col-12 form-group">
+										<label for="name">Name:</label>
+										<input type="text" id="name" name="name" value=""
+											class="form-control not-dark" />
+										
+									</div>
+									<div class="col-12 form-group">
+										<label for="email">Email:</label>
+										<input type="text" id="email" name="email" value=""
+											class="form-control not-dark" />
+									
+									</div>
+									<div class="col-12 form-group">
+										<label for="text">Mobile:</label>
+										<input type="text" id="mobile" name="mobile" value=""
+											class="form-control not-dark" />
+										
+									</div>
 
-										<div class="row">
-											<div class="col-12 form-group">
-												<label for="username">Email:</label>
-												<input type="text" id="username" name="username" value="" class="form-control not-dark" />
-											</div>
+									<div class="col-12 form-group">
+										<label for="password">Password:</label>
+										<input type="password" id="password" name="password" value="" autocomplete="off"
+											class="form-control not-dark" onKeyUp="checkPasswordStrength();"/>
+										
+										<div id="password-strength-status"></div>
 
-											<div class="col-12 form-group">
-												<label for="password">Password:</label>
-												<input type="password" id="password" name="password" value="" class="form-control not-dark" />
-											</div>
-												<div class="col-12 form-group">
-												<label for="conf-password">Confirm Password:</label>
-												<input type="conf-password" id="conf-password" name="conf-password" value="" class="form-control not-dark" />
-											</div>
-
-											<div class="col-12 form-group mb-0">
-												<button class="button button-3d button-black m-0" id="submit" name="submit" value="login">SignUp</button>
-												<a href="/login" class="float-right">Already a Customer?Login Here</a>
-											</div>
-										</div>
-									</form>
-
-									<div class="line line-sm"></div>
-
+									</div>
+									<div class="col-12 form-group">
+										<label for="password_confirm">Confirm Password:</label>
+										<input type="password" id="password_confirm" name="password_confirm" value=""
+											class="form-control not-dark" />
+											
+									</div>
+								
+									<div class="col-12 form-group mb-0">
+										<button class="button button-3d button-black m-0" id="login-form-submit"
+											value="login">Login</button>
+										<a href="/login" class="float-right">Already have an account? Log in</a>
+									</div>
 								</div>
-							</div>
+							</form>
 
-							<div class="text-center text-muted mt-3"><small>Copyrights &copy; All Rights Reserved by Canvas Inc.</small></div>
+							<div class="line line-sm"></div>
 
 						</div>
 					</div>
-				</div>
 
+					<div class="text-center text-muted mt-3"><small>Copyrights &copy; All Rights Reserved by
+							Crossroads.</small></div>
+				</div>
 			</div>
-		</section><!-- #content end -->
+		</div>
+
+	</div>
+</section><!-- #content end -->
+
+
+<script>
+	$(document).ready(function () {
+		$("#register-form").validate({
+			// Specify validation rules
+			rules: {
+				name: "required",
+
+				email: {
+					required: true,
+					email: true
+				},
+				mobile: {
+					required: true,
+					digits: true,
+					minlength: 10,
+					maxlength: 10,
+				},
+				password: {
+					required: true,
+				
+				},
+				password_confirm : {
+                    minlength : 5,
+                    equalTo : "#password"
+                }
+			},
+			messages: {
+				firstname: {
+					required: "Please enter first name",
+				},
+
+				mobile: {
+					required: "Please enter phone number",
+					digits: "Please enter valid phone number",
+					minlength: "Phone number field accept only 10 digits",
+					maxlength: "Phone number field accept only 10 digits",
+				},
+				email: {
+					required: "Please enter email address",
+					email: "Please enter a valid email address.",
+				},
+				password_confirm: {
+					required: "Please enter the same password",
+					
+				},
+			},
+
+		});
+	});
+
+
+function checkPasswordStrength() {
+	var number = /([0-9])/;
+	var alphabets = /([a-zA-Z])/;
+	var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+	if($('#password').val().length<6) {
+	$('#password-strength-status').removeClass();
+	$('#password-strength-status').addClass('weak-password');
+	$('#password-strength-status').html("Weak (should be atleast 6 characters.)");
+	} else {  	
+	if($('#password').val().match(number) && $('#password').val().match(alphabets) && $('#password').val().match(special_characters)) {            
+	$('#password-strength-status').removeClass();
+	$('#password-strength-status').addClass('strong-password');
+	$('#password-strength-status').html("Strong");
+	} else {
+	$('#password-strength-status').removeClass();
+	$('#password-strength-status').addClass('medium-password');
+	$('#password-strength-status').html("Medium (should include alphabets, numbers and special characters.)");
+}}}
+</script>

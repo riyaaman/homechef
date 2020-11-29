@@ -8,17 +8,18 @@
                 <!-- Logo
 				============================================= -->
                 <div id="logo">
-                    <a href="/vendor" class="standard-logo" data-dark-logo="/images/logo-dark.png"><img
-                            src="/images/logo-dark.png" alt=" Logo"></a>
-                    <a href="index.html" class="retina-logo" data-dark-logo="/images/logo-dark@2x.png"><img
-                            src="/images/logo@2x.png" alt=" Logo"></a>
+                    <a href="/admin" class="standard-logo" data-dark-logo="/images/logo-dark.png">
+                        <img src="/images/logo-dark.png" alt=" "></a>
+
+                    <a href="index.html" class="retina-logo" data-dark-logo="images/logo-dark@2x.png"><img
+                            src="images/logo@2x.png" alt=" Logo"></a>
                 </div><!-- #logo end -->
 
                 <div class="header-misc">
 
                     <!-- Top Search
 					============================================= -->
-                    {{!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
                                 aria-describedby="basic-addon2">
@@ -28,7 +29,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form> --}}
+                    </form>
 
 
                     <!-- Primary Navigation
@@ -39,16 +40,18 @@
 
 
                             <li class="menu-item sub-menu">
-                                <a class="menu-link" href="" style="padding-top: 27px; padding-bottom: 27px;">
-                                    <div><i class="icon-user"></i>Welcome , {{name}}<i class="icon-angle-down"></i></div>
+                                <a class="menu-link" style="padding-top: 27px; padding-bottom: 27px;">
+                                    <div><i class="icon-user"></i>User<i class="icon-angle-down"></i></div>
                                 </a>
                                 <ul class="sub-menu-container" style="">
                                     <li class="menu-item" style=""> <a class="menu-link" href="">
                                             <div>Settings</div>
                                         </a> </a></li>
-                                    <li class="menu-item" style=""> <a class="menu-link" href="/vendor/logout"
+                                    <li class="menu-item" style=""> <a class="menu-link" href="/admin/logout"
                                             data-target="#logoutModal" data-toggle="modal"
                                             href="#logoutModal">Logout</a> </li>
+
+                                </ul>
                             </li>
                         </ul>
 
@@ -74,20 +77,44 @@
     <div class="header-wrap-clone"></div>
 </header><!-- #header end -->
 
+
 <div id="vertical-nav">
     <div class="container clearfix">
 
         <nav>
             <ul>
-                <li><a href="/vendor" class="admin-menu-item"><i class="icon-dashboard"></i>Dashboard</a> </li>
-                <li><a href="/vendor/product_manage"><i class="icon-list1"></i>Products </a> </li>
-                <li><a href="#"><i class="icon-list-ol"></i>Orders </a></li>
-                <li><a href="#"><i class="icon-history"></i>Order History</a></li>
+                <li><a href="/admin"><i class="icon-dashboard"></i>Dashboard</a>
+                    <ul>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li><a href="/admin/vendor_view"><i class="icon-industry"></i>Vendors</a>
+                    <ul>
+                        <li><a href="#"></a></li>
+
+                    </ul>
+                </li>
+                <li><a href="/admin/category_manage"><i class="icon-list-alt"></i>Categories</a>
+                    <ul>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="icon-first-order"></i>Orders </a>
+                    <ul>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="icon-users"></i>Users </a>
+                    <ul>
+                        <li><a href="#"></a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
 
     </div>
 </div>
+
 <!-- Logout Modal-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -102,7 +129,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn button-lightgreen" href="/vendor/logout">Logout</a>
+                <a class="btn button-lightgreen" href="/admin/logout">Logout</a>
             </div>
         </div>
     </div>
@@ -115,9 +142,141 @@
         left: 0;
         width: 240px;
         z-index: 99;
-
         /*background: #F9F9F9;*/
         background: #212529;
+        border-right: 1px solid #EEE;
+        height: 100%;
+        overflow: auto;
+        padding: 140px 0 40px;
+        -webkit-transition: padding .4s ease;
+        -o-transition: padding .4s ease;
+        transition: padding .4s ease;
+    }
+
+    .sticky-header+#vertical-nav {
+        padding-top: 100px;
+    }
+    #vertical-nav nav a {
+        display: block;
+        padding: 10px 30px;
+        /*color: #333;*/
+        /*text-transform: uppercase;*/
+        font-size: 18px;
+        font-weight: 400;
+        letter-spacing: 2px;
+        /*font-family: 'Poppins', sans-serif;*/
+        font-family: 'Lato', sans-serif;
+        color: #fff;
+        padding: .75rem 1.25rem;
+        font-size: .85rem;
+    }
+    #vertical-nav nav a:hover
+    /* #vertical-nav nav>a.current,*/
+    /* #vertical-nav nav>a.active */
+    {
+        background-color: #FFF;
+        color: #1ABC9C;
+    }
+
+    #vertical-nav nav a:active {
+        background-color: yellow;
+    }
+
+    #vertical-nav nav i {
+        font-size: 16px;
+        width: 25px;
+        text-align: center;
+    }
+
+    @media (min-width: 992px) {
+
+        #header {
+            z-index: 199;
+        }
+
+        #page-title,
+        #content,
+        #footer {
+            margin-left: 240px;
+        }
+
+        #page-title .container,
+        #content .container,
+        #footer .container {
+            width: auto;
+            padding: 0 60px;
+        }
+
+        #vertical-nav .container {
+            width: 100%;
+            padding: 0;
+        }
+
+        #page-title .breadcrumb {
+            right: 60px !important;
+        }
+
+    }
+
+
+    @media (max-width: 991px) {
+
+        #vertical-nav {
+            position: relative;
+            width: 100%;
+            z-index: auto;
+            border: none;
+            border-bottom: 1px solid #EEE;
+            height: auto;
+            padding: 0;
+        }
+
+        #vertical-nav .container {
+            padding: 10px 20px;
+        }
+
+        #vertical-nav nav li a {
+            padding: 10px 0;
+        }
+
+        #vertical-nav nav a:hover,
+        /*#vertical-nav nav li.current>a,
+        #vertical-nav nav li.active>a*/
+            {
+            background-color: transparent;
+        }
+
+
+    }
+</style>
+
+<script>
+    jQuery(document).ready(function ($) {
+        //$('#vertical-nav nav ul li:has(ul)').addClass('sub-menu');
+        //$('#vertical-nav nav ul li:has(ul) > a').append(' <i class="icon-angle-down"></i>');
+
+        $('#vertical-nav nav ul li:has(ul) > a').click(function (e) {
+            var element = $(this);
+            $('#vertical-nav nav ul li').not(element.parents()).removeClass('active');
+            //element.parent().children('ul').slideToggle(function () {
+            //  $(this).find('ul').hide();
+            //   $(this).find('li.active').removeClass('active');
+            // });
+            $('#vertical-nav nav ul li > ul').not(element.parent().children('ul')).not(element.parents('ul')).slideUp();
+            element.parent('li:has(ul)').toggleClass('active');
+          //  e.preventDefault();
+        });
+    });
+</script>
+<style>
+    #vertical-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
+        z-index: 99;
+        background: #F9F9F9;
+         background: #212529;
         border-right: 1px solid #EEE;
         height: 100%;
         overflow: auto;
@@ -139,15 +298,13 @@
     #vertical-nav nav li a {
         display: block;
         padding: 10px 30px;
-        /*color: #333;*/
+        color: #333;
+          color: #fff;
         text-transform: uppercase;
         font-size: 13px;
         font-weight: 700;
         letter-spacing: 2px;
         font-family: 'Poppins', sans-serif;
-        color: #fff;
-        padding: .75rem 1.25rem;
-
     }
 
     #vertical-nav nav li i {

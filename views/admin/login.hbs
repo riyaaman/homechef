@@ -13,37 +13,45 @@
 			<div class="vertical-middle">
 				<div class="container-fluid py-5 mx-auto">
 					<div class="center">
-						<a href="index.html"><img src="images/logo-dark.png" alt=" Logo"></a>
+						<img src="/images/logo-dark.png" alt=" Logo">
 					</div>
 
 					<div class="card mx-auto rounded-0 border-0"
 						style="max-width: 400px; background-color: rgba(255,255,255,0.93);">
 						<div class="card-body">
 
-							<form id="login-form" name="login-form" class="mb-0" action="/admin/admin_login"
+							<form id="login-form" name="login-form" class="mb-0 login" action="/admin/admin_login"
 								method="post">
 								<h3>Login to your Admin Account</h3>
 								{{#if adminLoginError}}
-								<p class=" text-danger">{{adminLoginError}}</p>
+								<div class="style-msg errormsg">
+									<div class="sb-msg"><i class="icon-remove"></i><strong>Oh sorry!</strong> 
+									{{adminLoginError}}</div>
+								</div>
+								
 								{{/if}}
-							
+								
 
 								<div class="row">
 									<div class="col-12 form-group">
-										<label for="username">Email:</label>
+										<label for="username">Username:</label>
 										<input type="text" id="username" name="username" value="admin"
-											class="form-control not-dark" required />
+											class="form-control not-dark "  />
+											   <small id="error_username" class="text-danger"></small>
+												
+												
 									</div>
 									<div class="col-12 form-group">
 										<label for="password">Password:</label>
 										<input type="password" id="password" name="password" value="admin"
-											class="form-control not-dark" required />
+											class="form-control not-dark"  />
+											   <small id="error_password" class="text-danger"></small>
 									</div>
 
 									<div class="col-12 form-group text-center pt-4">
 
 										<button type="submit" class="button button-3d button-black m-0"
-											id="login-form-submit" name="login-form-submit" value="login">Login</button>
+											id="login-form-submit" name="login-form-submit" value="login" onclick="return validate();">Login</button>
 										{{!-- <a href="#" class="float-right">New Customer? Start Here</a> --}}
 									</div>
 								</div>
@@ -63,3 +71,21 @@
 
 	</div>
 </section><!-- #content end -->
+
+<script>
+        function validate() {
+
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            if (username == null || username == "") {
+				document.getElementById("error_username").innerHTML = "Please enter the username.";
+		
+                return false;
+            }
+            if (password == null || password == "") {
+                document.getElementById("error_password").innerHTML = "Please enter the Password.";
+                return false;
+            }
+              return( true );
+        } 
+</script>

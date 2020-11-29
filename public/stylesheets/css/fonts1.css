@@ -1,9 +1,8 @@
 /* ----------------------------------------------------------------
-	Fonts
+    Fonts
 
-	Replace your Fonts as necessary
+    Replace your Fonts as necessary
 -----------------------------------------------------------------*/
-
 
 
 body,
@@ -13,18 +12,7 @@ small,
 .fbox-center.fbox-italic p,
 .skills li .progress-percent .counter,
 .nav-tree ul ul a,
-.font-body,
-.entry-link span,
-.entry blockquote p,
-.more-link,
-.comment-content .comment-author span,
-.comment-content .comment-author span a,
-.button.button-desc span,
-.testi-content p,
-.team-title span,
-.before-heading,
-.wedding-head .first-name span,
-.wedding-head .last-name span { font-family: 'Open Sans', sans-serif !important; }
+.font-body { font-family: 'Lato', sans-serif !important; }
 
 
 h1,
@@ -47,11 +35,19 @@ label,
 .widget-filter-links li a,
 .nav-tree li a,
 .wedding-head,
-.font-primary { font-family: 'Poppins', sans-serif !important; }
+.font-primary { font-family: 'Merriweather', serif !important; }
 
 
-.font-secondary {
-	font-family: 'Cookie', cursive !important;
-	font-weight: 400 !important;
-}
+.entry-link span,
+.entry blockquote p,
+.more-link,
+.comment-content .comment-author span,
+.comment-content .comment-author span a,
+.button.button-desc span,
+.testi-content p,
+.team-title span,
+.before-heading,
+.wedding-head .first-name span,
+.wedding-head .last-name span,
+.font-secondary { font-family: 'Merriweather', serif !important; }
 

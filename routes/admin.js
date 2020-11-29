@@ -63,9 +63,10 @@ router.get("/logout", (req, res) => {
 router.get("/vendor_add", verifyAdminLogin, (req, res) => {
     if (req.session.adminLoggedIn) admin_status = true;
 
-    if (req.session.vendorSignupSuccess) {
-        res.render("admin/vendor-add", { admin_status, vendorSignupSuccess: req.session.vendorSignupSuccess });
-        req.session.vendorSignupSuccess = false;
+    if (req.session.vendor_message) {
+        
+        res.render("admin/vendor-add", { admin_status, vendor_message: req.session.vendor_message });
+        req.session.vendor_message = false;
     } else {
         res.render("admin/vendor-add", { admin_status });
     }
@@ -73,17 +74,24 @@ router.get("/vendor_add", verifyAdminLogin, (req, res) => {
 
 router.post("/vendor_add", (req, res) => {
     userHelpers.doSignup_Vendor(req.body).then((response) => {
-        let image   =   req.files.ven_image;
-        let id      =   response._id;
-
-        image.mv("./public/images/vendor-images/" + id + ".jpg", (err, done) => {
-            if (!err) {
-                req.session.vendorSignupSuccess = "You Successfully Added the Vendor";
-                res.redirect("vendor_add");
-            } else {
-                console.log(err);
-            }
-        });
+        if(response.signup_status==false){           
+            req.session.vendor_message = " Email address Already Registered. Please Select Another One";
+            res.redirect('vendor_add')             
+          }
+          else{
+            let image   =   req.files.ven_image;
+            let id      =   response._id;
+    
+            image.mv("./public/images/vendor-images/" + id + ".jpg", (err, done) => {
+                if (!err) {
+                    req.session.vendor_message = "Well Done ! You Successfully Added the Vendor";
+                    res.redirect("vendor_add");
+                } else {
+                    console.log(err);
+                }
+            });
+          }
+       
     });
 });
 
@@ -110,12 +118,14 @@ router.get("/vendor_view", verifyAdminLogin, function (req, res, next) {
     }
 
     userHelpers.get_AllVendors().then((vendors) => {
-        if (req.session.isVendorDeleted) {
-            res.render("admin/vendor-view", { admin_status, vendors, isVendorDeleted: req.session.isVendorDeleted });
-            req.session.isVendorDeleted = false;
+
+        if (req.session.vendor_message) {
+            vendors.vendor_message = req.session.vendor_message
+            res.render("admin/vendor-view", {admin_status, vendors});
+            req.session.vendor_message = false;
         } else {
             res.render("admin/vendor-view", { admin_status, vendors });
-            req.session.isVendorDeleted = false;
+            req.session.vendor_message = false;
         }
     });
 });
@@ -129,7 +139,7 @@ router.get("/vendor_delete/:id", (req, res) => {
         try {
             const DIR = "./public/images/vendor-images";
             fs.unlinkSync(DIR + "/" + ven_id + ".jpg");
-            req.session.isVendorDeleted = "You Successfully Deleted the Vendor";
+            req.session.vendor_message = "You Successfully Deleted the Vendor";
             res.redirect("../vendor_view");
             // return res.status(200).send('Successfully! Image has been Deleted');
         } catch (err) {
@@ -160,16 +170,22 @@ router.get("/vendor_edit/:id", async (req, res) => {
 
     if (req.session.adminLoggedIn) admin_status = true;
 
-    if (req.session.isVendorUpdate) vendor.isVender_update = "Vendor Details Updated Successfully";
+    if (req.session.vendor_message) {
+        vendor.vendor_message = req.session.vendor_message
+        res.render("admin/vendor-edit", { vendor, admin_status });
+        req.session.vendor_message = false;
+    }
+    else{
+        res.render("admin/vendor-edit", { vendor, admin_status });
+        req.session.vendor_message = false;
 
-    res.render("admin/vendor-edit", { vendor, admin_status });
-    req.session.isVendorUpdate = false;
+    }
 });
 
 router.post("/vendor_edit/:id", (req, res) => {
     let id = req.params.id;
     userHelpers.update_Vendor(req.body, req.params.id).then((response) => {
-        req.session.isVendorUpdate = true;
+        req.session.vendor_message =" Vendor Details Updated Successfully";
         res.redirect("../vendor_edit/" + id);
 
         if (req.files.ven_image) {
@@ -185,64 +201,67 @@ router.post("/vendor_edit/:id", (req, res) => {
 ============================================= */
 
 router.get("/category_add", verifyAdminLogin, (req, res) => {
-  if (req.session.adminLoggedIn) admin_status = true;
+    
+    if (req.session.adminLoggedIn) admin_status = true;
 
-  if (req.session.isCategoryAdded) {
-      res.render("admin/category-add", { admin_status, isCategoryAdded: req.session.isCategoryAdded });
-      req.session.vendorSignupSuccess = false;
-  } else {
-      res.render("admin/category-add", { admin_status });
-  }
+    // if (req.session.isCategoryAdded) {
+    //     res.render("admin/category-add", { admin_status, isCategoryAdded: req.session.isCategoryAdded });
+    //     req.session.isCategoryAdded = false;
+    // } else {
+        res.render("admin/category-add", { admin_status });
+    //}
+
 });
 
-router.post("/category_add", (req, res) => {
- 
-  productHelpers.add_Category(req.body).then((response) => {
-    res.redirect("category_manage");
-     
-  });
+router.post("/category_add", (req, res) => {    
+    productHelpers.add_Category(req.body).then((response) => {
+        res.redirect("category_manage");
+    });
 });
 
 
-router.get("/category_manage1", verifyAdminLogin, (req, res) => {
-  if (req.session.adminLoggedIn) admin_status = true;
-  res.render("admin/category-manage",{admin_status})
-});
-
+/* Get  Category List
+============================================= */
 router.get("/category_manage", verifyAdminLogin, function (req, res, next) {
-  if (req.session.adminLoggedIn) {
-      admin_status = true;
-  }
+    if (req.session.adminLoggedIn) {
+        admin_status = true;
+    }
 
-  productHelpers.get_Allcategories().then((category) => {
-    // console.log("ki:"+category)
-      if (req.session.iscategoryDeleted) {
-          res.render("admin/category-manage", { admin_status, category, iscategoryDeleted: req.session.iscategoryDeleted });
-          req.session.iscategoryDeleted = false;
-      } else {
-          res.render("admin/category-manage", { admin_status, category });
-          req.session.iscategoryDeleted = false;
-      }
-  });
+    productHelpers.get_Allcategories().then((category) => {
+        if (req.session.iscategoryDeleted) {
+            res.render("admin/category-manage", {
+                admin_status,
+                category,
+                iscategoryDeleted: req.session.iscategoryDeleted,
+            });
+            req.session.iscategoryDeleted = false;
+        } else {
+            res.render("admin/category-manage", { admin_status, category });
+            req.session.iscategoryDeleted = false;
+        }
+    });
 });
+
+
+/* Update  Category 
+============================================= */
 router.post("/category_update", (req, res) => {
- 
-  let catId   =   req.body.cat_id;
-  
-  productHelpers.update_Category(req.body,catId).then((response) => {
-    res.redirect("category_manage")
-      
-  });
+    let catId = req.body.cat_id;
+
+    productHelpers.update_Category(req.body, catId).then((response) => {
+        res.redirect("category_manage");
+    });
 });
+
+
+/* Delete  Category 
+============================================= */
 router.post("/category_delete", (req, res) => {
- 
-  let cat_id = req.body.cat_id;
-  
-  productHelpers.delete_Category(cat_id).then((response) => {
-        
-    res.redirect("category_manage")
-      
-  });
+    let cat_id = req.body.cat_id;
+
+    productHelpers.delete_Category(cat_id).then((response) => {
+        res.redirect("category_manage");
+    });
 });
 
 

@@ -17,7 +17,7 @@
             <thead>
               <tr>
                 {{!-- <th>Sl No</th> --}}
-                <th>Product Name</th>
+                <th>Category Name</th>
 
                 <th>Action</th>
 
@@ -48,8 +48,8 @@
 
 
 <!-- Modal Add Category-->
-<form action="/admin/category_add" method="post">
-  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<form action="/admin/category_add" method="post" name="myModalAdd" id="category_add_form">
+  <div class="modal fade"  id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -60,8 +60,10 @@
           </button>
         </div>
         <div class="modal-body">
+          
+         
           <div class="form-group">
-            <input type="text" name="cat_name" class="form-control" placeholder="Category Name" required>
+            <input type="text" name="cat_name" class="form-control" placeholder="Please Enter Category Name" >            
           </div>
 
         </div>
@@ -74,21 +76,21 @@
   </div>
 </form>
 
-<!-- Modal Update Product-->
-<form action="/admin/category_update" method="post">
+<!-- Modal Update Category-->
+<form action="/admin/category_update" method="post" name="category_edit_form" id="category_edit_form">
   <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Edit Category</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <input type="text" name="cat_name" class="form-control cat_name" placeholder="Category Name" required>
+            <input type="text" name="cat_name" id="cat_name" class="form-control cat_name" placeholder="Category Name">
           </div>
 
          
@@ -130,26 +132,45 @@
 <script src="/assets/js/jquery-3.3.1.js"></script>
 <script src="/assets/js/bootstrap.js"></script> --}}
 <script>
-  // $(document).ready(function () { 
-  
+  $(document).ready(function () {
+
     //showing data to edit modal     
-     $('#mytable').on('click', '.edit', function () {
-        var cat_id = $(this).data('id');
-        var cat_name = $(this).data('cat_name');
+    $('#mytable').on('click', '.edit', function () {
+      var cat_id = $(this).data('id');
+      var cat_name = $(this).data('cat_name');
 
-        $('#EditModal').modal('show');
-        $('.cat_name').val(cat_name);
+      $('#EditModal').modal('show');
+      $('.cat_name').val(cat_name);
 
-        $('.cat_id').val(cat_id);
-      });
-  //showing delete record modal
+      $('.cat_id').val(cat_id);
+    });
+
+
+    //showing delete record modal
     $('#mytable').on('click', '.delete', function () {
 
       var cat_id = $(this).data('id');
-      
+
       $('#DeleteModal').modal('show');
       $('.cat_id2').val(cat_id);
     });
- 
-   // });
+
+
+    // Specify validation rules
+    $("#category_add_form").validate({
+      rules: {
+        cat_name: "required",
+
+      },
+    
+    });
+     // Specify validation rules
+    $("#category_edit_form").validate({
+      rules: {
+        cat_name: "required",
+
+      },
+      
+    });
+  });
 </script>

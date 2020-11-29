@@ -14,7 +14,7 @@ var app               =   express();
 var db                =   require('./config/connection');
 var session           =   require('express-session');
 var fileUpload        =   require('express-fileupload')
-
+var flash             =   require('express-flash-messages')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +38,7 @@ db.connect((err)=>{
 })
 app.use(session({secret:"Key",cookie:{maxAge:600000}}))
 app.use(fileUpload())
+app.use(flash())
 
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
@@ -61,9 +62,9 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+  // res.status(err.status || 500);
   
-  res.render('error', {title: "Sorry,Something Went Wrong"});
+  // res.render('error', {title: "Sorry,Something Went Wrong"});
 });
 
 module.exports = app;

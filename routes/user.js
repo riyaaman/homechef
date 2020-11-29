@@ -1,16 +1,27 @@
 
-var express = require('express');
-var router = express.Router();
+var express           =   require('express');
+var router            =   express.Router();
+var userHelpers       =   require('../helpers/user-helpers')
+var productHelpers    =   require('../helpers/product-helpers')
+const session         =   require('express-session');
+
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  //res.send('respond with a resource');
+  productHelpers.get_Allproducts().then((products) => {
+    //console.log(products) 
+    res.render("user/index", { products,user_status:true });
+          
+  });
+
 });
 
 
 router.get('/login', (req,res)=>{
   if(req.session.user){
-    res.redirect('/')
+    res.redirect('user/login')
   }
 
   else{

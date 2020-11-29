@@ -51,30 +51,34 @@ module.exports={
         
         let signup_status   =   true
         return new Promise(async(resolve,reject)=>{
-            
-            vendorData.password     =   await bcrypt.hash(vendorData.ven_password,10)               
-           
-            var vendorDetails = { ven_name:vendorData.ven_name,ven_shop:vendorData.ven_shop_name,
-                ven_phone:vendorData.ven_phone,ven_email:vendorData.ven_email,
-                ven_password:vendorData.password,status:"vendor",active:"true",created:new Date() };
-                let user =  db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendorDetails).then((vendorDetails)=>{
-                   
-                    resolve(vendorDetails.ops[0])
-                })
-                // let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:vendorData.ven_email})
-            
-                // if(user){
-                //     resolve({signup_status:false})
-            
-                // }
-                // else{                   
-                //     db.get().collection(collection.VENDOR_COLLECTION).insertOne(vendorDetails).then((vendorDetails)=>{
-                //          resolve(vendorDetails.ops[0])
-                        
-                //     })
-                // }
+            vendorData.password = await bcrypt.hash(vendorData.ven_password, 10);
 
-         
+           
+            let user            =   await db.get().collection(collection.VENDOR_COLLECTION).findOne({ven_email:vendorData.ven_email})
+
+            if(user){
+                resolve({signup_status:false})
+
+            }
+            else{
+                var vendorDetails = {
+                    ven_name: vendorData.ven_name,
+                    ven_shop: vendorData.ven_shop_name,
+                    ven_phone: vendorData.ven_phone,
+                    ven_email: vendorData.ven_email,
+                    ven_password: vendorData.password,
+                    status: "vendor",
+                    active: "true",
+                    created: new Date(),
+                };
+                
+                   db.get()
+                    .collection(collection.VENDOR_COLLECTION)
+                    .insertOne(vendorDetails)
+                    .then((vendorDetails) => {
+                        resolve(vendorDetails.ops[0]);
+                    });
+            }
         })
     },
 
@@ -158,6 +162,7 @@ module.exports={
      /* Delete Vendor
     ============================================= */
     delete_Vendor:(venId)=>{
+       
         return new Promise((resolve,reject)=>{
                 db.get().collection(collection.VENDOR_COLLECTION).removeOne({_id:objectId(venId)}).then((vendor)=>{
                     resolve(response)
