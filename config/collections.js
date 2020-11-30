@@ -5,5 +5,6 @@ module.exports  = {
     CART_COLLECTION     :   'cart',
     ORDER_COLLECTION    :   'order',
     CATEGORY_COLLECTION :   'category',
+    USERS_COLLECTION    :   'users',
 
 }

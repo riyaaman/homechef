@@ -73,15 +73,15 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <input type="text" name="product_name" class="form-control" placeholder="Product Name" required>
+            <input type="text" name="product_name" class="form-control" placeholder="Product Name" >
           </div>
           <div class="form-group">
-            <input type="text" name="price" class="form-control" placeholder="Product Price" required>
+            <input type="text" name="price" class="form-control" placeholder="Product Price" >
           </div>
         
           <div class="form-group">
             <select id="category" name="category" class="form-control" placeholder="Product category" required>
-               <option value="0">--Please Select Category --</option>
+               {{!-- <option value="0">--Please Select Category --</option> --}}
                  {{#each categories}}
               <option value="{{this._id}}">{{this.cat_name}}</option>
               {{/each}}
@@ -103,7 +103,7 @@
 </form>
 
 <!-- Modal Update Product-->
-<form action="/vendor/product_update" method="post"  enctype="multipart/form-data">
+<form action="/vendor/product_update" method="post"  enctype="multipart/form-data" id="product-update-form">
   <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -172,9 +172,7 @@
     </div>
   </div>
 </form>
-{{!--  
-<script src="/assets/js/jquery-3.3.1.js"></script>
-<script src="/assets/js/bootstrap.js"></script> --}}
+
 <script>
   // $(document).ready(function () { 
 
@@ -206,28 +204,6 @@
    // });
 </script>
 
-{{!-- <script>
-  $("#product_AddForm").submit((e)=>{ 
-    var fd = new FormData();
-    fd=$('#product_AddForm').serialize()
-    var files = $('#product_image')[0].files
-    e.preventDefault()
-      fd.append('file',files[0]);
-    $.ajax({
-        url:'/vendor/product_add',
-        method:'post',
-        data:fd,
-        //data:$('#product_AddForm').serialize(),
-        success:(response)=>{
-            if(response.add_success){
-                location.href='/product_manage'
-            }
-           
-        }
-    })
-})
-</script> --}}
-
 <!-- Datatable for vendor details
 ============================================= -->
 <script>
@@ -242,4 +218,49 @@
     function viewImage(event) {
         document.getElementById('pdct_image').src = URL.createObjectURL(event.target.files[0])
     }
+</script>
+
+
+
+<script>
+	$(document).ready(function () {
+    
+		$("#product_AddForm").validate({
+			// Specify validation rules
+			rules: {
+				product_name: "required",
+
+				price: {
+					required: true,
+					digits: true
+				},
+				category: {
+					required: true				
+				},		
+			
+			},
+			messages: {
+				product_name: {
+					required: "Please enter product name",
+				},
+
+				price: {
+					required: "Please enter product price",
+					digits: "Please enter valid price"
+				
+				},
+			
+				category: {
+					required: "Please select category ",
+				
+				}
+			
+			},
+
+		});
+   
+	});
+
+
+
 </script>

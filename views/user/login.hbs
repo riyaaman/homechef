@@ -20,10 +20,10 @@
 
 							<div class="card mx-auto rounded-0 border-0" style="max-width: 400px;">
 								<div class="card-body" style="padding: 40px;">
-									<form id="login-form" name="login-form" class="mb-0" action="#" method="post">
+									<form id="login-form" name="login-form" class="mb-0" action="/user_login" method="post">
 										<h3>Login to your Account</h3>
-											{{#if userLoginError}}
-											<p class=" text-danger">{{userLoginError}}</p>
+											{{#if user_message}}
+											<p class=" text-danger">{{user_message}}</p>
 											{{/if}}
 
 
@@ -31,16 +31,16 @@
 										<div class="row">
 											<div class="col-12 form-group">
 												<label for="login-form-username">Email:</label>
-												<input type="text" id="login-form-username" name="login-form-username" value="" class="form-control not-dark" />
+												<input type="text" id="email" name="email" value="" class="form-control not-dark" />
 											</div>
 
 											<div class="col-12 form-group">
-												<label for="login-form-password">Password:</label>
-												<input type="password" id="login-form-password" name="login-form-password" value="" class="form-control not-dark" />
+												<label for="password">Password:</label>
+												<input type="password" id="password" name="password" value="" class="form-control not-dark" />
 											</div>
 
 											<div class="col-12 form-group mb-0">
-												<button class="button button-3d button-black m-0" id="login-form-submit" name="login-form-submit" value="login">Login</button>
+												<button type="submit" class="button button-3d button-black m-0">Login</button>
 												<a href="/signup" class="float-right">New Customer?Satrt Here</a>
 											</div>
 										</div>
@@ -51,7 +51,7 @@
 								</div>
 							</div>
 
-							<div class="text-center text-muted mt-3"><small>Copyrights &copy; All Rights Reserved by Canvas Inc.</small></div>
+							<div class="text-center text-muted mt-3"><small>Copyrights &copy; All Rights Reserved by Crossroads .</small></div>
 
 						</div>
 					</div>
@@ -59,3 +59,44 @@
 
 			</div>
 		</section><!-- #content end -->
+
+
+		
+<script>
+	$(document).ready(function () {
+		$("#login-form").validate({
+			// Specify validation rules
+			rules: {
+				
+				email: {
+					required: true,
+					email: true
+				},
+				
+				password: {
+					
+					required: true,
+				
+				},
+				
+			},
+			messages: {
+				
+			
+				email: {
+					required: "Please enter email address",
+					email: "Please enter a valid email address.",
+				},
+				password: {
+					required: "Please enter password ",
+				
+				},
+				
+			},
+
+		});
+	});
+
+
+
+</script>

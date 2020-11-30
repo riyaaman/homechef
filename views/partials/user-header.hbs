@@ -17,10 +17,17 @@
 					<!--Login
 					============================================= -->
 					<div id="top-account">
+					
 						{{!-- <a href="#modal-register" data-lightbox="inline"> --}}
-						<a href="/login" data-lightbox="inline">
+						<a href="/user_login" >
 							<i class="icon-line2-user mr-1 position-relative" style="top: 1px;"></i>
-							<span class="d-none d-sm-inline-block font-primary font-weight-medium">Login</span></a>
+							{{#if username}}
+							<span class="d-none d-sm-inline-block font-primary font-weight-medium">{{username}}</span>
+							{{else }}
+							<span class="d-none d-sm-inline-block font-primary font-weight-medium">Login</span>
+							{{/if}}
+							</a>
+
 					</div><!-- #top-search end -->
 
 					<!-- Top Cart
@@ -51,7 +58,7 @@
 				<nav class="primary-menu col-lg-4 order-lg-1">
 
 					<ul class="menu-container">
-						<li class="menu-item"><a class="menu-link" href="">
+						<li class="menu-item"><a class="menu-link" href="/">
 								<div>Home</div>
 							</a></li>
 						<li class="menu-item"><a class="menu-link" href="">
@@ -60,13 +67,15 @@
 						<li class="menu-item"><a class="menu-link" href="">
 								<div>Our Bakers</div>
 							</a></li>
+							
 					</ul>
 
 				</nav>
 
 				<nav class="primary-menu col-lg-4 order-lg-3">
 
-					<ul class="menu-container justify-content-lg-end">
+					{{!-- <ul class="menu-container justify-content-lg-end"> --}}
+					<ul class="menu-container">
 						<li class="menu-item"><a class="menu-link" href="">
 								<div>Gallery</div>
 							</a></li>

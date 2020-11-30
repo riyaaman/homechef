@@ -16,18 +16,24 @@
 						<a href="index.html"><img src="/images/logo-dark.png" alt=" Logo" style="height: 100px;"></a>
 					</div>
 
-					<div class="card mx-auto rounded-0 border-0" style="max-width: 500px;">
+					<div class="card mx-auto rounded-0 border-0" style="max-width: 600px;">
 						<div class="card-body" style="padding: 40px;">
-							<form id="register-form" name="register-form" class="mb-0" action="#" method="post">
+							<form id="register-form" name="register-form" class="mb-0" action="/signup" method="post">
 								<h3>Create Account Here</h3>
-								{{#if userLoginError}}
-								<p class=" text-danger">{{userLoginError}}</p>
+								{{#if user_message}}
+								<p class=" text-danger">{{user_message}}</p>
 								{{/if}}
 
 								<div class="row">
 									<div class="col-12 form-group">
-										<label for="name">Name:</label>
-										<input type="text" id="name" name="name" value=""
+										<label for="first_name">First Name:</label>
+										<input type="text" id="first_name" name="first_name" value=""
+											class="form-control not-dark" />
+										
+									</div>
+									<div class="col-12 form-group">
+										<label for="last_name">Last Name:</label>
+										<input type="text" id="last_name" name="last_name" value=""
 											class="form-control not-dark" />
 										
 									</div>
@@ -35,11 +41,12 @@
 										<label for="email">Email:</label>
 										<input type="text" id="email" name="email" value=""
 											class="form-control not-dark" />
+											  <div id="email_error" style="color:red;display:none">Error</div>
 									
 									</div>
 									<div class="col-12 form-group">
 										<label for="text">Mobile:</label>
-										<input type="text" id="mobile" name="mobile" value=""
+										<input type="text" id="phone" name="phone" value=""
 											class="form-control not-dark" />
 										
 									</div>
@@ -49,7 +56,7 @@
 										<input type="password" id="password" name="password" value="" autocomplete="off"
 											class="form-control not-dark" onKeyUp="checkPasswordStrength();"/>
 										
-										<div id="password-strength-status"></div>
+										<div id="password-strength-status" style="color: #bd910e; font-size: 14px;"></div>
 
 									</div>
 									<div class="col-12 form-group">
@@ -60,9 +67,9 @@
 									</div>
 								
 									<div class="col-12 form-group mb-0">
-										<button class="button button-3d button-black m-0" id="login-form-submit"
-											value="login">Login</button>
-										<a href="/login" class="float-right">Already have an account? Log in</a>
+										<button type="submit" class="button button-3d button-black m-0" 
+											value="">SignUp</button>
+										<a href="/user_login" class="float-right">Already have an account? Log in</a>
 									</div>
 								</div>
 							</form>
@@ -87,19 +94,20 @@
 		$("#register-form").validate({
 			// Specify validation rules
 			rules: {
-				name: "required",
-
+				first_name: "required",
+				last_name:"required",
 				email: {
 					required: true,
 					email: true
 				},
-				mobile: {
+				phone: {
 					required: true,
 					digits: true,
 					minlength: 10,
 					maxlength: 10,
 				},
 				password: {
+					 minlength : 5,
 					required: true,
 				
 				},
@@ -109,11 +117,14 @@
                 }
 			},
 			messages: {
-				firstname: {
+				first_name: {
+					required: "Please enter first name",
+				},
+				last_name: {
 					required: "Please enter first name",
 				},
 
-				mobile: {
+				phone: {
 					required: "Please enter phone number",
 					digits: "Please enter valid phone number",
 					minlength: "Phone number field accept only 10 digits",
@@ -122,6 +133,10 @@
 				email: {
 					required: "Please enter email address",
 					email: "Please enter a valid email address.",
+				},
+				password: {
+					required: "Please enter password ",
+				
 				},
 				password_confirm: {
 					required: "Please enter the same password",
@@ -151,4 +166,34 @@ function checkPasswordStrength() {
 	$('#password-strength-status').addClass('medium-password');
 	$('#password-strength-status').html("Medium (should include alphabets, numbers and special characters.)");
 }}}
+
+
+$("#email").keyup(function () {
+
+        var email = $('#email').val();
+
+        if (!email == "") {
+			
+            $.ajax({
+                type: 'post',
+                url: '/useremail_check',
+                data: 'email=' + email,
+
+                success: function (response) {
+
+                    if (response.add_failed == "true") {
+						
+						   $("#email_error").text("Email Already Registered.");
+						   $("#email_error").show();
+                    }
+					else{
+						 $("#email_error").text("Email Available.");
+						   $("#email_error").show();
+					}
+                  
+                }
+            })
+        }
+
+    });
 </script>
