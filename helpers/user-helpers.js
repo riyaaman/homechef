@@ -1,14 +1,11 @@
+var db = require("../config/connection");
+var collection = require("../config/collections");
+const bcrypt = require("bcrypt");
+const { response } = require("express");
 
-var db              =   require('../config/connection')
-var collection      =   require('../config/collections')
-const bcrypt        =   require('bcrypt')
-const { response }  =   require('express')
-
-var objectId        =   require('mongodb').ObjectID
-
+var objectId = require("mongodb").ObjectID;
 
 module.exports = {
-
 
     /* Login For Admin
     ============================================= */
@@ -108,6 +105,7 @@ module.exports = {
     /* Get All Vendors
     ============================================= */
     get_AllVendors: () => {
+   
         return new Promise(async (resolve, reject) => {
             let vendors = await db.get().collection(collection.VENDOR_COLLECTION).find().toArray();
             resolve(vendors);
@@ -166,22 +164,30 @@ module.exports = {
         });
     },
 
-    /* SignUp For Users
+    /* SignUp For Users(Customers)
     ============================================= */
     doSignup_User: (userData) => {
-       
         let signup_status = true;
         return new Promise(async (resolve, reject) => {
             userData.password = await bcrypt.hash(userData.password, 10);
 
-            let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: userData.email });
+            let user = await db
+                .get()
+                .collection(collection.USERS_COLLECTION)
+                .findOne({ email: userData.email, phone: userData.phone });
+            // let user =await db.get().collection(collection.USERS_COLLECTION).find({
+            //     $and: [
+            //         {'email':userData.email},
+            //         {'phone':userData.phone}
+            //     ]
+            // })
 
             if (user) {
                 resolve({ signup_status: false });
             } else {
                 var userDetails = {
                     first_name: userData.first_name,
-                    flast_name: userData.last_name,
+                    last_name: userData.last_name,
                     phone: userData.phone,
                     email: userData.email,
                     password: userData.password,
@@ -200,14 +206,13 @@ module.exports = {
         });
     },
 
-
     /* Login For Users
     ============================================= */
     doLogin_User: (userData) => {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false;
             let response = {}; //null object created
-            let user     = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: userData.email });
+            let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: userData.email });
             if (user) {
                 bcrypt.compare(userData.password, user.password).then((loginStatus) => {
                     if (loginStatus) {
@@ -217,28 +222,49 @@ module.exports = {
                     } else {
                         resolve({ loginStatus: false });
                     }
-                   
                 });
             } else {
-               
                 resolve({ status: false });
             }
         });
     },
 
-
-     /* Check Email Exist or Not
+    /* Check Email Registered or Not For Customers
     ============================================= */
-    check_useremail_exist: (userEmail) => {
+    check_Useremail_Exist: (userEmail) => {
         let signup_status = true;
+        console.log("li:", userEmail);
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: userEmail });
 
             if (user) {
-                resolve({ signup_status: true });
-            } else {
                 resolve({ signup_status: false });
+            } else {
+                resolve({ signup_status: true });
             }
         });
     },
+
+    /* Check Phone Number Registered or Not For Customers
+    ============================================= */
+    check_Userphone_Exist: (userPhone) => {
+        console.log("dfg",userPhone)
+        let signup_status = true;
+        return new Promise(async (resolve, reject) => {
+           
+            let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ phone: userPhone });
+
+            if (user) {
+                
+                resolve({ signup_status: false });
+            } else {
+               
+                resolve({ signup_status: true });
+            }
+      
+        });
+    },
+
+
+    
 };

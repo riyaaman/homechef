@@ -1,0 +1,90 @@
+<!-- Page Title
+		============================================= -->
+<section id="page-title" class="page-title-parallax page-title-dark page-title-center "
+	style="background-image: url('/images/sections/food-menu.jpg'); background-size: cover; padding: 80px 0 120px;"
+	data-bottom-top="background-position:0 0px;" data-top-bottom="background-position:0px -300px;">
+
+	<div class="container clearfix">
+		<h1 class="font-secondary text-capitalize ls0" style="font-size: 74px;">Menu</h1>
+		<span class="font-weight-normal">Choose Items from Our Menu</span>
+	</div>
+
+</section>
+<!-- #page-title end -->
+<!-- Content
+		============================================= -->
+<section id="content">
+	<div class="content-wrap">
+		<div class="container clearfix">
+
+			<div class="row">
+
+				<div class="col-12 col-md-auto">
+
+					<div class="grid-filter-wrap">
+						<!-- Portfolio Filter
+								============================================= -->
+						<ul class="grid-filter" data-container="#shop">
+
+							<li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
+							{{#each categories}}
+							<li><a href="#" data-filter=".{{this.cat_name}}">{{this.cat_name}}</a></li>
+							{{!-- <li><a href="#" data-filter=".pf-shoes">Shoes</a></li>
+									<li><a href="#" data-filter=".pf-sunglasses">Sunglasses</a></li>
+									<li><a href="#" data-filter=".pf-watches">Watches</a></li> --}}
+							{{/each}}
+						</ul><!-- .grid-filter end -->
+					</div>
+
+				</div>
+
+
+			</div>
+
+			<!-- Shop
+			============================================= -->
+			<div id="shop" class="shop row grid-container gutter-30" data-layout="fitRows">
+
+				{{#each products}}
+				<div class="product col-lg-3 col-md-4 col-sm-6 col-12 {{this.cat_name}}">
+					<div class="grid-inner">
+						<div class="product-image">
+							<a href="#">
+								<img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}" alt="1"
+									class="rounded" style="width:400px;height:180px" />
+							</a>
+
+							<div class="bg-overlay">
+								<div class="bg-overlay-content align-items-end justify-content-between"
+									data-hover-animate="fadeIn" data-hover-speed="400">
+									<a href="#" class="btn btn-dark mr-2"><i class="icon-shopping-cart"></i></a>
+									<a href="include/ajax/shop-item.html" class="btn btn-dark" data-lightbox="ajax"><i
+											class="icon-line-expand"></i></a>
+								</div>
+								<div class="bg-overlay-bg bg-transparent"></div>
+							</div>
+						</div>
+						<div class="product-desc">
+							<div class="product-title">
+								<h3><a href="#">{{this.product_name}}</a></h3>
+							</div>
+							<div class="product-price"><del>$24.99</del> <ins></ins></div>
+							<div class="product-rating">
+								<i class="icon-star3"></i>
+								<i class="icon-star3"></i>
+								<i class="icon-star3"></i>
+								<i class="icon-star3"></i>
+								<i class="icon-star-half-full"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{/each}}
+
+
+
+			</div><!-- #shop end -->
+
+		</div>
+	</div>
+</section><!-- #content end -->

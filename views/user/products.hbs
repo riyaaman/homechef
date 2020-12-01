@@ -1,0 +1,152 @@
+<!-- Page Title
+		============================================= -->
+<section id="page-title" class="page-title-parallax page-title-dark page-title-center "
+    style="background-image: url('/images/sections/food-menu.jpg'); background-size: cover; padding: 80px 0 120px;"
+    data-bottom-top="background-position:0 0px;" data-top-bottom="background-position:0px -300px;">
+
+    <div class="container clearfix">
+        <h1 class="font-secondary text-capitalize ls0" style="font-size: 74px;">Menu</h1>
+        <span class="font-weight-normal">Choose Items from Our Menu</span>
+    </div>
+
+</section>
+<!-- #page-title end -->
+
+
+<!-- Content
+		============================================= -->
+<section id="content">
+    <div class="content-wrap">
+        <div class="container clearfix">
+
+            <div class="row gutter-40 col-mb-80">
+                <!-- Post Content
+						============================================= -->
+                <div class="postcontent col-lg-9 order-lg-last">
+
+                    <div class="row">
+
+                        <div class="col-12 col-md-auto">
+
+                            <div class="grid-filter-wrap">
+                                <!-- Portfolio Filter
+								============================================= -->
+                                <ul class="grid-filter" data-container="#shop">
+
+                                    <li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
+                                    {{#each categories}}
+                                    <li><a href="#" data-filter=".{{this.cat_name}}">{{this.cat_name}}</a></li>
+                                    {{/each}}
+                                </ul><!-- .grid-filter end -->
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <!-- Shop
+			        
+                    ============================================= -->
+                    <div id="shop" class="shop row grid-container gutter-30" data-layout="fitRows">
+
+                        {{#each products}}
+                        <div class="product  col-md-4 col-sm-6 col-12 {{this.cat_name}}">
+                        {{!-- <div class="product col-lg-3 col-md-4 col-sm-6 col-12 {{this.cat_name}}"> --}}
+                            <div class="grid-inner border p-1">
+                                <div class="product-image">
+                                    <a href="#" class="">
+                                        <img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"
+                                            alt="1" class="rounded" style="width:400px;height:180px" />
+                                    </a>
+
+                                    
+                                </div>
+                                <div class="product-desc">
+                                    <div class="product-title">
+                                        <h5 class="mb-1 text-center"><a href="#" class="text-dark ">{{this.product_name}}</a></h5>
+                                    </div>
+                                    <div class="product-price text-center"><del></del> <ins>₹{{ this.price}} </ins></div>
+                                    <div class="row ml-0">
+                                        <a href="#"
+                                            class="button text-white button-mini  button-rounded m-1 bg-color"><span><i
+                                                    class="icon-cart"></i>Add To Cart</span></a>
+                                        <a href="#"
+                                            class="button button-mini button-border button-rounded m-1"><span>Buy Now</span></a>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+
+
+
+                    </div><!-- #shop end -->
+
+                </div><!-- .postcontent end -->
+
+                <!-- Sidebar
+						============================================= -->
+                <div class="sidebar col-lg-3">
+                    <div class="sidebar-widgets-wrap">
+
+                        <div class="widget widget_links clearfix">
+
+                            {{!-- <h4>Shop Categories</h4> --}}
+                            <a href="/get_bakers">
+                                <img src="../images/vendor-images/{{vendor_id}}.jpg" alt="" /></a>
+
+                            {{!-- <ul>
+                                {{#if vendor_id}}
+                                <li><a href="#">{{vendor_id}}</a></li>
+                                {{/if}}
+                            </ul> --}}
+
+                        </div>
+
+                        <div class="widget clearfix">
+
+                            <h4>Recent Items</h4>
+                            <div class="posts-sm row col-mb-30" id="recent-shop-list-sidebar">
+                                {{#each latest_products}}
+                                <div class="entry col-12">
+                                    <div class="grid-inner row no-gutters">
+                                        <div class="col-auto">
+                                            <div class="entry-image">
+                                                <a href="#">
+                                                    <img src="../images/product-images/{{this._id}}.jpg"
+                                                        alt="{{this.product_name}}" alt="1" class="rounded"
+                                                        style="width:100px;height:60px" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col pl-3">
+                                            <div class="entry-title">
+                                                <h4><a href="#">{{product_name}}</a></h4>
+                                            </div>
+                                            <div class="entry-meta no-separator">
+                                                <ul>
+                                                    <li class="color">₹{{price}}</li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div><!-- .sidebar end -->
+            </div>
+
+        </div>
+    </div>
+</section><!-- #content end -->

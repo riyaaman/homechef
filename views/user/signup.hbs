@@ -5,69 +5,72 @@
 
 		<div class="section dark p-0 m-0 h-100 position-absolute"></div>
 		<div class="section p-0 m-0 h-100 position-absolute"
-			style="background: url('/images/common/recipe-single.jpg') center center no-repeat; background-size: cover;">
+			style="background: url('/images/common/recipe-single.jpg') center center no-repeat; background-size: cover;background-attachment: fixed;">
 		</div>
 
-		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
-			<div class="vertical-middle">
+		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex" >
+			<div class="vertical-middle ">
 				<div class="container py-5">
 
 					<div class="text-center">
-						<a href="index.html"><img src="/images/logo-dark.png" alt=" Logo" style="height: 100px;"></a>
+						<a href="/"><img src="/images/logo-dark.png" alt=" Logo" style="height: 100px;"></a>
 					</div>
 
-					<div class="card mx-auto rounded-0 border-0" style="max-width: 600px;">
-						<div class="card-body" style="padding: 40px;">
+					<div class="card mx-auto rounded-0 border-0 " style="max-width: 600px;">
+						<div class="card-body " style="padding: 20px;">
 							<form id="register-form" name="register-form" class="mb-0" action="/signup" method="post">
-								<h3>Create Account Here</h3>
+								<h3>Create Your Account Here</h3>
 								{{#if user_message}}
 								<p class=" text-danger">{{user_message}}</p>
 								{{/if}}
 
 								<div class="row">
 									<div class="col-12 form-group">
-										<label for="first_name">First Name:</label>
+										{{!-- <label for="first_name">First Name:</label> --}}
 										<input type="text" id="first_name" name="first_name" value=""
-											class="form-control not-dark" />
-										
+											class="form-control not-dark" placeholder="First Name" />
+
 									</div>
 									<div class="col-12 form-group">
-										<label for="last_name">Last Name:</label>
+										{{!-- <label for="last_name">Last Name:</label> --}}
 										<input type="text" id="last_name" name="last_name" value=""
-											class="form-control not-dark" />
-										
+											class="form-control not-dark" placeholder="Last Name" />
+
 									</div>
 									<div class="col-12 form-group">
-										<label for="email">Email:</label>
+										{{!-- <label for="email">Email:</label> --}}
 										<input type="text" id="email" name="email" value=""
-											class="form-control not-dark" />
-											  <div id="email_error" style="color:red;display:none">Error</div>
-									
+											class="form-control not-dark" placeholder="Email" />
+										<div id="email_error" class="text-danger" style="font-size: 14px;"></div>
+
 									</div>
 									<div class="col-12 form-group">
-										<label for="text">Mobile:</label>
+										{{!-- <label for="text">Mobile:</label> --}}
 										<input type="text" id="phone" name="phone" value=""
-											class="form-control not-dark" />
-										
+											class="form-control not-dark" placeholder="Mobile" />
+									<div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
+
 									</div>
 
 									<div class="col-12 form-group">
-										<label for="password">Password:</label>
+										{{!-- <label for="password">Password:</label> --}}
 										<input type="password" id="password" name="password" value="" autocomplete="off"
-											class="form-control not-dark" onKeyUp="checkPasswordStrength();"/>
-										
-										<div id="password-strength-status" style="color: #bd910e; font-size: 14px;"></div>
+											class="form-control not-dark" placeholder="Password"
+											onKeyUp="checkPasswordStrength();" />
+
+										<div id="password-strength-status" style="color: #bd910e; font-size: 14px;">
+										</div>
 
 									</div>
 									<div class="col-12 form-group">
-										<label for="password_confirm">Confirm Password:</label>
-										<input type="password" id="password_confirm" name="password_confirm" value=""
-											class="form-control not-dark" />
-											
+										{{!-- <label for="password_confirm">Confirm Password:</label> --}}
+										<input type="password" id="password_confirm" placeholder="Confirm Password"
+											name="password_confirm" value="" class="form-control not-dark" />
+
 									</div>
-								
+
 									<div class="col-12 form-group mb-0">
-										<button type="submit" class="button button-3d button-black m-0" 
+										<button type="submit" class="button button-3d button-black m-0"
 											value="">SignUp</button>
 										<a href="/user_login" class="float-right">Already have an account? Log in</a>
 									</div>
@@ -91,11 +94,12 @@
 
 <script>
 	$(document).ready(function () {
+		
 		$("#register-form").validate({
 			// Specify validation rules
 			rules: {
 				first_name: "required",
-				last_name:"required",
+				last_name: "required",
 				email: {
 					required: true,
 					email: true
@@ -107,93 +111,118 @@
 					maxlength: 10,
 				},
 				password: {
-					 minlength : 5,
+					minlength: 5,
 					required: true,
-				
+
 				},
-				password_confirm : {
-                    minlength : 5,
-                    equalTo : "#password"
-                }
+				password_confirm: {
+					equalTo: "#password"
+				}
 			},
 			messages: {
 				first_name: {
-					required: "Please enter first name",
+					required: "",
 				},
 				last_name: {
-					required: "Please enter first name",
+					required: "",
 				},
 
 				phone: {
-					required: "Please enter phone number",
+					required: "",
 					digits: "Please enter valid phone number",
 					minlength: "Phone number field accept only 10 digits",
 					maxlength: "Phone number field accept only 10 digits",
 				},
 				email: {
-					required: "Please enter email address",
+					required: "",
 					email: "Please enter a valid email address.",
 				},
 				password: {
-					required: "Please enter password ",
-				
+					required: "",
+
 				},
 				password_confirm: {
-					required: "Please enter the same password",
-					
+					equalTo: "Passwords Doesn't Match",
+
 				},
 			},
 
 		});
+	
 	});
 
 
-function checkPasswordStrength() {
-	var number = /([0-9])/;
-	var alphabets = /([a-zA-Z])/;
-	var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
-	if($('#password').val().length<6) {
-	$('#password-strength-status').removeClass();
-	$('#password-strength-status').addClass('weak-password');
-	$('#password-strength-status').html("Weak (should be atleast 6 characters.)");
-	} else {  	
-	if($('#password').val().match(number) && $('#password').val().match(alphabets) && $('#password').val().match(special_characters)) {            
-	$('#password-strength-status').removeClass();
-	$('#password-strength-status').addClass('strong-password');
-	$('#password-strength-status').html("Strong");
-	} else {
-	$('#password-strength-status').removeClass();
-	$('#password-strength-status').addClass('medium-password');
-	$('#password-strength-status').html("Medium (should include alphabets, numbers and special characters.)");
-}}}
+	function checkPasswordStrength() {
+		var number = /([0-9])/;
+		var alphabets = /([a-zA-Z])/;
+		var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+		if ($('#password').val().length < 6) {
+			$('#password-strength-status').removeClass();
+			$('#password-strength-status').addClass('weak-password');
+			$('#password-strength-status').html("Weak (should be atleast 6 characters.)");
+		} else {
+			if ($('#password').val().match(number) && $('#password').val().match(alphabets) && $('#password').val().match(special_characters)) {
+				$('#password-strength-status').removeClass();
+				$('#password-strength-status').addClass('strong-password');
+				$('#password-strength-status').html("Strong");
+			} else {
+				$('#password-strength-status').removeClass();
+				$('#password-strength-status').addClass('medium-password');
+				$('#password-strength-status').html("Medium (should include alphabets, numbers and special characters.)");
+			}
+		}
+	}
 
 
-$("#email").keyup(function () {
-
-        var email = $('#email').val();
-
-        if (!email == "") {
+	$("#email").change(function () {
+  
+		var email = $('#email').val();
+		if (!email == "") {
 			
-            $.ajax({
-                type: 'post',
-                url: '/useremail_check',
-                data: 'email=' + email,
-
-                success: function (response) {
-
-                    if (response.add_failed == "true") {
-						
-						   $("#email_error").text("Email Already Registered.");
-						   $("#email_error").show();
-                    }
-					else{
-						 $("#email_error").text("Email Available.");
-						   $("#email_error").show();
+			$.ajax({
+				type: 'post',
+				url: '/useremail_check',
+				data: 'email=' + email,
+				success: function (response) {
+					if (response.add_failed == "true") {
+						$("#email_error").show();
+						$("#email_error").html("Email Already Registered!");
+							$("#email").val("")
 					}
-                  
-                }
-            })
-        }
+					else {
+									
+						$("#email_error").hide();
+					}
+				}
+			})
+		}
+	});
+	$("#phone").change(function () {
 
-    });
+		var phone = $('#phone').val();
+		if (!phone == "") {
+			$.ajax({
+				type: 'post',
+				url: '/phone_check',
+				data: 'phone=' + phone,
+				success: function (response) {
+					if (response.add_failed == "true") {
+						$("#phone_error").show()
+						$("#phone_error").html("Phone Number Already Registered!");
+						$("#phone_error").val("")
+							$("#phone").val("")
+						//$("phone").focus();
+      					//return false;
+					}
+					else {
+						$("#phone_error").hide()
+					//	$("#phone_error").html("Phone Number Available!");
+					}
+				}
+			})
+		}
+	});
+
+
 </script>
+

@@ -75,7 +75,7 @@
 
                         <div class="col-12 form-group mt-2">
                             <button type="submit" class="button button-3d bg-color  m-0" id="ven-submit"
-                                name="ven-submit" value="register">Add Ventor</button>
+                                name="ven-submit" value="register">Add Vendor</button>
                         </div>
 
                     </form>
@@ -169,8 +169,10 @@
             return false
         }
         if($("#ven_phone").val() == "") {
-            $("#alert_phone").text("Please Enter Your Phone Number").show().fadeOut(5000);
+            $("#alert_phone").text("Please Enter Your Phone Number").show();
             $("#ven_phone").focus();
+            $("#alert_phone").text == ""
+
             return false
         }
         if($("#ven_email").val() == "") {

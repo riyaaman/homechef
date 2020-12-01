@@ -16,6 +16,9 @@ var session           =   require('express-session');
 var fileUpload        =   require('express-fileupload')
 var flash             =   require('express-flash-messages')
 
+
+// var messagebird = require('messagebird')('NXdZZmOVZ5XRJJJD3SH1ugXJM');
+//var messagebird = require('messagebird')('test_gshuPaZoeEG6ovbc8M79w0QyM');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -39,6 +42,7 @@ db.connect((err)=>{
 app.use(session({secret:"Key",cookie:{maxAge:600000}}))
 app.use(fileUpload())
 app.use(flash())
+
 
 app.use('/', userRouter);
 app.use('/admin', adminRouter);

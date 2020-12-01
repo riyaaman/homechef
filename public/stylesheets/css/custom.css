@@ -7,7 +7,8 @@
 
 
 :root {
-	--themecolor: #1ABC9C;
+	/* --themecolor: #1ABC9C; */
+	--themecolor:#7f3535;
 }
 
 
@@ -24,6 +25,10 @@
 }
 .text-theme{
 	color:var(--themecolor);
+}
+
+.font-size-13{
+	font-size: 13px;
 }
 
 

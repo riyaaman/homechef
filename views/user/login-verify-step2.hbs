@@ -1,0 +1,55 @@
+{{!-- {{#if error}}
+<p>{{error}}</p>
+{{/if}}
+<p>We have sent you a verification code!</p>
+<p>Please enter the code here:</p>
+<form method="post" action="/step3">
+  <input type="hidden" name="id" value="{{id}}" />
+  <input type="text" name="token" />
+  <input type="submit" value="Check code" />
+</form> --}}
+<!-- Content
+============================================= -->
+<section id="content">
+  <div class="content-wrap py-0">
+
+    <div class="section dark p-0 m-0 h-100 position-absolute"></div>
+    <div class="section p-0 m-0 h-100 position-absolute"
+      style="background: url('/images/common/recipe-single.jpg') center center no-repeat; background-size: cover;">
+    </div>
+
+    <div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
+      <div class="vertical-middle">
+        <div class="container py-5">
+
+          <div class="text-center">
+            <a href="index.html"><img src="/images/logo-dark.png" alt=" Logo" style="height: 100px;"></a>
+          </div>
+
+          <div class="card mx-auto rounded-0 border-0" style="max-width: 400px;">
+            <div class="card-body" style="padding: 40px;">
+             {{#if error}}
+                <p>{{error}}</p>
+                {{/if}}
+                <p>We have sent you a verification code! <br>
+                  Please enter the code here:</p>
+                <form method="post" action="/step3">
+                  <input type="hidden" name="id" value="{{id}}" />
+                  <input type="text" name="token" />
+                  <input type="submit" value="Check code" />
+                </form>
+
+              <a href="/" class="fright float-right font-italic">Back to Home</a>
+
+            </div>
+          </div>
+
+          <div class="text-center text-muted mt-3"><small>Copyrights &copy; All Rights Reserved by Crossroads
+              .</small></div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section><!-- #content end -->

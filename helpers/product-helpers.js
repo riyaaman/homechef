@@ -28,6 +28,7 @@ module.exports = {
     /* Get All Categories
     ============================================= */
     get_Allcategories: () => {
+        //console.log("ghgjhgj")
         return new Promise(async (resolve, reject) => {
             let categories = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray();
             resolve(categories);
@@ -165,8 +166,20 @@ module.exports = {
                  },
                  {
                     $unwind:'$category'
-                },
-              
+                },   
+                // {$set: {_id: {$toObjectId: "$vendor_id"} }},
+                // {
+                //     $lookup:{
+                //        from:collection.VENDOR_COLLECTION,
+                //        localField:"vendor_id",
+                //        foreignField:"_id",
+                //        as:'vendor'
+
+                //     }
+                //  }, 
+                //  {
+                //     $unwind:'$vendor'
+                // },          
               
                 {
                  
@@ -175,13 +188,15 @@ module.exports = {
                         price        : 1,
                         cat_id       : '$category._id',                     
                         cat_name     : '$category.cat_name',
+                        // ven_name     :'$vendor.ven_name',
+                        
                          
                     }
                   
                  },
 
             ]).toArray()
-              //console.log(products)            
+            //   console.log(products)            
             //resolve(cartItems[0].cartItems)
             resolve(products)
 

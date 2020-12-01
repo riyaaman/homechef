@@ -124,7 +124,7 @@ router.get("/product_manage", verifyVendorLogin, async (req, res, next) => {
             req.session.product_message = false;
         } else {
             vendor_status.name=req.session.vendor.ven_name
-            res.render("vendor/product-manage", { vendor_status, products, categories });
+            res.render("vendor/product-manage", { vendor_status, products, categories,name :req.session.vendor.ven_name });
         }
         //res.render("vendor/product-manage", { vendor_status, products,message:req.flash('message') });
     });

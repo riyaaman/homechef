@@ -1,5 +1,7 @@
+
+
 <!-- Header
-		============================================= -->
+============================================= -->
 
 <header id="header" class="transparent-header " data-sticky-shrink="false">
 	<div id="header-wrap">
@@ -14,25 +16,12 @@
 				</div><!-- #logo end -->
 				<div class="header-misc">
 
-					<!--Login
-					============================================= -->
-					<div id="top-account">
 					
-						{{!-- <a href="#modal-register" data-lightbox="inline"> --}}
-						<a href="/user_login" >
-							<i class="icon-line2-user mr-1 position-relative" style="top: 1px;"></i>
-							{{#if username}}
-							<span class="d-none d-sm-inline-block font-primary font-weight-medium">{{username}}</span>
-							{{else }}
-							<span class="d-none d-sm-inline-block font-primary font-weight-medium">Login</span>
-							{{/if}}
-							</a>
-
-					</div><!-- #top-search end -->
+					
 
 					<!-- Top Cart
 					============================================= -->
-					<div id="top-cart" class="header-misc-icon d-none d-sm-block ">
+					<div id="top-cart" class="header-misc-icon d-none d-sm-block justify-content-end">
 						<a href="#" id="top-cart-trigger"><i class="icon-line-bag"></i><span
 								class="top-cart-number">5</span></a>
 
@@ -64,7 +53,7 @@
 						<li class="menu-item"><a class="menu-link" href="">
 								<div>About</div>
 							</a></li>
-						<li class="menu-item"><a class="menu-link" href="">
+						<li class="menu-item"><a class="menu-link" href="/get_bakers">
 								<div>Our Bakers</div>
 							</a></li>
 							
@@ -72,18 +61,49 @@
 
 				</nav>
 
-				<nav class="primary-menu col-lg-4 order-lg-3">
+				<nav class="primary-menu col-lg-4 order-lg-3" class="style-2 with-arrows">
 
-					{{!-- <ul class="menu-container justify-content-lg-end"> --}}
-					<ul class="menu-container">
+					<ul class="menu-container justify-content-lg-end">
+					{{!-- <ul class="menu-container "> --}}
 						<li class="menu-item"><a class="menu-link" href="">
 								<div>Gallery</div>
 							</a></li>
 						<li class="menu-item"><a class="menu-link" href="">
 								<div>Contact</div>
 							</a></li>
-						{{!-- <li class="menu-item"><a class="menu-link color" href="/login"><div>Login</div></a></li> --}}
-					</ul>
+						{{!-- <li class="menu-item">
+							{{#if username}}
+							<a href="/user_logout">
+								<i class="icon-line2-user mr-1 position-relative" style="top: 1px;"></i>
+								<span class="d-none d-sm-inline-block font-primary font-weight-medium">{{username}}xgfdgf hgfhg</span>
+							</a>
+						
+							{{else}}
+							<a href="/user_login">
+								<span class="d-none d-sm-inline-block font-primary font-weight-medium">Login</span>
+							</a>
+							{{/if}}
+						</li> --}}
+						<li class="menu-item float-right">
+							{{#if username}}
+							<a href="/user_logout" data-target="#logoutModal" data-toggle="modal"
+                                            href="#logoutModal"><div>Hai, {{username}}</div></a>
+							{{else}}
+							<a href="/user_login"><div>Login</div></a>
+							{{/if}}
+						
+						</li>
+						 
+						{{!--<li class="menu-item"><a href="#"><div>Womene</div></a>
+								 <div class="mega-menu-content style-2 clearfix">
+									<ul class="mega-menu-column col-lg-6">
+										<li class="mega-menu-title"><a href="#">
+												<div>Footwear</div>
+											</a>
+										</li>
+									</ul>
+								</div> 						
+						</li>--}}
 
 				</nav><!-- #primary-menu end -->
 
@@ -92,3 +112,23 @@
 	</div>
 	<div class="header-wrap-clone"></div>
 </header><!-- #header end -->
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn button-lightgreen" href="/admin/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
