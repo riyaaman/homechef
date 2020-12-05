@@ -4,12 +4,9 @@
 
       <div class="card shadow mb-4">
         <div class="card-header py-3">
-          <h2 class="m-0 font-weight-bold text-theme float-left">Category Details</h2>
-          {{!-- <a href="/admin/category_add" class="btn bg-color text-white float-right mr-auto">Add
-            Category
-            Details</a> --}}
-          <button class="btn bg-color text-white float-right mr-auto" data-toggle="modal"
-            data-target="#myModalAdd">Add New Category</button>
+          <h2 class="m-0 font-weight-bold text-theme float-left">Category Details</h2>         
+          <button class="btn bg-color text-white float-right mr-auto" data-toggle="modal" data-target="#myModalAdd">Add
+            New Category</button>
         </div>
         <div class="card-body">
 
@@ -18,9 +15,7 @@
               <tr>
                 {{!-- <th>Sl No</th> --}}
                 <th>Category Name</th>
-
                 <th>Action</th>
-
               </tr>
             </thead>
             <tbody>
@@ -44,12 +39,9 @@
 </section>
 
 
-
-
-
 <!-- Modal Add Category-->
 <form action="/admin/category_add" method="post" name="myModalAdd" id="category_add_form">
-  <div class="modal fade"  id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -60,10 +52,10 @@
           </button>
         </div>
         <div class="modal-body">
-          
-         
+
+
           <div class="form-group">
-            <input type="text" name="cat_name" class="form-control" placeholder="Please Enter Category Name" >            
+            <input type="text" name="cat_name" class="form-control" placeholder="Please Enter Category Name">
           </div>
 
         </div>
@@ -93,7 +85,7 @@
             <input type="text" name="cat_name" id="cat_name" class="form-control cat_name" placeholder="Category Name">
           </div>
 
-         
+
         </div>
         <div class="modal-footer">
           <input type="hidden" name="cat_id" class="cat_id">
@@ -128,10 +120,9 @@
     </div>
   </div>
 </form>
-{{!--  
-<script src="/assets/js/jquery-3.3.1.js"></script>
-<script src="/assets/js/bootstrap.js"></script> --}}
+
 <script>
+
   $(document).ready(function () {
 
     //showing data to edit modal     
@@ -160,17 +151,24 @@
     $("#category_add_form").validate({
       rules: {
         cat_name: "required",
-
       },
-    
+      messages:{
+        cat_name:"Category name required"
+      }
+
     });
-     // Specify validation rules
+    
+    
+    // Specify validation rules
     $("#category_edit_form").validate({
       rules: {
         cat_name: "required",
-
       },
-      
+      messages:{
+        cat_name:"Category name required"
+      }
+
     });
   });
+
 </script>

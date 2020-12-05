@@ -1,10 +1,9 @@
-var db              =   require('../config/connection')
-var collection      =   require('../config/collections')
-const bcrypt        =   require('bcrypt')
-const { response }  =   require('express')
+var db = require("../config/connection");
+var collection = require("../config/collections");
+const bcrypt = require("bcrypt");
+const { response } = require("express");
 
-var objectId        =   require('mongodb').ObjectID
-
+var objectId = require("mongodb").ObjectID;
 
 module.exports = {
     /*------------------------------------- Category Management------------------------------------------------------
@@ -28,7 +27,6 @@ module.exports = {
     /* Get All Categories
     ============================================= */
     get_Allcategories: () => {
-        //console.log("ghgjhgj")
         return new Promise(async (resolve, reject) => {
             let categories = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray();
             resolve(categories);
@@ -39,7 +37,6 @@ module.exports = {
     ============================================= */
     update_Category: (catDetails, catId) => {
         return new Promise((resolve, reject) => {
-            // console.log("kilo",catDetails)
             db.get()
                 .collection(collection.CATEGORY_COLLECTION)
                 .updateOne(
@@ -77,11 +74,10 @@ module.exports = {
 
     /* Add Product Details
     ============================================= */
-    add_Product: (productData,vendor_id) => {
-       
+    add_Product: (productData, vendor_id) => {
         return new Promise(async (resolve, reject) => {
-            productData.status      =   1;
-            productData.vendor_id   =   objectId(vendor_id);
+            productData.status = 1;
+            productData.vendor_id = objectId(vendor_id);
             let user = db
                 .get()
                 .collection(collection.PRODUCT_COLLECTION)
@@ -89,7 +85,6 @@ module.exports = {
                 .then((productData) => {
                     resolve(productData.ops[0]);
                 });
-               
         });
     },
 
@@ -97,139 +92,134 @@ module.exports = {
     ============================================= */
     get_Allproducts: () => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray();
-            resolve(products);
+            let products = await db
+                .get()
+                .collection(collection.PRODUCT_COLLECTION)
+                .aggregate([
+                    { $set: { cat_id: { $toObjectId: "$category" } } },
+                    {
+                        $lookup: {
+                            from: collection.CATEGORY_COLLECTION,
+                            localField: "cat_id",
+                            foreignField: "_id",
+                            as: "category",
+                        },
+                    },
+                    {
+                        $unwind: "$category",
+                    },
+                    { $set: { vendor_id: { $toObjectId: "$vendor_id" } } },
+                    {
+                        $lookup: {
+                            from: collection.VENDOR_COLLECTION,
+                            localField: "vendor_id",
+                            foreignField: "_id",
+                            as: "vendor",
+                        },
+                    },
+                    {
+                        $unwind: "$vendor",
+                    },
 
-            // let product_details = db
-            //     .get()
-            //     .collection(collection.PRODUCT_COLLECTION)
-            //     .aggregate([
-            //         {
-            //             $lookup: {
-            //                 from: collection.CATEGORY_COLLECTION,
-            //                 localField: "category",
-            //                 foreignField: "_id",
-            //                 as: "product",
-            //             },
-            //         },
-                    // {
-                    //     $unwind:'$product'
-                    // }
-                    // {
-                    
-                    //     $project:{
-                    //         cat_name:1,product_name:1,product:{$arrayElemAt:['$product',0]}                    
-                            
-                    //     }
-                    // },
-                // ]).toArray()
-                // // console.log("total-----------------",total[0].total)
-                // resolve(product_details)
-                // .toArray(function (err, res) {
-                //     if (err) throw err;
+                    {
+                        $project: {
+                            product_name: 1,
+                            price: 1,
+                            status: 1,
+                            cat_id: "$category._id",
+                            cat_name: "$category.cat_name",
+                            ven_name: "$vendor.ven_name",
+                            ven_shop: "$vendor.ven_shop",
+                            ven_id: "$vendor._id",
+                        },
+                    },
+                ])
+                .toArray(function (err, products) {
 
-                //     console.log("json:",JSON.stringify(res));
-
-                //     // resolve(res);
-                //     console.log("hai:",res[0].product);
-                //     //console.log("mn:",res[0].product);
-                // });
-            // .toArray()
-            // resolve(product_details)
-
-           
-          // console.log(product_details[0].product)
-           
+                    if (err) throw err;
+                    resolve(products);
+                    //console.log(products);
+                    //console.log(JSON.stringify(res));
+                });
         });
     },
 
     /* Get Product By Vendor Id
     ============================================= */
-    get_ProductsByVendorId:(vendorId)=>{
-        
-        return new Promise (async(resolve,reject)=>{
-            let products =  await db.get().collection(collection.PRODUCT_COLLECTION)
-            
-            .aggregate([
-                {
-                    $match:{vendor_id:objectId(vendorId)}
-                },
-                {$set: {cat_id: {$toObjectId: "$category"} }},
-                {
-                    $lookup:{
-                       from:collection.CATEGORY_COLLECTION,
-                       localField:"cat_id",
-                       foreignField:"_id",
-                       as:'category'
-
-                    }
-                 },
-                 {
-                    $unwind:'$category'
-                },   
-                // {$set: {_id: {$toObjectId: "$vendor_id"} }},
-                // {
-                //     $lookup:{
-                //        from:collection.VENDOR_COLLECTION,
-                //        localField:"vendor_id",
-                //        foreignField:"_id",
-                //        as:'vendor'
-
-                //     }
-                //  }, 
-                //  {
-                //     $unwind:'$vendor'
-                // },          
-              
-                {
-                 
-                    $project:{
-                        product_name : 1,
-                        price        : 1,
-                        cat_id       : '$category._id',                     
-                        cat_name     : '$category.cat_name',
-                        // ven_name     :'$vendor.ven_name',
-                        
-                         
-                    }
-                  
-                 },
-
-            ]).toArray()
-            //   console.log(products)            
-            //resolve(cartItems[0].cartItems)
-            resolve(products)
-
-        })
-   
- 
-    },
-
-
-      /* Get Product Count By Vendor Id
-    ============================================= */
-    get_AllproductCount_ByVenId: (vendorId) => {
+    get_ProductsByVendorId: (vendorId) => {
         return new Promise(async (resolve, reject) => {
-            let product_count = await db.get().collection(collection.PRODUCT_COLLECTION)           
-            .find({vendor_id:objectId(vendorId)}).count();
-            if(product_count){
-                resolve(product_count);
-            }
-            else{
-                resolve({count_status:false})
-            }
+            let products = await db
+                .get()
+                .collection(collection.PRODUCT_COLLECTION)
 
+                .aggregate([
+                    {
+                        $match: { vendor_id: objectId(vendorId) },
+                    },
+                    { $set: { cat_id: { $toObjectId: "$category" } } },
+                    {
+                        $lookup: {
+                            from: collection.CATEGORY_COLLECTION,
+                            localField: "cat_id",
+                            foreignField: "_id",
+                            as: "category",
+                        },
+                    },
+                    {
+                        $unwind: "$category",
+                    },
+                    { $set: { vendor_id: { $toObjectId: "$vendor_id" } } },
+                    {
+                        $lookup: {
+                            from: collection.VENDOR_COLLECTION,
+                            localField: "vendor_id",
+                            foreignField: "_id",
+                            as: "vendor",
+                        },
+                    },
+                    {
+                        $unwind: "$vendor",
+                    },
+
+                    {
+                        $project: {
+                            product_name: 1,
+                            price: 1,
+                            cat_id: "$category._id",
+                            cat_name: "$category.cat_name",
+                            ven_name: "$vendor.ven_name",
+                            ven_id: "$vendor._id",
+                        },
+                    },
+                ])
+                .toArray();
+            //console.log(products)
+            //resolve(cartItems[0].cartItems)
+            resolve(products);
         });
     },
 
-
-
+    /* Get Product Count By Vendor Id
+    ============================================= */
+    get_AllproductCount_ByVenId: (vendorId) => {
+        return new Promise(async (resolve, reject) => {
+            let product_count = await db
+                .get()
+                .collection(collection.PRODUCT_COLLECTION)
+                .find({ vendor_id: objectId(vendorId) })
+                .count();
+            if (product_count) {
+                resolve(product_count);
+            } else {
+                resolve({ count_status: false });
+            }
+        });
+    },
 
     /* Update product
     ============================================= */
     update_Product: (productDetails, productId) => {
         return new Promise((resolve, reject) => {
-          //   console.log("kilo",productDetails.product_name)
             db.get()
                 .collection(collection.PRODUCT_COLLECTION)
                 .updateOne(
@@ -239,7 +229,6 @@ module.exports = {
                             product_name: productDetails.product_name,
                             price: productDetails.price,
                             category: productDetails.category,
-                          
                         },
                     }
                 )
@@ -252,20 +241,13 @@ module.exports = {
     /* Delete product
     ============================================= */
     delete_Product: (productId) => {
-       
-        console.log("helper:",productId)
         return new Promise((resolve, reject) => {
-       
             db.get()
                 .collection(collection.PRODUCT_COLLECTION)
                 .removeOne({ _id: objectId(productId) })
                 .then((product) => {
                     resolve(product);
-                })
-            
+                });
         });
-    }
-
-
-    
-}
+    },
+};

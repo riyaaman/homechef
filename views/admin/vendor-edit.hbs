@@ -11,11 +11,10 @@
 
                     {{#if vendor.vendor_message}}
                     <div class="style-msg successmsg" id="success">
-                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well
-                                done!</strong>{{vendor.vendor_message}} </div>
+                        <div class="sb-msg">
+                            {{vendor.vendor_message}} </div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
-
                     {{/if}}
 
                     <form id="vendor" name="vendor" class="row mb-0" action="/admin/vendor_edit/{{vendor._id}}"
@@ -37,30 +36,9 @@
                         <div class="col-12 form-group">
                             <label for="ven_phone">Phone:</label>
                             <input type="text" id="ven_phone" name="ven_phone" value="{{vendor.ven_phone}}"
-                                class="form-control" title="Enter a vaild Phone Number(10 digits)" pattern="[1-9]{1}[0-9]{9}" required>
+                                class="form-control" title="Enter a vaild Phone Number(10 digits)"
+                                pattern="[1-9]{1}[0-9]{9}" required>
                         </div>
-
-                        <div class="col-12 form-group">
-                            <label for="ven_email">Email Address:</label>
-                            <input type="email" id="ven_email" name="ven_email" value="{{vendor.ven_email}}"
-                                class="form-control" readonly required>
-                            <div id="email_error" style="color:red;"></div>
-                            <div id="email_success" style="color:red;"></div>
-
-
-                        </div>
-
-                        {{!-- <div class="col-12 form-group">
-                            <label for="ven_password">Choose a Password:</label>
-                            <input type="password" id="ven_password" name="ven_password" value="{{vendor.ven_password}}" class="form-control" required>
-                        </div>
-
-                        <div class="col-12 form-group">
-                            <label for="confirm_password">Re-enter Password:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" value="{{vendor.ven_password}}" required
-                                class="form-control">
-                            <span id='message'></span>
-                        </div> --}}
 
                         <div class="col-12 form-group">
                             <label for="ven_image"></label>
@@ -76,6 +54,10 @@
                         </div>
 
                     </form>
+
+                    <div class="float-right"> <a href="javascript:void(0);" id="btn_change_email" class="btn bg-color edit" data-id="{{vendor._id }}"
+                    data-ven_email="{{ vendor.ven_email }}" data-target="#EditModal" data-toggle="modal" >Change Email</a></div> 
+                     
                 </div>
             </div>
 
@@ -85,10 +67,110 @@
 </section>
 
 
-<!-- Viewing upload Image
-============================================= -->
+<!-- Modal Change Email-->
+<form action="/admin/vendor_email_update" method="post" name="email_update_form" id="email_update_form">
+  <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change Email</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+
+           <div class="form-group">
+            <input type="text" name="ven_email" id="ven_email" class="form-control ven_email" placeholder="Vendor Email">
+          </div>
+
+
+        </div>
+       <div class="modal-footer">
+          <input type="hidden" name="ven_id" class="ven_id">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn bg-color">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
 <script>
+
+    //view uploaded image
     function viewImage(event) {
         document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
     }
+
+    $(function () {
+
+        // Setup form validation on the #vendor element
+        $("#vendor").validate({
+
+            
+            rules: {
+                ven_name: "required",
+                ven_shop_name: "required",
+                ven_phone: {
+                    digits: true,
+                    maxlength: 10,
+                    minlength: 10
+                },
+            },
+           
+            messages: {
+                ven_name: "Please enter your  name",
+                ven_shop_name: "Please enter your shop name",
+                ven_phone: {
+                    digits: "Please Enter a valid phone number",
+                    maxlength: "Please enter a valid phone number (10 digits)"
+                },
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+         
+         
+         $("#email_update_form").validate({
+
+            // Specify the validation rules
+            rules: {
+               ven_email: {
+					required: true,
+					email: true
+				},
+            },
+            // Specify the validation error messages
+            messages: {
+                ven_email: {
+					required: "Please Enter  Email",
+					email: "Plase enter a valid email address"
+				},
+                
+            }
+           
+        });
+
+
+
+
+         //showing data to edit modal     
+        $('#btn_change_email').on('click', function () {
+         
+        var ven_id = $(this).data('id');
+        var ven_email = $(this).data('ven_email');
+
+        $('#EditModal').modal('show');
+        $('.ven_email').val(ven_email);
+
+        $('.ven_id').val(ven_id);
+        });
+    });
+    
 </script>
+
+

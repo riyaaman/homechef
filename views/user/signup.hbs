@@ -1,5 +1,5 @@
 <!-- Content
-		============================================= -->
+============================================= -->
 <section id="content">
 	<div class="content-wrap py-0">
 
@@ -8,7 +8,7 @@
 			style="background: url('/images/common/recipe-single.jpg') center center no-repeat; background-size: cover;background-attachment: fixed;">
 		</div>
 
-		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex" >
+		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
 			<div class="vertical-middle ">
 				<div class="container py-5">
 
@@ -28,34 +28,34 @@
 									<div class="col-12 form-group">
 										{{!-- <label for="first_name">First Name:</label> --}}
 										<input type="text" id="first_name" name="first_name" value=""
-											class="form-control not-dark" placeholder="First Name" />
+											class="form-control not-dark" placeholder="First Name" required />
 
 									</div>
 									<div class="col-12 form-group">
 										{{!-- <label for="last_name">Last Name:</label> --}}
 										<input type="text" id="last_name" name="last_name" value=""
-											class="form-control not-dark" placeholder="Last Name" />
+											class="form-control not-dark" placeholder="Last Name" required />
 
 									</div>
 									<div class="col-12 form-group">
 										{{!-- <label for="email">Email:</label> --}}
-										<input type="text" id="email" name="email" value=""
-											class="form-control not-dark" placeholder="Email" />
+										<input type="text" id="email" name="email" value="" onblur="checkEmail()"
+											class="form-control not-dark" placeholder="Email" required />
 										<div id="email_error" class="text-danger" style="font-size: 14px;"></div>
 
 									</div>
 									<div class="col-12 form-group">
 										{{!-- <label for="text">Mobile:</label> --}}
 										<input type="text" id="phone" name="phone" value=""
-											class="form-control not-dark" placeholder="Mobile" />
-									<div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
+											class="form-control not-dark" placeholder="Mobile" required />
+										<div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
 
 									</div>
 
 									<div class="col-12 form-group">
 										{{!-- <label for="password">Password:</label> --}}
 										<input type="password" id="password" name="password" value="" autocomplete="off"
-											class="form-control not-dark" placeholder="Password"
+											class="form-control not-dark" placeholder="Password" required
 											onKeyUp="checkPasswordStrength();" />
 
 										<div id="password-strength-status" style="color: #bd910e; font-size: 14px;">
@@ -94,26 +94,22 @@
 
 <script>
 	$(document).ready(function () {
-		
+
+		//form validation
 		$("#register-form").validate({
 			// Specify validation rules
 			rules: {
-				first_name: "required",
-				last_name: "required",
 				email: {
-					required: true,
 					email: true
 				},
 				phone: {
-					required: true,
 					digits: true,
-					minlength: 10,
-					maxlength: 10,
+					//minlength: 10,
+					//maxlength: 10,
 				},
 				password: {
-					minlength: 5,
+					minlength: 6,
 					required: true,
-
 				},
 				password_confirm: {
 					equalTo: "#password"
@@ -130,8 +126,8 @@
 				phone: {
 					required: "",
 					digits: "Please enter valid phone number",
-					minlength: "Phone number field accept only 10 digits",
-					maxlength: "Phone number field accept only 10 digits",
+					//minlength: "Phone number field accept only 10 digits",
+					//maxlength: "Phone number field accept only 10 digits",
 				},
 				email: {
 					required: "",
@@ -139,6 +135,7 @@
 				},
 				password: {
 					required: "",
+					minlength: "Minimum langth should be 6 characters",
 
 				},
 				password_confirm: {
@@ -148,10 +145,10 @@
 			},
 
 		});
-	
+
 	});
 
-
+	//check passwordstrength
 	function checkPasswordStrength() {
 		var number = /([0-9])/;
 		var alphabets = /([a-zA-Z])/;
@@ -174,11 +171,15 @@
 	}
 
 
-	$("#email").change(function () {
-  
+
+	//checking is email exist or not
+	function checkEmail() {
+		//$("#email").change(function () {
+
 		var email = $('#email').val();
+
 		if (!email == "") {
-			
+
 			$.ajax({
 				type: 'post',
 				url: '/useremail_check',
@@ -187,17 +188,24 @@
 					if (response.add_failed == "true") {
 						$("#email_error").show();
 						$("#email_error").html("Email Already Registered!");
-							$("#email").val("")
+						//$("#email").val("")
+						return false
 					}
 					else {
-									
+
 						$("#email_error").hide();
+						return true
 					}
 				}
 			})
 		}
-	});
-	$("#phone").change(function () {
+
+	}
+
+
+
+	//checking phone number exist or not
+	$("#phone").keyup(function () {
 
 		var phone = $('#phone').val();
 		if (!phone == "") {
@@ -209,20 +217,17 @@
 					if (response.add_failed == "true") {
 						$("#phone_error").show()
 						$("#phone_error").html("Phone Number Already Registered!");
-						$("#phone_error").val("")
-							$("#phone").val("")
-						//$("phone").focus();
-      					//return false;
+						$("#phone").val("")
+						$("phone").focus();
+						return false;
 					}
 					else {
 						$("#phone_error").hide()
-					//	$("#phone_error").html("Phone Number Available!");
+						//	$("#phone_error").html("Phone Number Available!");
 					}
 				}
 			})
 		}
 	});
 
-
 </script>
-

@@ -8,7 +8,8 @@
 	<!-- Stylesheets
 	============================================= -->
 
-	<link href="https://fonts.googleapis.com/css?family=Cookie|Open+Sans:400,600,700,800,900|Poppins:300,400,500,600,700|Playfair+Display:400,400i,700,700i,900&display=swap"
+	<link
+		href="https://fonts.googleapis.com/css?family=Cookie|Open+Sans:400,600,700,800,900|Poppins:300,400,500,600,700|Playfair+Display:400,400i,700,700i,900&display=swap"
 		rel="stylesheet">
 	<link rel="stylesheet" href="/stylesheets/css/bootstrap.css" type="text/css" />
 	<link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
@@ -56,14 +57,14 @@
 <title>Food Delivery System | Home Bakers</title>
 </head>
 
-<body class="stretched ">
+<body>
 	{{#if admin_status}}
 	{{>admin-header}}
 
 	{{else if vendor_status}}
 	{{>vendor-header}}
 
-	{{else if user_status}}
+	{{else if user_details}}
 	{{>user-header}}
 
 	{{/if}}

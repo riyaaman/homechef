@@ -6,29 +6,31 @@ const { response } = require("express");
 var objectId = require("mongodb").ObjectID;
 
 module.exports = {
-
     /* Login For Admin
     ============================================= */
     doLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false;
             let response = {}; //null object created
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ username: adminData.username });
-            if (user) {
-                bcrypt.compare(adminData.password, user.password).then((loginStatus) => {
-                    if (loginStatus) {
-                        response.user = user;
-                        response.loginStatus = true;
-                        resolve(response);
-                    } else {
-                        resolve({ loginStatus: false });
-                    }
-                });
-            } else {
-                //  console.log("email not registered")
-                resolve({ status: false });
-            }
+            
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ username: adminData.username });
+                if (user) {
+                    bcrypt.compare(adminData.password, user.password).then((loginStatus) => {
+                        if (loginStatus) {
+                            response.user = user;
+                            response.loginStatus = true;
+                            resolve(response);
+                        } else {
+                            resolve({ loginStatus: false });
+                        }
+                    });
+                } else {
+                    //  console.log("email not registered")
+                    resolve({ status: false });
+                }
+           
         });
+    
     },
 
     /* SignUp For Vendors
@@ -105,7 +107,6 @@ module.exports = {
     /* Get All Vendors
     ============================================= */
     get_AllVendors: () => {
-   
         return new Promise(async (resolve, reject) => {
             let vendors = await db.get().collection(collection.VENDOR_COLLECTION).find().toArray();
             resolve(vendors);
@@ -144,7 +145,7 @@ module.exports = {
     /* Update Vendor
     ============================================= */
     update_Vendor: (venDetails, venId) => {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             db.get()
                 .collection(collection.VENDOR_COLLECTION)
                 .updateOne(
@@ -154,13 +155,40 @@ module.exports = {
                             ven_name: venDetails.ven_name,
                             ven_shop: venDetails.ven_shop_name,
                             ven_phone: venDetails.ven_phone,
-                            // ven_password:   venDetails.ven_password,
+                          
                         },
                     }
                 )
                 .then((response) => {
-                    resolve();
+                    resolve({ update_status: true });
                 });
+           
+        });
+    },
+
+    /* Update Vendor Email(username)
+    ============================================= */
+    change_Email_Vendor: (venDetails) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.VENDOR_COLLECTION).findOne({ ven_email: venDetails.ven_email });
+            if (user) {
+                console.log("email exist");
+                resolve({ update_status: false });
+            } else {
+                db.get()
+                    .collection(collection.VENDOR_COLLECTION)
+                    .updateOne(
+                        { _id: objectId(venDetails.ven_id) },
+                        {
+                            $set: {
+                                ven_email: venDetails.ven_email,
+                            },
+                        }
+                    )
+                    .then((response) => {
+                        resolve({ update_status: true });
+                    });
+            }
         });
     },
 
@@ -171,19 +199,18 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             userData.password = await bcrypt.hash(userData.password, 10);
 
-            let user = await db
+            let cart = await db
                 .get()
                 .collection(collection.USERS_COLLECTION)
-                .findOne({ email: userData.email, phone: userData.phone });
-            // let user =await db.get().collection(collection.USERS_COLLECTION).find({
-            //     $and: [
-            //         {'email':userData.email},
-            //         {'phone':userData.phone}
-            //     ]
-            // })
-
-            if (user) {
-                resolve({ signup_status: false });
+                .findOne({
+                    $or: [{ email: userData.email }, { phone: userData.phone }],
+                });
+            if (cart) {
+                if (cart.email == userData.email) {
+                    resolve({ signup_status: false });
+                } else if (cart.phone == userData.phone) {
+                    resolve({ signup_status: false });
+                }
             } else {
                 var userDetails = {
                     first_name: userData.first_name,
@@ -206,13 +233,18 @@ module.exports = {
         });
     },
 
-    /* Login For Users
+    /* Login For Users(customers)
     ============================================= */
     doLogin_User: (userData) => {
+        console.log(userData.email);
         return new Promise(async (resolve, reject) => {
             let loginStatus = false;
             let response = {}; //null object created
-            let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: userData.email });
+            // let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: userData.email });
+            let user = await db
+                .get()
+                .collection(collection.USERS_COLLECTION)
+                .findOne({ $or: [{ email: userData.email }, { phone: userData.email }] });
             if (user) {
                 bcrypt.compare(userData.password, user.password).then((loginStatus) => {
                     if (loginStatus) {
@@ -229,11 +261,27 @@ module.exports = {
         });
     },
 
+    doLogin_UserbyPhone: (phone) => {
+        return new Promise(async (resolve, reject) => {
+            let loginStatus = false;
+            let response = {}; //null object created
+            let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ phone: phone });
+
+            if (user) {
+                response.user = user;
+                response.loginStatus = true;
+                resolve(response);
+            } else {
+                resolve({ status: false });
+            }
+        });
+    },
+
     /* Check Email Registered or Not For Customers
     ============================================= */
     check_Useremail_Exist: (userEmail) => {
         let signup_status = true;
-        console.log("li:", userEmail);
+
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ email: userEmail });
 
@@ -248,23 +296,103 @@ module.exports = {
     /* Check Phone Number Registered or Not For Customers
     ============================================= */
     check_Userphone_Exist: (userPhone) => {
-        console.log("dfg",userPhone)
         let signup_status = true;
         return new Promise(async (resolve, reject) => {
-           
             let user = await db.get().collection(collection.USERS_COLLECTION).findOne({ phone: userPhone });
 
             if (user) {
-                
                 resolve({ signup_status: false });
             } else {
-               
                 resolve({ signup_status: true });
             }
-      
         });
     },
 
+    /* Get  User/Customer Details by id 
+    ============================================= */
+    get_UserDetails: (userId) => {
+        return new Promise((resolve, reject) => {
+            db.get()
+                .collection(collection.USERS_COLLECTION)
+                .findOne({ _id: objectId(userId) })
+                .then((user) => {
+                    resolve(user);
+                });
+        });
+    },
 
-    
+    /* Change Password  For Vendors
+    ============================================= */
+    change_Password_Vendor: (vendorData) => {
+        return new Promise(async (resolve, reject) => {
+            let loginStatus = false;
+            let response = {}; //null object created
+            vendorId = vendorData.ven_id;
+            let user = await db
+                .get()
+                .collection(collection.VENDOR_COLLECTION)
+                .findOne({ _id: objectId(vendorId) });
+            if (user) {
+                vendorData.ven_password = await bcrypt.hash(vendorData.new_password, 10);
+                bcrypt.compare(vendorData.old_password, user.ven_password).then((loginStatus) => {
+                    if (loginStatus) {
+                        db.get()
+                            .collection(collection.VENDOR_COLLECTION)
+                            .updateOne(
+                                { _id: objectId(vendorId) },
+                                {
+                                    $set: {
+                                        ven_password: vendorData.ven_password,
+                                    },
+                                }
+                            );
+                        response.resetStatus = true;
+                        resolve(response);
+                    } else {
+                        resolve({ resetStatus: false });
+                    }
+                });
+            } else {
+                resolve({ resetStatus: "Not a user" });
+            }
+        });
+    },
+
+    /* Change Password  For Users
+    ============================================= */
+    change_Password_User: (userData) => {
+        return new Promise(async (resolve, reject) => {
+            let loginStatus = false;
+            let response = {}; //null object created
+            userId = userData.user_id;
+            let user = await db
+                .get()
+                .collection(collection.USERS_COLLECTION)
+                .findOne({ _id: objectId(userId) });
+            if (user) {
+                userData.password = await bcrypt.hash(userData.new_password, 10);
+                console.log();
+                bcrypt.compare(userData.old_password, user.password).then((loginStatus) => {
+                    if (loginStatus) {
+                        db.get()
+                            .collection(collection.USERS_COLLECTION)
+                            .updateOne(
+                                { _id: objectId(userId) },
+                                {
+                                    $set: {
+                                        password: userData.password,
+                                    },
+                                }
+                            );
+                        response.resetStatus = true;
+                        resolve(response);
+                    } else {
+                        resolve({ resetStatus: false });
+                    }
+                });
+            } else {
+                resolve({ resetStatus: "Not a registered user" });
+            }
+        });
+    },
 };

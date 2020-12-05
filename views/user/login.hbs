@@ -28,7 +28,7 @@
 									<div class="col-12 form-group">
 										{{!-- <label for="login-form-username">Email:</label> --}}
 										<input type="text" id="email" name="email" value=""
-											class="form-control not-dark" placeholder="Email" />
+											class="form-control not-dark" placeholder="Email/Mobile" />
 									</div>
 
 									<div class="col-12 form-group">
@@ -38,7 +38,7 @@
 									</div>
 
 									<div class="col-12 form-group mb-0">
-										<button type="submit" class="button button-3d bg-color m-0">Login</button>
+										<button type="submit" class="button bg-color m-0">Login</button>
 										<a href="/signup" class="float-right text-danger">New Customer?Start Here</a>
 									</div>
 								</div>
@@ -55,7 +55,7 @@
 									<div class="col-12 form-group">
 										<input type="tel" name="number" id="number" class="form-control not-dark"
 											placeholder="eg:96895391310" />
-											<div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
+										<div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
 
 									</div>
 									<div class="col-12 form-group">
@@ -69,7 +69,7 @@
 
 							</form>
 
-							
+
 
 						</div>
 					</div>
@@ -94,7 +94,7 @@
 
 				email: {
 					required: true,
-					email: true
+					//email: true
 				},
 
 				password: {
@@ -109,7 +109,7 @@
 
 				email: {
 					required: "Please enter email address",
-					email: "Please enter a valid email address.",
+					//email: "Please enter a valid email address.",
 				},
 				password: {
 					required: "Please enter password ",
@@ -119,56 +119,53 @@
 			},
 
 		});
+
 		$("#login-otp-form").validate({
 			// Specify validation rules
 			rules: {
-
-				number: {					
+				number: {
 					required: true,
-					digits:true
-				
+					digits: true
 				},
-
 			},
 			messages: {
-
 				number: {
 					required: "Please enter a  phone number",
 					digits: "Please enter a valid phone number ",
 				},
-
 			}
-
 		});
 
 
 
+		$('#login-otp-form').submit(function () {
+			var phone = $('#number').val();
+			if (!phone == "") {
+
+				$.ajax({
+					type: 'post',
+					url: '/phone_check',
+					data: 'phone=' + phone,
+					// we set the context to the form so that inside
+					// the success callback 'this' points to the form
+					context: this,
+					success: function (response) {
+						if (response.add_failed == "true") {
+							this.submit();
+						} else {
+							$("#phone_error").html("We Cannot find an Account in this Number!");
+							$('#number').focus();
+						}
+					}
+				});
+			}
+
+			// we cancel the normal submission of the form    
+			return false;
+		});
+
 
 	});
 
-	$("#number").keyup(function () {
-
-		var phone = $('#number').val();
-		if (!phone == "") {
-			$.ajax({
-				type: 'post',
-				url: '/phone_check',
-				data: 'phone=' + phone,
-				success: function (response) {
-					if (response.add_failed == "false") {
-						$("#phone_error").show()
-						$("#phone_error").html("We Cannot find an Account in this Number!");
-						$("#phone_error").val("")						
-						$("number").focus();
-      					return false;
-					}
-					else {
-						$("#phone_error").hide()
-					//	$("#phone_error").html("Phone Number Available!");
-					}
-				}
-			})
-		}
-	});
 
 </script>

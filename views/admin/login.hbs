@@ -1,12 +1,10 @@
-
-
 <!-- Content
 ============================================= -->
 <section id="content">
 	<div class="content-wrap py-0">
 
 		<div class="section p-0 m-0 h-100 position-absolute"
-			style="background: url('../images/common/recipe-single.jpg') center center no-repeat; background-size: cover;">
+			style="background: url('../images/common/recipe-single.jpg') center center no-repeat; background-size: cover;background-attachment: fixed;">
 		</div>
 
 		<div class="section bg-transparent min-vh-100 p-0 m-0">
@@ -23,46 +21,39 @@
 							<form id="login-form" name="login-form" class="mb-0 login" action="/admin/admin_login"
 								method="post">
 								<h3>Login to your Admin Account</h3>
+								
 								{{#if adminLoginError}}
 								<div class="style-msg errormsg">
-									<div class="sb-msg"><i class="icon-remove"></i><strong>Oh sorry!</strong> 
-									{{adminLoginError}}</div>
+									<div class="sb-msg"><i class="icon-remove"></i><strong>Oh sorry!</strong>
+										{{adminLoginError}}</div>
 								</div>
-								
 								{{/if}}
-								
+
 
 								<div class="row">
 									<div class="col-12 form-group">
 										<label for="username">Username:</label>
 										<input type="text" id="username" name="username" value="admin"
-											class="form-control not-dark "  />
-											   <small id="error_username" class="text-danger"></small>
-												
-												
+											class="form-control not-dark " required />
+										<small id="error_username" class="text-danger"></small>
 									</div>
 									<div class="col-12 form-group">
 										<label for="password">Password:</label>
 										<input type="password" id="password" name="password" value="admin"
-											class="form-control not-dark"  />
-											   <small id="error_password" class="text-danger"></small>
+											class="form-control not-dark" />
+										<small id="error_password" class="text-danger"></small>
 									</div>
 
 									<div class="col-12 form-group text-center pt-4">
-
 										<button type="submit" class="button button-3d button-black m-0"
-											id="login-form-submit" name="login-form-submit" value="login" onclick="return validate();">Login</button>
+											id="login-form-submit" name="login-form-submit" value="login">Login</button>
 										{{!-- <a href="#" class="float-right">New Customer? Start Here</a> --}}
 									</div>
 								</div>
 							</form>
-
 							<div class="line line-sm"></div>
-
-
 						</div>
 					</div>
-
 					<div class="text-center dark mt-3"><small>Copyrights &copy; All Rights Reserved by
 							Crossroads</small></div>
 				</div>
@@ -73,19 +64,34 @@
 </section><!-- #content end -->
 
 <script>
-        function validate() {
 
-            var username = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
-            if (username == null || username == "") {
-				document.getElementById("error_username").innerHTML = "Please enter the username.";
+	$(document).ready(function () {
+			
+		// Specify validation rules
+		$("#login-form").validate({
 		
-                return false;
-            }
-            if (password == null || password == "") {
-                document.getElementById("error_password").innerHTML = "Please enter the Password.";
-                return false;
-            }
-              return( true );
-        } 
+			rules: {
+				username: {
+					required: true
+				},
+				password: {
+					required: true
+				},
+			},
+			messages: {
+				username: {
+					required: "Please enter your username",
+				},
+				password: {
+					required: "Please enter your password",
+				},
+			}
+		});
+
+		// we cancel the normal submission of the form    
+		return false;
+	});
+
+
+
 </script>

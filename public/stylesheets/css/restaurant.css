@@ -49,7 +49,7 @@
 .item-thumb .owl-dot:hover span,
 .item-thumb .owl-dot.active span { opacity: .7; }
 
-
+/* 
 .food-menu .item-thumb .owl-dot:nth-of-type(1) span { background-image: url('/images/items/food/thumbs/1.jpg'); }
 .food-menu .item-thumb .owl-dot:nth-of-type(2) span { background-image: url('/images/items/food/thumbs/2.jpg'); }
 .food-menu .item-thumb .owl-dot:nth-of-type(3) span { background-image: url('/images/items/food/thumbs/3.jpg'); }
@@ -58,7 +58,7 @@
 .food-menu .item-thumb .owl-dot:nth-of-type(6) span { background-image: url('/images/items/food/thumbs/6.jpg'); }
 .food-menu .item-thumb .owl-dot:nth-of-type(7) span { background-image: url('/images/items/food/thumbs/7.jpg'); }
 .food-menu .item-thumb .owl-dot:nth-of-type(8) span { background-image: url('/images/items/food/thumbs/8.jpg'); }
-.food-menu .item-thumb .owl-dot:nth-of-type(9) span { background-image: url('/images/items/food/thumbs/9.jpg'); }
+.food-menu .item-thumb .owl-dot:nth-of-type(9) span { background-image: url('/images/items/food/thumbs/9.jpg'); } */
 
 .dessert-menu .item-thumb .owl-dot:nth-of-type(1) span { background-image: url('/images/items/desserts/thumbs/1.jpg'); }
 .dessert-menu .item-thumb .owl-dot:nth-of-type(2) span { background-image: url('/images/items/desserts/thumbs/2.jpg'); }

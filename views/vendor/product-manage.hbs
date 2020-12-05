@@ -89,8 +89,12 @@
           </div>
           
           <div class="form-group">
-            <input type="file" class="form-control" name="product_image" id="product_image" placeholder="Image"
-              required>
+            
+            <img style="width: 50px;height:auto;" id="view_image"
+                  src="" alt="" /><br>
+            <input type="file" class="form-control" name="product_image" id="product_image" placeholder="Image" required>
+               
+               <span id="upload_error" class="text-danger"></span>
           </div>
         </div>
         <div class="modal-footer">
@@ -135,8 +139,8 @@
             <div class="form-group">
               <img style="width: 50px;height: 50px;" id="pdct_image"
                   src="" alt="Snacky Foods" />
-              <input type="file" class="form-control" name="product_image" id="product_image" placeholder="Image"
-                onchange="viewImage(event)">
+              <input type="file" class="form-control" name="product_image" id="product_image_update" placeholder="Image">
+                <span id="upload_error_update" class="text-danger"></span>
             </div>
           </div>
         <div class="modal-footer">
@@ -165,7 +169,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="product_id" class="form-control product_id2" required>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default bg-dark text-white" data-dismiss="modal">Close</button>
           <button type="submit" class="btn bg-color">Delete</button>
         </div>
       </div>
@@ -174,93 +178,144 @@
 </form>
 
 <script>
-  // $(document).ready(function () { 
-
-  //showing data to edit modal     
-  $('#product_table').on('click', '.edit', function () {
- 
-    var product_id      =   $(this).data('id');
-    var product_name    =   $(this).data('product_name');
-    var price           =   $(this).data('product_price');
-    var cat_id          =   $(this).data('product_category');
- 
-    $('#EditModal').modal('show');
-     
-    $('.product_name').val(product_name);
-    $('.price').val(price);
-    $('.category').val(cat_id);   
-    $('.product_id').val(product_id);
-    document.getElementById("pdct_image").src = "../images/product-images/"+product_id+".jpg";
-  });
-  //showing delete record modal
-  $('#product_table').on('click', '.delete', function () {
-
-    var product_id = $(this).data('id');
-
-    $('#DeleteModal').modal('show');
-    $('.product_id2').val(product_id);
-  });
-
-   // });
-</script>
-
-<!-- Datatable for vendor details
-============================================= -->
-<script>
-    $(function () {
-        $('#product_table').DataTable();
-    });
-</script>
-
-<!-- Viewing upload Image
-============================================= -->
-<script>
-    function viewImage(event) {
-        document.getElementById('pdct_image').src = URL.createObjectURL(event.target.files[0])
-    }
-</script>
-
-
-
-<script>
-	$(document).ready(function () {
     
-		$("#product_AddForm").validate({
+   $(document).ready(function () { 
+
+      // Datatable for vendor details
+      $('#product_table').DataTable();
+
+     	
+       // Product add from validation
+       $("#product_AddForm").validate({
 			// Specify validation rules
 			rules: {
 				product_name: "required",
-
 				price: {
 					required: true,
 					digits: true
 				},
 				category: {
 					required: true				
-				},		
+				},	
+        product_image: {
+					required: true
+         				
+				},				
 			
 			},
 			messages: {
 				product_name: {
 					required: "Please enter product name",
 				},
-
 				price: {
 					required: "Please enter product price",
-					digits: "Please enter valid price"
-				
-				},
-			
+					digits: "Please enter valid price"				
+				},			
 				category: {
-					required: "Please select category ",
-				
-				}
-			
+					required: "Please select category ",				
+				},
+         product_image: {
+					required: "Please upload image "
+         			
+				},			
 			},
-
-		});
-   
-	});
+		}); 
 
 
+        // Product edit from validation
+    	$("#product-update-form").validate({
+			// Specify validation rules
+			rules: {
+				product_name: "required",
+				price: {
+					required: true,
+					digits: true
+				},
+				category: {
+					required: true				
+				},	
+       
+			},
+			messages: {
+				product_name: {
+					required: "Please enter product name",
+				},
+				price: {
+					required: "Please enter product price",
+					digits: "Please enter valid price"				
+				},			
+				category: {
+					required: "Please select category ",				
+				},
+       			
+			},
+		});    
 
+      
+      //showing data to edit modal     
+      $('#product_table').on('click', '.edit', function () {
+    
+        var product_id      =   $(this).data('id');
+        var product_name    =   $(this).data('product_name');
+        var price           =   $(this).data('product_price');
+        var cat_id          =   $(this).data('product_category');
+    
+        $('#EditModal').modal('show');
+        
+        $('.product_name').val(product_name);
+        $('.price').val(price);
+        $('.category').val(cat_id);   
+        $('.product_id').val(product_id);
+        document.getElementById("pdct_image").src = "../images/product-images/"+product_id+".jpg";
+      });
+      
+      //showing delete record modal
+      $('#product_table').on('click', '.delete', function () {
+
+        var product_id = $(this).data('id');
+
+        $('#DeleteModal').modal('show');
+        $('.product_id2').val(product_id);
+      });
+      
+    });
+
+    // Checking uploaded image add section
+    $("#product_image").change(function () {
+          
+      var file = this.files[0];
+      var fileType = file["type"];
+      var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+      if ($.inArray(fileType, validImageTypes) < 0) {        
+        $('#upload_error').text("Please Select a Valid Image with extension jpg or jpeg or png");
+        $("#product_image").val(null);  
+         document.getElementById('view_image').src = "#"
+      }
+      else{
+          document.getElementById('view_image').src = URL.createObjectURL(event.target.files[0])
+         $('#upload_error').text("");
+      }
+    });
+    
+    
+    // Checking uploaded image in update section
+    $("#product_image_update").change(function () {
+          
+      var file = this.files[0];
+      var fileType = file["type"];
+      var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+      if ($.inArray(fileType, validImageTypes) < 0) {        
+        $('#upload_error1').text("Please Select a Valid Image with extension jpg or jpeg or png");
+        $("#product_image_update").val(null);  
+          document.getElementById('pdct_image').src = "#"
+        return false;
+      }
+      else{
+         $('#upload_error_update').text("");
+           document.getElementById('pdct_image').src = URL.createObjectURL(event.target.files[0])  
+         return true;
+      }
+    });
+  
 </script>
+
