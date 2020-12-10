@@ -1,0 +1,66 @@
+<section id="content">
+    <div class="content-wrap " style="padding: 20px;">
+        <div class="container clearfix">
+            <div class="card mx-auto rounded-0 border mt-4 shadow ">
+                <div class="card-header">
+                    <h2>Customer Orders</h2>
+
+                </div>
+                <div class="card-body">
+                    <table class="table mt-5" id="order_table">
+                        <thead>
+                            <tr>
+                                {{!-- <th scope="col">Date</th> --}}
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Pincode</th>
+                                <th scope="col">State</th>
+                                {{!-- <th scope="col">Amount</th> --}}
+                                <th scope="col">Payment</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                            <tr>
+                                {{!-- <td>{{this.date}}</td> --}}
+                                <td>{{this.deliveryDetails.billing_address}} </td>
+                                <td>{{this.deliveryDetails.billing_city}} </td>
+                                <td>{{this.deliveryDetails.billing_pincode}} </td>
+                                <td>{{this.deliveryDetails.billing_state}} </td>
+                                {{!-- <td>{{this.totalAmount}}</td> --}}
+                                <td>{{this.paymentMethod}}</td>
+                                <td>{{this.products.order_status}}</td>
+                                <td>
+                                    <a class="btn btn-success" href="/vendor/view_order_products_byvendor/{{this._id}}">View
+                                        Products</a>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+            {{!-- <div class="row mt-4">
+            <a href="/add-product" class="btn btn-success">Add product</a>
+
+        </div> --}}
+
+            <hr>
+
+        </div>
+    </div>
+
+</section>
+
+<script>
+      $(document).ready(function () { 
+
+      // Datatable for vendor details
+      $('#order_table').DataTable();
+      })
+</script>

@@ -23,12 +23,15 @@
 					<!-- Top Cart
 					============================================= -->
 					<div id="top-cart" class="header-misc-icon d-none d-sm-block justify-content-end">
-						<a href="#" id="top-cart-trigger"><i class="icon-line-bag"></i><span
-								class="top-cart-number">5</span></a>
-
+						<a href="/cart" >
+						<i class="icon-cart mr-2" style="font-size: 40px;"></i>
+					
+						{{#if cart_count}}
+						<span class="top-cart-number" id="cart-count">{{cart_count}}</span>
+						
+						{{/if}}
+						</a>					
 					</div><!-- #top-cart end -->
-
-
 				</div>
 
 				<div id="primary-menu-trigger">
@@ -73,37 +76,16 @@
 						<li class="menu-item"><a class="menu-link" href="/contact">
 								<div>Contact</div>
 							</a></li>
-						{{!-- <li class="menu-item">
-							{{#if username}}
-							<a href="/user_logout">
-								<i class="icon-line2-user mr-1 position-relative" style="top: 1px;"></i>
-								<span class="d-none d-sm-inline-block font-primary font-weight-medium">{{username}}xgfdgf hgfhg</span>
-							</a>
-						
-							{{else}}
-							<a href="/user_login">
-								<span class="d-none d-sm-inline-block font-primary font-weight-medium">Login</span>
-							</a>
-							{{/if}}
-						</li> --}}
-						{{!-- <li class="menu-item float-right">
-							{{#if username}}
-							<a data-target="#logoutModal" data-toggle="modal"
-                                            href="#logoutModal"><div>Hi, {{username}}</div></a>
-							
-							{{else}}
-							<a href="/user_login"><div>Login</div></a>
-							{{/if}}
-						
-						</li> --}}
+					
 						{{#if user_details}}
 							
 								<li class="top-links menu-item">
 									<ul class="top-links-container">
-										<li class="top-links-item"><a >Hi, {{user_details.name}}<i class="icon-angle-down"></i></a>
+										<li class="top-links-item"><a >Hi, {{user_details.first_name}}<i class="icon-angle-down"></i></a>
 											<ul class="top-links-sub-menu d-block">
 												
-												<li class="top-links-item"><a href="/profile/{{user_details.user_id}}">Account</a></li>
+												<li class="top-links-item"><a href="/profile/{{user_details._id}}">Account</a></li>
+													<li class="top-links-item"><a href="/orders">Order History</a></li>
 												<li class="top-links-item"><a href="/user_logout">Logout</a></li>
 								
 											</ul>
@@ -131,7 +113,7 @@
 </header><!-- #header end -->
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+{{!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -148,4 +130,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

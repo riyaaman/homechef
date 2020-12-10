@@ -67,7 +67,10 @@ label.error {
 #header.full-header #primary-menu > ul{
 	border:none;
 }
-
+.top-cart-number {    
+    top: -20px;  
+	right: -17px;
+}
 
 @media (min-width: 992px){
 	.dark #header.full-header, #header.full-header.dark {
@@ -79,6 +82,11 @@ label.error {
 	.full-header .primary-menu .menu-container {
 		border:none;
 	}
+	/* .sub-menu-container {
+	
+		border-top-color: var(--themecolor) !important;
+	} */
+	
 }
 
 
@@ -180,3 +188,34 @@ label.error {
 .grid-filter li.activeFilter a:hover {
 	color:white;
 }
+
+
+/*** 
+====================================================================
+    View Products in Order
+==================================================================== 
+***/
+
+.feature-box.media-box.fbox-bg {
+	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
+	-o-transform: scale(1);
+	transform: scale(1);
+	box-shadow: 0 1px 1px 0 rgba(10, 16, 34, .2);
+    -webkit-transition: all 200ms ease;
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+    border-radius: 5px;
+}
+
+.feature-box.media-box.fbox-bg:hover {
+	box-shadow: 0 10px 30px -5px rgba(10, 16, 34, .2);
+	-webkit-transform: scale(1.05);
+	-ms-transform: scale(1.05);
+	-o-transform: scale(1.05);
+	transform: scale(1.05);
+}
+
+.feature-box h3 { font-size: 17px; }
+
+.feature-box h3 span.subtitle { font-size: 14px; }

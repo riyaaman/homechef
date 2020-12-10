@@ -454,12 +454,14 @@
 						<div class="col-sm-4 col-6 products">
 							<div class="card">
 								<div class="card-body">
-									<a href="#" class="portfolio-image">
+									
+									<a href="/get_products_bybaker/{{this.ven_id}}" class="portfolio-image" >
 										<img style="width:300px;height:150px"
 											src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"
 											class="rounded" /></a>
-
-									{{!-- <a href="#" class="cart-btn button button-white button-light"><i class="icon-line-plus"></i>Add to Cart</a> --}}
+											
+									<a href="/get_products_bybaker/{{this.ven_id}}" class="cart-btn button button-white button-light">
+									<i class="icon-shop"></i>View All</a>
 									<div class="d-flex justify-content-between align-items-center mt-4 mb-2">
 										<p class="card-author">By <a href="#">{{this.ven_shop}}</a></p>
 										<div class="product-price"><ins>₹{{this.price}}</ins></div>
@@ -771,7 +773,7 @@
 		opacity: 1;
 	}
 
-	.card-body .portfolio-image::after {
+	/*.card-body .portfolio-image::after {
 		opacity: 0;
 		text-align: center;
 		vertical-align: -50%;
@@ -790,7 +792,7 @@
 		-webkit-transition: opacity .3s ease;
 		-o-transition: opacity .3s ease;
 		transition: opacity .3s ease;
-	}
+	}*/
 
 	.dark-color {
 		background-color: #101010 !important;

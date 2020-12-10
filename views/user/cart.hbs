@@ -1,0 +1,130 @@
+
+<!-- Page Title
+============================================= -->
+<section id="page-title" class="page-title-parallax page-title-center border-bottom "
+	style="background-image: url('/images/sections/6.jpg'); background-size: 100% auto;"
+	data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
+
+	<div class="container clearfix">
+		<span class="font-primary ls1 mb-2 color" style="font-size: 14px;">Cart Items</span>
+		<h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">your Cart</h1>
+	</div>
+
+</section><!-- #page-title end -->
+
+
+<section id="content">
+    <div class="content-wrap">
+        <div class="container">
+            {{#if products}}
+
+            <div class="table-responsive mb-5">
+                <table class="table cart">
+                    <thead>
+                        <tr>
+                            <th class="cart-product-remove">&nbsp;</th>
+                            <th class="cart-product-thumbnail">&nbsp;</th>
+                            <th class="cart-product-name">Product</th>
+                            <th class="cart-product-price">Unit Price</th>
+                            <th class="cart-product-quantity">Quantity</th>
+                            {{!-- <th class="cart-product-subtotal">Total</th> --}}
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr class="cart_item">
+                              
+                            <td class="cart-product-remove">
+                                  
+                                <a href="#"  onclick="removeFromCart('{{this._id}}','{{this.product._id}}')" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
+                            </td>
+
+                            <td class="cart-product-thumbnail">
+                                <a href="#"><img style="width:64px;height:64px"
+                                        src="/images/product-images/{{this.product._id}}.jpg"
+                                        alt="{{this.product.product_name}}" /></a>
+                            </td>
+
+                            <td class="cart-product-name">
+                                <a href="#">{{this.product.product_name}}</a>
+                            </td>
+
+                            <td class="cart-product-price">
+                                <span class="amount" id="price"> ₹ {{this.product.price}} </span>
+                            </td>
+
+                            <td class="cart-product-quantity">
+                                <div class="quantity">
+                                     {{!-- <button type="submit" class="cart-item-count mr-3" id="count-dec" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">-</button> --}}
+                         
+                                    <input type="button" value="-" class="minus" id="count-dec" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',-1)">
+                                     <span class="qty" id="{{this.product._id}}"> {{this.quantity}}</span>
+                                    <input type="button" value="+" class="plus" id="count-inc" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user}}',1)">
+                                </div>
+                            </td>
+                             
+                            {{!-- <td class="cart-product-subtotal">
+                                <span class="amount" id="product-total" >₹ {{this.product_total}}</span>
+                            </td> --}}
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row col-mb-30">
+
+
+                <div class="col-lg-6">
+                    <h4>Cart Totals</h4>
+
+                    <div class="table-responsive">
+                        <table class="table cart">
+                            <tbody>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name">
+                                        <strong>Cart Subtotal</strong>
+                                    </td>
+
+                                    <td class="cart-product-name">
+                                        <span class="amount" id="subtotal">₹ {{this.totalValue}} </span>
+                                    </td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name">
+                                        <strong>Shipping</strong>
+                                    </td>
+
+                                    <td class="cart-product-name">
+                                        <span class="amount">Free Delivery</span>
+                                    </td>
+                                </tr>
+                                <tr class="cart_item">
+                                    <td class="cart-product-name">
+                                        <strong>Total</strong>
+                                    </td>
+
+                                    <td class="cart-product-name">
+                                        <span class="amount color lead" id="total"><strong>{{this.totalValue}} Rs.</strong></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="col-lg-3  p-0 justify-content-end ml-auto" >
+                    <a href="/place_order" class="button button-3d mt-0 float-right">Place Order</a>
+                </div>
+            </div>
+
+            {{else}}
+            <h2>No Products Found</h2>
+            {{/if}}
+        </div>
+    </div>
+
+</section>
+

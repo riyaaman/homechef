@@ -5,6 +5,7 @@ var productHelpers = require("../helpers/product-helpers");
 const session = require("express-session");
 var fs = require("fs");
 const { request } = require("../app");
+const { get_UserOrders_ByvendorId } = require("../helpers/user-helpers");
 
 /* Verify Is Vendor Loggedin
 ============================================= */
@@ -46,15 +47,48 @@ router.post("/vendor_login", (req, res) => {
 });
 
 router.get("/ven_dashboard", verifyVendorLogin, async (req, res) => {
-    //if( req.session.vendorLoggedIn)
     vendor_status = true;
     let product_count = await productHelpers.get_AllproductCount_ByVenId(req.session.vendor._id);
 
     if (product_count.count_status == false) {
         product_count = null;
     }
+    let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
 
-    res.render("vendor/vendor_dashboard", { vendor_status, name: req.session.vendor.ven_name, product_count });
+    res.render("vendor/vendor_dashboard", { vendor_status, details, product_count });
+});
+
+/* settings of vendor
+============================================= */
+router.get("/settings", verifyVendorLogin, (req, res) => {
+    vendor_status = true;
+    vendor_id = req.session.vendor._id;
+    let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    if (req.session.vendor_message) {
+        // vendor.ven_id=vendor_id
+        // vendor.ven_message=req.session.vendor_message
+        res.render("vendor/settings", { vendor_status, vendor_id, vendor_message: req.session.vendor_message, details });
+        req.session.vendor_message = false;
+    } else {
+        res.render("vendor/settings", { vendor_status, vendor_id, details });
+    }
+
+    // }
+});
+
+/* Change Password of a vendor
+============================================= */
+router.post("/change_password", (req, res) => {
+    userHelpers.change_Password_Vendor(req.body).then((response) => {
+        if (response.resetStatus == true) {
+            req.session.vendor_message = "Password Updated Successfully";
+        } else if (response.resetStatus == false) {
+            req.session.vendor_message = "Old Password incorrect";
+        } else {
+            req.session.vendor_message = "User Not Exist";
+        }
+        res.redirect("settings");
+    });
 });
 
 router.get("/logout", (req, res) => {
@@ -63,13 +97,12 @@ router.get("/logout", (req, res) => {
     res.redirect("/vendor");
 });
 
-/*-------------------------------------------------Product Management--------------------------------------------------*/
+/*------------------------------               Product Management                  ------------------*/
 
 /* Add  Product 
 ============================================= */
 
 router.get("/product_add", verifyVendorLogin, (req, res) => {
-    // if (req.session.vendorLoggedIn) vendor_status = true;
     res.render("vendor/product-manage", { vendor_status: true });
 });
 
@@ -94,7 +127,6 @@ router.post("/product_add", (req, res) => {
 /* View Products
 ============================================= */
 router.get("/product_manage", verifyVendorLogin, async (req, res, next) => {
-    //  if (req.session.vendorLoggedIn)
     vendor_status = true;
     let categories = await productHelpers.get_Allcategories();
     let vendor_id = req.session.vendor._id;
@@ -108,8 +140,10 @@ router.get("/product_manage", verifyVendorLogin, async (req, res, next) => {
             });
             req.session.product_message = false;
         } else {
+            let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+
             vendor_status.name = req.session.vendor.ven_name;
-            res.render("vendor/product-manage", { vendor_status, products, categories, name: req.session.vendor.ven_name });
+            res.render("vendor/product-manage", { vendor_status, products, categories, details });
         }
         //res.render("vendor/product-manage", { vendor_status, products,message:req.flash('message') });
     });
@@ -122,14 +156,7 @@ router.post("/product_update", (req, res) => {
     productHelpers.update_Product(req.body, productId).then((response) => {
         if (!req.files) {
             imageFile = "";
-        }
-
-        // else if(req.files){
-        //   console.log("vi");
-        //     var imageFile = typeof(req.files.product_image) !== "undefined" ? req.files.product_image.name : "";
-        // }
-        else {
-            // if (req.files.product_image) {
+        } else {
             let image = req.files.product_image;
             image.mv("./public/images/product-images/" + productId + ".jpg");
         }
@@ -157,36 +184,37 @@ router.post("/product_delete", async (req, res) => {
     });
 });
 
-/* settings of vendor
-============================================= */
-router.get("/settings", verifyVendorLogin, (req, res) => {
-    // if (req.session.vendorLoggedIn) {
-    vendor_status = true;
-    vendor_id = req.session.vendor._id;
-    if (req.session.vendor_message) {
-        // vendor.ven_id=vendor_id
-        // vendor.ven_message=req.session.vendor_message
-        res.render("vendor/settings", { vendor_status, vendor_id, vendor_message: req.session.vendor_message });
-        req.session.vendor_message = false;
-    } else {
-        res.render("vendor/settings", { vendor_status, vendor_id, name: req.session.vendor.ven_name });
-    }
+/*------------------------------               Order Management                  ------------------*/
 
-    // }
+
+
+/* Get customer order details
+============================================= */
+router.get("/customer_orders", verifyVendorLogin, async (req, res) => {
+    let orders = await userHelpers.get_UserOrders_ByvendorId(req.session.vendor._id);
+    let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    res.render("vendor/customer-orders", { vendor_status: true, orders, details });
 });
 
-/* Change Password of a vendor
+
+
+/* View Order Products By Vendor Id
 ============================================= */
-router.post("/change_password", (req, res) => {
-    userHelpers.change_Password_Vendor(req.body).then((response) => {
-        if (response.resetStatus == true) {
-            req.session.vendor_message = "Password Updated Successfully";
-        } else if (response.resetStatus == false) {
-            req.session.vendor_message = "Old Password incorrect";
-        } else {
-            req.session.vendor_message = "User Not Exist";
-        }
-        res.redirect("settings");
+router.get("/view_order_products_byvendor/:id", verifyVendorLogin, async (req, res) => {
+    order_id = req.params.id;
+    let orders = await userHelpers.view_Order_Products_Byvendor(req.session.vendor._id, order_id);
+    let name = req.session.vendor.ven_name;
+    res.render("vendor/ven-view-order-products", { vendor_status: true, orders, name });
+});
+
+
+
+/*Change Order Status By Vendor
+============================================= */
+router.post("/change_orderstatus_byvendor", (req, res) => {
+    req.body.ven_id = req.session.vendor._id;
+    userHelpers.change_Orderstatus_Byvendor(req.body).then(() => {
+        res.json({ status: true });
     });
 });
 

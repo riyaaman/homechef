@@ -12,9 +12,13 @@
                             src="/images/logo-dark.png" alt=" Logo"></a>
                     <a href="index.html" class="retina-logo" data-dark-logo="/images/logo-dark@2x.png"><img
                             src="/images/logo@2x.png" alt=" Logo"></a>
-                </div><!-- #logo end -->
 
+                         
+                </div><!-- #logo end -->
+ 
                 <div class="header-misc">
+                    
+
 
                     <!-- Top Search
 					============================================= -->
@@ -36,11 +40,12 @@
                     <nav class="primary-menu">
 
                         <ul class="menu-container">
-
+                           
 
                             <li class="menu-item sub-menu">
+
                                 <a class="menu-link" href="" style="padding-top: 27px; padding-bottom: 27px;">
-                                    <div><i class="icon-user"></i>Welcome , {{name}}<i class="icon-angle-down"></i></div>
+                                    <div><i class="icon-user"></i>{{details.name}} , {{details.shop_name}} <i class="icon-angle-down"></i></div>
                                 </a>
                                 <ul class="sub-menu-container" style="">
                                     <li class="menu-item" style=""> <a class="menu-link" href="/vendor/settings">
@@ -81,7 +86,7 @@
             <ul>
                 <li><a href="/vendor" class="admin-menu-item"><i class="icon-dashboard"></i>Dashboard</a> </li>
                 <li><a href="/vendor/product_manage"><i class="icon-list1"></i>Products </a> </li>
-                <li><a href="#"><i class="icon-list-ol"></i>Orders </a></li>
+                <li><a href="/vendor/customer_orders"><i class="icon-list-ol"></i>Orders </a></li>
                 <li><a href="#"><i class="icon-history"></i>Order History</a></li>
             </ul>
         </nav>
@@ -102,7 +107,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn button-lightgreen" href="/vendor/logout">Logout</a>
+                <a class="btn bg-color" href="/vendor/logout">Logout</a>
             </div>
         </div>
     </div>

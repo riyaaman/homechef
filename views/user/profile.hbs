@@ -12,11 +12,19 @@
 </section><!-- #page-title end -->
 <div class="container rounded bg-white mt-5 mb-5" id="profile">
     <div class="row">
+       
         {{#if user}}
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                
-                <img class="rounded-circle mt-5" width="150px" src="/images/common/profile.png">
+                <form name="change_form" id="change_form" action="/change_profile_image" method="POST" enctype="multipart/form-data">
+                    <input id="profile_image_upload" class="hidden" type="file" name="profile_image_upload" style="display: none;">
+                    <div id="profile-image" style="cursor: -webkit-grab; cursor: grab;">
+                        <img id="imgView" class="rounded-circle mt-5" width="150px" src="/images/profile-images/{{user._id}}.jpg">                    
+                    </div>
+                    <span id="add_error" class="text-danger"></span>
+                    {{!-- <input type="submit" id="btn" value="ki"> --}}
+                </form>
+                {{!-- <img class="rounded-circle mt-5" width="150px" src="/images/common/profile.png"> --}}
                 <span class="font-weight-bold">{{user.first_name}}</span><span
                     class="text-black-50">{{user.email}}</span>
                 <span class="mt-2">                 
@@ -24,9 +32,10 @@
                 </span>
             </div>
         </div>
-
+    
 
         <div class="col-md-8 card text-dark shadow mb-3">
+              
             <div class="card-header bg-color text-white">Profile Settings</div>
             <div class="p-3 py-5">
               
@@ -82,4 +91,84 @@
 </div>
 </div>
 </div>
+
+
+<script>
+    $('#profile-image').on('click', function() {
+    $('#profile_image_upload').click();
+    
+});
+/* $("input[type=file]").on('change',function(){
+   alert(this.files[0].name);
+  
+  
+     $.ajax({
+        url:'/change_profile_image',
+        method:'post',
+       data: '{data:'name'}',
+        success:(response)=>{
+            if(response.cod_success){
+                location.href='/order_success'
+            }
+        
+        }
+    })*
+    
+});*/
+   // Checking uploaded image add section
+   $("input[type=file]").on('change',function(){
+   // $("#profile_image_upload").change(function () {
+          
+      var file = this.files[0];
+      var fileType = file["type"];
+      var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+      if ($.inArray(fileType, validImageTypes) < 0) {        
+        $('#add_error').text("Please Select a Valid Image with extension jpg or jpeg or png");
+        $("#ven_image").val(null);  
+         document.getElementById('imgView').src = "#"
+      }
+      else{
+          document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+         $('#add_error').text("");
+          $( "#change_form" ).submit();
+        
+      /*   var formData = new FormData();
+        jQuery.each(jQuery('#profile_image_upload')[0].files, function (i, file) {
+            formData.append('file', file);
+        });
+            //alert(file)
+             $.ajax({
+                url:'/change_profile_image',
+                method:'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success:(response)=>{
+                    if(response.cod_success){
+                        location.href='/order_success'
+                    }
+                
+                }
+            })
+        $.ajax({
+                    type: 'POST',
+                    url: //To your route eg: /saveImage,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        if (result.status != 0) {
+                            console.log(result.message)
+                            return;
+                        }
+                        console.log(result.message)
+                    }
+                });*/
+ 
+
+      }
+
+
+    });
+</script>
 
