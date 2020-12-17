@@ -1,91 +1,118 @@
-<!-- Page Title
-============================================= -->
-<section id="page-title" class="page-title-parallax page-title-center border-bottom "
-    style="background-image: url('/images/sections/6.jpg'); background-size: 100% auto;"
-    data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
-
-    <div class="container clearfix">
-        <span class="font-primary ls1 mb-2 color" style="font-size: 14px;">Top Services</span>
-        <h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">Our Bakers</h1>
-    </div>
-
-</section><!-- #page-title end -->
 <div class="container rounded bg-white mt-5 mb-5" id="profile">
     <div class="row">
-       
-        {{#if user}}
+
+
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                <form name="change_form" id="change_form" action="/change_profile_image" method="POST" enctype="multipart/form-data">
-                    <input id="profile_image_upload" class="hidden" type="file" name="profile_image_upload" style="display: none;">
-                    <div id="profile-image" style="cursor: -webkit-grab; cursor: grab;">
-                        <img id="imgView" class="rounded-circle mt-5" width="150px" src="/images/profile-images/{{user._id}}.jpg">                    
+                <form name="change_form" id="change_form" action="/change_profile_image" method="POST"
+                    enctype="multipart/form-data">
+                    <input id="profile_image_upload" class="hidden" type="file" name="profile_image_upload"
+                        style="display: none;">
+                    <div id="profile-image" style="cursor: -webkit-grab; cursor: grab;" data-toggle="tooltip" 
+                    title="Click Here To Upload Image!" data-placement="bottom">
+                        <img id="imgView" class="rounded-circle mt-5" width="150px" 
+                            src="/images/profile-images/{{this.user_details._id}}.jpg">
                     </div>
                     <span id="add_error" class="text-danger"></span>
-                    {{!-- <input type="submit" id="btn" value="ki"> --}}
                 </form>
                 {{!-- <img class="rounded-circle mt-5" width="150px" src="/images/common/profile.png"> --}}
-                <span class="font-weight-bold">{{user.first_name}}</span><span
-                    class="text-black-50">{{user.email}}</span>
-                <span class="mt-2">                 
-                    <a class="text-danger " href="/user_settings/{{user._id}}">Change Password</a>                  
+                <span class="font-weight-bold">{{this.user_details.first_name}}</span><span
+                    class="text-black-50">{{this.user_details.email}}</span>
+                <span class="mt-2">
+                    <a class="text-danger " href="/user_settings/{{this.user_details._id}}">Change Password</a>
                 </span>
             </div>
         </div>
-    
+
 
         <div class="col-md-8 card text-dark shadow mb-3">
-              
+            {{#if user_details.user_message}}
+            <div class="style-msg successmsg">
+                <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong>
+                    Profile Updated Successfully</div>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            </div>
+            {{/if}}
             <div class="card-header bg-color text-white">Profile Settings</div>
+
             <div class="p-3 py-5">
-              
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">First Name</label>
-                        <input type="text" class="form-control" placeholder="first name" value="{{user.first_name}}">
+                <form action="/profile_add" method="POST" name="profile-form">
+
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">First Name</label>
+                            <input type="text" name="first_name" class="form-control" placeholder="first name"
+                                value="{{this.user_details.first_name}}">
+                        </div>
+                        <div class="col-md-6"><label class="labels">Last Name</label>
+                            <input type="text" name="last_name" class="form-control"
+                                value="{{this.user_details.last_name}}" placeholder="surname">
+                        </div>
+
                     </div>
-                    <div class="col-md-6"><label class="labels">Last Name</label>
-                        <input type="text" class="form-control" value="{{user.last_name}}" placeholder="surname">
-                    </div>
-                
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Mobile Number</label>
-                        <input type="text" class="form-control" placeholder="enter phone number" value="{{user.phone}}">
-                    </div>
-                    <div class="col-md-12"><label class="labels">Address Line 1</label>
-                        <input type="text" class="form-control" placeholder="enter address line 1"
-                            value="{{user.address}}"></div>
-                    <div class="col-md-12"><label class="labels">Address Line 2</label>
-                        <input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Postcode</label>
-                        <input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">State</label>
-                        <input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Area</label>
-                        <input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Email ID</label>
-                        <input type="text" class="form-control" placeholder="enter email id" value="{{user.email}}">
+                    <div class="row mt-3">
+                        <div class="col-md-12"><label class="labels">Mobile Number</label>
+                            <input type="text" class="form-control" placeholder="enter phone number" readonly
+                                value="{{this.user_details.phone}}">
+                        </div>
+
+                        {{#if user}}
+                        {{#each user}}
+                        <div class="col-md-12"><label class="labels">Address</label>
+                            <input type="text" name="address" class="form-control" placeholder="enter address "
+                                value="{{this.address}}">
+                        </div>
+                        <div class="col-md-12"><label class="labels">City/Town</label>
+                            <input type="text" name="city" class="form-control" placeholder="enter city/town"
+                                value="{{this.city}}">
+                        </div>
+                        <div class="col-md-12"><label class="labels">Postcode</label>
+                            <input type="text" name="postcode" class="form-control" placeholder="enter postcode"
+                                value="{{this.postcode}}">
+                        </div>
+                        <div class="col-md-12"><label class="labels">State</label>
+                            <input type="text" name="state" class="form-control" placeholder="enter state"
+                                value="{{this.state}}">
+                        </div>
+                        {{/each}}
+                        {{else}}
+                        <div class="col-md-12"><label class="labels">Address</label>
+                            <input type="text" name="address" class="form-control" placeholder="enter address "
+                                value="">
+                        </div>
+                        <div class="col-md-12"><label class="labels">City/Town</label>
+                            <input type="text" name="city" class="form-control" placeholder="enter city/town" value="">
+                        </div>
+                        <div class="col-md-12"><label class="labels">Postcode</label>
+                            <input type="text" name="postcode" class="form-control" placeholder="enter postcode"
+                                value="">
+                        </div>
+                        <div class="col-md-12"><label class="labels">State</label>
+                            <input type="text" name="state" class="form-control" placeholder="enter state" value="">
+                        </div>
+
+                        {{/if }}
+
                     </div>
 
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label>
-                        <input type="text" class="form-control" placeholder="country" value=""></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label>
-                        <input type="text" class="form-control" value="" placeholder="state"></div>
-                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Update
-                        Profile</button></div>
+                    <div class="mt-5 text-center"><button class="btn bg-color profile-button" type="submit">Update
+                            Profile</button>
+                    </div>
+                </form>
             </div>
         </div>
         {{!-- <div class="col-md-4">
             <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+                <div class="d-flex justify-content-between align-items-center experience"><span>Edit
+                        Experience</span><span class="border px-3 p-1 add-experience"><i
+                            class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
+                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text"
+                        class="form-control" placeholder="experience" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text"
+                        class="form-control" placeholder="additional details" value=""></div>
             </div>
         </div> --}}
-        {{/if}}
+
+
 
     </div>
 </div>
@@ -94,81 +121,80 @@
 
 
 <script>
-    $('#profile-image').on('click', function() {
-    $('#profile_image_upload').click();
-    
-});
-/* $("input[type=file]").on('change',function(){
-   alert(this.files[0].name);
-  
-  
-     $.ajax({
-        url:'/change_profile_image',
-        method:'post',
-       data: '{data:'name'}',
-        success:(response)=>{
-            if(response.cod_success){
-                location.href='/order_success'
-            }
-        
-        }
-    })*
-    
-});*/
-   // Checking uploaded image add section
-   $("input[type=file]").on('change',function(){
-   // $("#profile_image_upload").change(function () {
-          
-      var file = this.files[0];
-      var fileType = file["type"];
-      var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
-      if ($.inArray(fileType, validImageTypes) < 0) {        
-        $('#add_error').text("Please Select a Valid Image with extension jpg or jpeg or png");
-        $("#ven_image").val(null);  
-         document.getElementById('imgView').src = "#"
-      }
-      else{
-          document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
-         $('#add_error').text("");
-          $( "#change_form" ).submit();
-        
-      /*   var formData = new FormData();
-        jQuery.each(jQuery('#profile_image_upload')[0].files, function (i, file) {
-            formData.append('file', file);
-        });
-            //alert(file)
-             $.ajax({
-                url:'/change_profile_image',
-                method:'post',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success:(response)=>{
-                    if(response.cod_success){
-                        location.href='/order_success'
-                    }
-                
-                }
-            })
-        $.ajax({
-                    type: 'POST',
-                    url: //To your route eg: /saveImage,
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (result) {
-                        if (result.status != 0) {
-                            console.log(result.message)
-                            return;
-                        }
-                        console.log(result.message)
-                    }
-                });*/
- 
+    $('#profile-image').on('click', function () {
+        $('#profile_image_upload').click();
 
-      }
+    });
+    /* $("input[type=file]").on('change',function(){
+       alert(this.files[0].name);
+      
+      
+         $.ajax({
+            url:'/change_profile_image',
+            method:'post',
+           data: '{data:'name'}',
+            success:(response)=>{
+                if(response.cod_success){
+                    location.href='/order_success'
+                }
+            
+            }
+        })*
+        
+    });*/
+    // Checking uploaded image add section
+    $("input[type=file]").on('change', function () {
+        // $("#profile_image_upload").change(function () {
+
+        var file = this.files[0];
+        var fileType = file["type"];
+        var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+        if ($.inArray(fileType, validImageTypes) < 0) {
+            $('#add_error').text("Please Select a Valid Image with extension jpg or jpeg or png");
+            $("#ven_image").val(null);
+            document.getElementById('imgView').src = "#"
+        }
+        else {
+            document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+            $('#add_error').text("");
+            $("#change_form").submit();
+
+            /*   var formData = new FormData();
+              jQuery.each(jQuery('#profile_image_upload')[0].files, function (i, file) {
+                  formData.append('file', file);
+              });
+                  //alert(file)
+                   $.ajax({
+                      url:'/change_profile_image',
+                      method:'post',
+                      data: formData,
+                      contentType: false,
+                      processData: false,
+                      success:(response)=>{
+                          if(response.cod_success){
+                              location.href='/order_success'
+                          }
+                      
+                      }
+                  })
+              $.ajax({
+                          type: 'POST',
+                          url: //To your route eg: /saveImage,
+                          data: formData,
+                          contentType: false,
+                          processData: false,
+                          success: function (result) {
+                              if (result.status != 0) {
+                                  console.log(result.message)
+                                  return;
+                              }
+                              console.log(result.message)
+                          }
+                      });*/
+
+
+        }
 
 
     });
 </script>
-

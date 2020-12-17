@@ -1,21 +1,23 @@
-
-
 <style>
-.chart-samples ul { list-style: none; }
+	.chart-samples ul {
+		list-style: none;
+	}
 
-.chart-samples h4 {
-	text-transform: uppercase;
-	margin-bottom: 20px;
-	font-weight: 400;
-}
+	.chart-samples h4 {
+		text-transform: uppercase;
+		margin-bottom: 20px;
+		font-weight: 400;
+	}
 
-.chart-samples li {
-	font-size: 16px;
-	line-height: 2.2;
-	font-weight: 600;
-}
+	.chart-samples li {
+		font-size: 16px;
+		line-height: 2.2;
+		font-weight: 600;
+	}
 
-.chart-samples li a:not(:hover) { color: #AAA; }
+	.chart-samples li a:not(:hover) {
+		color: #AAA;
+	}
 </style>
 
 <!-- Content
@@ -28,93 +30,94 @@
 		============================================= -->
 
 		<div class="container clearfix">
-		
+
 			<div class="row">
-			<div class="col-xl-3 col-sm-6 mb-3">
-				<div class="card text-white bg-primary o-hidden h-100">
-				<div class="card-body">
-					<div class="card-body-icon">
-					<i class="fas fa-fw fa-comments"></i>
+				<div class="col-xl-3 col-sm-6 mb-3">
+					<div class="card text-white bg-primary o-hidden h-100">
+						<div class="card-body">
+							<div class="card-body-icon">
+								<i class="fas fa-fw fa-comments"></i>
+							</div>
+							{{#if product_count}}
+							<div class="mr-5">{{product_count}} Total Products!</div>
+							{{else}}
+							<div class="mr-5">No Products!</div>
+							{{/if}}
+						</div>
+						<a class="card-footer text-white clearfix small z-1" href="/vendor/product_manage">
+							<span class="float-left">View Details</span>
+							<span class="float-right">
+								<i class="fas fa-angle-right"></i>
+							</span>
+						</a>
 					</div>
-					{{#if product_count}}
-					<div class="mr-5">{{product_count}} Total Products!</div>
-					{{else}}
-					<div class="mr-5">No Products!</div>
-					{{/if}}
 				</div>
-				<a class="card-footer text-white clearfix small z-1" href="/vendor/product_manage">
-					<span class="float-left">View Details</span>
-					<span class="float-right">
-					<i class="fas fa-angle-right"></i>
-					</span>
-				</a>
-				</div>
-			</div>
-			<div class="col-xl-3 col-sm-6 mb-3">
-				<div class="card text-white bg-warning o-hidden h-100">
-				<div class="card-body">
-					<div class="card-body-icon">
-					<i class="fas fa-fw fa-list"></i>
+				<div class="col-xl-3 col-sm-6 mb-3">
+					<div class="card text-white bg-warning o-hidden h-100">
+						<div class="card-body">
+							<div class="card-body-icon">
+								<i class="fas fa-fw fa-list"></i>
+							</div>
+							<div class="mr-5">4 Item Sold!</div>
+						</div>
+						<a class="card-footer text-white clearfix small z-1" href="#">
+							<span class="float-left">View Details</span>
+							<span class="float-right">
+								<i class="fas fa-angle-right"></i>
+							</span>
+						</a>
 					</div>
-					<div class="mr-5">4 Item Sold!</div>
 				</div>
-				<a class="card-footer text-white clearfix small z-1" href="#">
-					<span class="float-left">View Details</span>
-					<span class="float-right">
-					<i class="fas fa-angle-right"></i>
-					</span>
-				</a>
-				</div>
-			</div>
-			<div class="col-xl-3 col-sm-6 mb-3">
-				<div class="card text-white bg-success o-hidden h-100">
-				<div class="card-body">
-					<div class="card-body-icon">
-					<i class="fas fa-fw fa-shopping-cart"></i>
+				<div class="col-xl-3 col-sm-6 mb-3">
+					<div class="card text-white bg-success o-hidden h-100">
+						<div class="card-body">
+							<div class="card-body-icon">
+								<i class="fas fa-fw fa-shopping-cart"></i>
+							</div>
+							<div class="mr-5">400 Total Amount!</div>
+						</div>
+						<a class="card-footer text-white clearfix small z-1" href="#">
+							<span class="float-left">View Details</span>
+							<span class="float-right">
+								<i class="fas fa-angle-right"></i>
+							</span>
+						</a>
 					</div>
-					<div class="mr-5">400 Total Amount!</div>
 				</div>
-				<a class="card-footer text-white clearfix small z-1" href="#">
-					<span class="float-left">View Details</span>
-					<span class="float-right">
-					<i class="fas fa-angle-right"></i>
-					</span>
-				</a>
-				</div>
-			</div>
-			<div class="col-xl-3 col-sm-6 mb-3">
-				<div class="card text-white bg-danger o-hidden h-100">
-				<div class="card-body">
-					<div class="card-body-icon">
-					<i class="fas fa-fw fa-life-ring"></i>
+				<div class="col-xl-3 col-sm-6 mb-3">
+					<div class="card text-white bg-danger o-hidden h-100">
+						<div class="card-body">
+							<div class="card-body-icon">
+								<i class="fas fa-fw fa-life-ring"></i>
+							</div>
+							<div class="mr-5">6 Sales Amount!</div>
+						</div>
+						<a class="card-footer text-white clearfix small z-1" href="#">
+							<span class="float-left">View Details</span>
+							<span class="float-right">
+								<i class="fas fa-angle-right"></i>
+							</span>
+						</a>
 					</div>
-					<div class="mr-5">6 Sales Amount!</div>
 				</div>
-				<a class="card-footer text-white clearfix small z-1" href="#">
-					<span class="float-left">View Details</span>
-					<span class="float-right">
-					<i class="fas fa-angle-right"></i>
-					</span>
-				</a>
-				</div>
-			</div>
 			</div>
 
 		</div>
 
 		<!-- Charts Area
 		============================================= -->
-		<div class="container section">		
-			<div class="row clearfix">			
-				
-				
+		<div class="container section">
+			<div class="row clearfix">
+
+
 				<div class="col-lg-6">
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-chart-pie"></i>
-							Sales Report</div>
+							Sales Report
+						</div>
 						<div class="card-body">
-							<canvas id="myPieChart" width="100%" height="100"></canvas>
+							<canvas id="chart_month" width="100%" height="100"></canvas>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 					</div>
@@ -123,27 +126,180 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-chart-pie"></i>
-							Total Sales In This Month</div>
+							Total Sales In This Month
+						</div>
 						<div class="card-body">
-							<canvas id="chart-0" width="100%" height="100"></canvas>
+						
+							<canvas id="chart-1" width="100%" height="100"></canvas>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 					</div>
 				</div>
+				{{!-- <div class="col-lg-6 ">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fas fa-chart-pie"></i>
+							Total Sales In This Month
+						</div>
+						<div class="card-body">
+						
+							<canvas id="chart-2" width="100%" height="100"></canvas>
+						</div>
+						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+					</div>
+				</div> --}}
 			</div>
-			
-
-					{{!-- <div class="toolbar center">
-						<button class="btn btn-secondary btn-sm" id="randomizeData">Randomize Data</button>
-						<button class="btn btn-secondary btn-sm" id="addDataset">Add Dataset</button>
-						<button class="btn btn-secondary btn-sm" id="removeDataset">Remove Dataset</button>
-						<button class="btn btn-secondary btn-sm" id="addData">Add Data</button>
-						<button class="btn btn-secondary btn-sm" id="removeData">Remove Data</button>
-					</div> --}}
-					<!-- Charts Area End -->
-
 		</div>
 	</div>
-</section> 
+</section>
 <!-- #content end -->
- 
+
+<script>
+
+	$(document).ready(function () {
+
+		$.ajax({
+			url: "/vendor/sales_report_chart",
+			method: "GET",
+			success: function (data) {
+
+				var data = data
+				var product = [];
+				var count = [];
+
+				for (var i in data) {
+					product.push(data[i].product_name);
+					//count.push(data[i].count);
+					count.push(data[i].totalAmount);
+				}
+				function getRandomColor() {
+					var letters = '0123456789ABCDEF';
+					var color = '#';
+					for (var i = 0; i < 6; i++) {
+						color += letters[Math.floor(Math.random() * 16)];
+					}
+					return color;
+				}
+				var config = {
+					type: 'doughnut',
+					data: {
+						datasets: [{
+							data: count,
+							backgroundColor: [
+								window.chartColors.red,
+								window.chartColors.orange,
+								window.chartColors.green,
+								window.chartColors.yellow,							
+								window.chartColors.blue,
+							],
+							label: 'Dataset 1'
+						}],
+						labels: product
+
+
+					},
+					options: {
+						responsive: true,
+						legend: {
+							position: 'top',
+						},
+						title: {
+							display: true,
+							text: 'Sales Chart'
+						},
+						animation: {
+							animateScale: true,
+							animateRotate: true
+						}
+					}
+				};
+
+
+				var ctx = document.getElementById("chart-1").getContext("2d");
+				window.myDoughnut = new Chart(ctx, config);
+
+
+			},
+			error: function (data) {
+				console.log(data);
+			}
+		});
+	});
+</script>
+
+
+
+
+
+<script>
+
+	$(document).ready(function () {
+
+		$.ajax({
+			url: "/vendor/sales_report_chart",
+			method: "GET",
+			success: function (data) {
+
+				var data = data
+				var product = [];
+				var count = [];
+
+				for (var i in data) {
+					product.push(data[i].product_name);
+					//count.push(data[i].count);
+					count.push(data[i].totalAmount);
+				}
+				function getRandomColor() {
+					var letters = '0123456789ABCDEF';
+					var color = '#';
+					for (var i = 0; i < 6; i++) {
+						color += letters[Math.floor(Math.random() * 16)];
+					}
+					return color;
+				}
+				var config = {
+					type: 'pie',
+					data: {
+						datasets: [{
+							data: count,
+							backgroundColor: [
+								window.chartColors.red,
+								window.chartColors.lime,
+								window.chartColors.Olive,
+								window.chartColors.Teal,							
+								window.chartColors.blue,
+							],
+							label: 'Dataset 1'
+						}],
+						labels: product
+
+
+					},
+					options: {
+						responsive: true,
+						legend: {
+							position: 'top',
+						},
+						title: {
+							display: true,
+							text: 'Sales Chart'
+						},
+						animation: {
+							animateScale: true,
+							animateRotate: true
+						}
+					}
+				};
+
+
+				var ctx = document.getElementById("chart_month").getContext("2d");
+				window.myDoughnut = new Chart(ctx, config);
+
+
+			},
+			error: function (data) {
+				console.log(data);
+			}
+		});
+	});
+</script>

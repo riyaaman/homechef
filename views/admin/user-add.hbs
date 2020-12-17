@@ -1,0 +1,307 @@
+<!-- Content
+============================================= -->
+<section id="content">
+    <div class="content-wrap">
+        <div class="container">
+            <div class="card mb-0 shadow">
+                <div class="card-header py-3 ">
+                    <h3 class="m-0 font-weight-bold text-theme ">Add User Details</h3>
+                </div>
+                <div class="card-body" style="padding: 40px;">
+
+                    {{#if admin_message}}
+                    <div class="style-msg successmsg" id="success">
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{admin_message}}
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+
+                    {{/if}}
+
+                    <form id="register-form" name="register-form" class="row mb-0" action="/admin/user_add"
+                        method="post" enctype="multipart/form-data">
+
+                        <div class="col-12 form-group">
+                            <label for="first_name">First Name:</label>
+                            <input type="text" id="first_name" name="first_name" value="{{user.first_name}}"
+                                class="form-control" required>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="last_name">Last Name:</label>
+                            <input type="text" id="last_name" name="last_name" value="{{user.last_name}}"
+                                class="form-control" required>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="email" value="" onblur="checkEmail()"
+                                class="form-control not-dark" placeholder="" required />
+                            <div id="email_error" class="text-danger" style="font-size: 14px;"></div>
+
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="text">Mobile:</label>
+                            <input type="text" id="phone" name="phone" value="" class="form-control not-dark"
+                                placeholder="" required />
+                            <div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
+
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" value="" autocomplete="off"
+                                class="form-control not-dark" placeholder="" required
+                                onKeyUp="checkPasswordStrength();" />
+
+                            <div id="password-strength-status" style="color: #bd910e; font-size: 14px;">
+                            </div>
+
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="password_confirm">Confirm Password:</label>
+                            <input type="password" id="password_confirm" placeholder="" name="password_confirm" value=""
+                                class="form-control not-dark" />
+                        </div>
+                         <div class="col-12 form-group mt-2">
+                        <button type="submit" class="button button-3d bg-color  m-0" id="ven-submit" name="ven-submit"
+                        value="register">Add user</button>
+                     </form>
+                </div>
+                      
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+{{!-- validation --}}
+
+
+<script>
+    $(document).ready(function () {
+
+        //form validation
+        $("#register-form").validate({
+            // Specify validation rules
+            rules: {
+                email: {
+                    email: true
+                },
+                phone: {
+                    digits: true,
+                    //minlength: 10,
+                    //maxlength: 10,
+                },
+                password: {
+                    minlength: 6,
+                    required: true,
+                },
+                password_confirm: {
+                    equalTo: "#password"
+                }
+            },
+            messages: {
+                first_name: {
+                    required: "",
+                },
+                last_name: {
+                    required: "",
+                },
+
+                phone: {
+                    required: "",
+                    digits: "Please enter valid phone number",
+                    //minlength: "Phone number field accept only 10 digits",
+                    //maxlength: "Phone number field accept only 10 digits",
+                },
+                email: {
+                    required: "",
+                    email: "Please enter a valid email address.",
+                },
+                password: {
+                    required: "",
+                    minlength: "Minimum langth should be 6 characters",
+
+                },
+                password_confirm: {
+                    equalTo: "Passwords Doesn't Match",
+
+                },
+            },
+
+        });
+
+    });
+
+    //check passwordstrength
+    function checkPasswordStrength() {
+        var number = /([0-9])/;
+        var alphabets = /([a-zA-Z])/;
+        var special_characters = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
+        if ($('#password').val().length < 6) {
+            $('#password-strength-status').removeClass();
+            $('#password-strength-status').addClass('weak-password');
+            $('#password-strength-status').html("Weak (should be atleast 6 characters.)");
+        } else {
+            if ($('#password').val().match(number) && $('#password').val().match(alphabets) && $('#password').val().match(special_characters)) {
+                $('#password-strength-status').removeClass();
+                $('#password-strength-status').addClass('strong-password');
+                $('#password-strength-status').html("Strong");
+            } else {
+                $('#password-strength-status').removeClass();
+                $('#password-strength-status').addClass('medium-password');
+                $('#password-strength-status').html("Medium (should include alphabets, numbers and special characters.)");
+            }
+        }
+    }
+
+
+
+    //checking is email exist or not
+    function checkEmail() {
+        //$("#email").change(function () {
+
+        var email = $('#email').val();
+
+        if (!email == "") {
+
+            $.ajax({
+                type: 'post',
+                url: '/useremail_check',
+                data: 'email=' + email,
+                success: function (response) {
+
+                    if (response.add_failed == "true") {
+                        $("#email_error").show();
+                        $("#email_error").html("Email Already Registered!");
+                        $("#email").val("")
+                        return false
+                    }
+                    else {
+
+                        $("#email_error").hide();
+                        return true
+                    }
+                }
+            })
+        }
+
+    }
+
+
+
+    //checking phone number exist or not
+    $("#phone").keyup(function () {
+
+        var phone = $('#phone').val();
+        if (!phone == "") {
+            $.ajax({
+                type: 'post',
+                url: '/phone_check',
+                data: 'phone=' + phone,
+                success: function (response) {
+                    if (response.add_failed == "true") {
+                        $("#phone_error").show()
+                        $("#phone_error").html("Phone Number Already Registered!");
+                        $("#phone").val("")
+                        $("phone").focus();
+                        return false;
+                    }
+                    else {
+                        $("#phone_error").hide()                     
+                    }
+                }
+            })
+        }
+    });
+
+</script>
+
+
+
+
+{{!-- Cropping image --}}
+<script>
+    var $modal = $('#modal');
+    var canvas = $("#canvas"),
+        context = canvas.get(0).getContext("2d"),
+        $result = $('#result');
+
+    $('#ven_image').on('change', function () {
+
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+
+        $modal.modal('show');
+        if (this.files && this.files[0]) {
+            if (this.files[0].type.match(/^image\//)) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    var img = new Image();
+                    img.onload = function () {
+                        context.canvas.height = img.height;
+                        context.canvas.width = img.width;
+                        context.drawImage(img, 0, 0);
+                        var cropper = canvas.cropper({
+                            aspectRatio: 16 / 9
+                        });
+                        $('#btnCrop').click(function () {
+                            $result.empty();
+                            // Get a string base 64 data url
+                            var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
+                            //alert(croppedImageDataURL)
+                            $result.append($('<img>').attr('src', croppedImageDataURL));
+
+                            $("#img_url").val(croppedImageDataURL);
+                            document.getElementById('imgView').src = croppedImageDataURL
+                        });
+                        $('#btnRestore').click(function () {
+                            canvas.cropper('reset');
+                            $result.empty();
+                            $('#img_url').val('0');
+                            document.getElementById('imgView').src = evt.target.result;
+                        });
+                    };
+                    img.src = evt.target.result;
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+            else {
+                alert("Invalid file type! Please select an image file.");
+            }
+        }
+        else {
+            alert('No file(s) selected.');
+        }
+    });
+</script>
+
+
+
+
+<style>
+    /* Limit image width to avoid overflow the container */
+    img {
+        max-width: 100%;
+        /* This rule is very important, please do not ignore this! */
+        display: block;
+    }
+
+    #canvas {
+        height: 500px;
+        width: 500px;
+        background-color: #ffffff;
+        cursor: default;
+        border: 1px solid black;
+    }
+
+    /* #result img{
+        overflow: hidden;
+        width: 200px;
+        height: 200px;
+        margin: 10px;
+        border: 1px solid red;
+    }*/
+
+    .modal-lg {
+        max-width: 1000px !important;
+    }
+</style>

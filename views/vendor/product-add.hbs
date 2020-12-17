@@ -1,0 +1,263 @@
+<!-- Content
+============================================= -->
+<section id="content">
+    <div class="content-wrap">
+        <div class="container">
+            <div class="card mb-0 shadow">
+                <div class="card-header py-3 ">
+                    <h3 class="m-0 font-weight-bold text-theme color ">Add Product Details</h3>
+                </div>
+                <div class="card-body" style="padding: 40px;">
+
+                    {{#if vendor_message}}
+                    <div class="style-msg successmsg" id="success">
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{vendor_message}}
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+
+                    {{/if}}
+
+                    <form action="/vendor/product_add" id="product_AddForm" method="post" enctype="multipart/form-data">
+
+                        <div class="col-12 form-group">
+                            <label for="product_name">Product Name:</label>
+                            <input type="text" name="product_name" class="form-control" placeholder="Product Name"
+                                required>
+
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="ven_shop_name">Price:</label>
+                            <input type="text" name="price" class="form-control" placeholder="Product Price" required>
+
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="ven_phone">Category:</label>
+                            <select id="category" name="category" class="form-control" placeholder="Product category"
+                                required>
+                                {{!-- <option value="0">--Please Select Category --</option> --}}
+                                {{#each categories}}
+                                <option value="{{this._id}}">{{this.cat_name}}</option>
+                                {{/each}}
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-12 form-group">
+                            <label for="product_image">Image</label>
+                            <img id="imgView" class="pt-3" src="" alt="" style="width:100px;height:auto" /><br>
+                            <input type="file" class="form-control" name="product_image" id="product_image"
+                                accept="image/*" placeholder="Image" required>
+                            <br>
+
+                            <span id="upload_error" class="text-danger"></span>
+                            <input type="hidden" name="img_url" id="img_url" value="" />
+                        </div>
+
+                        <div class="col-12 form-group mt-2">
+                            <button type="submit" class="button button-3d bg-color  m-0">Save</button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+{{!-- Model for crop image --}}
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Crop Image
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <canvas id="canvas">
+                                Your browser does not support the HTML5 canvas element.
+                            </canvas>
+                            {{!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749"> --}}
+                        </div>
+                        <div class="col-md-4">
+                            <div id="result" class="align-center">
+                                <img src="" alt="" id="viewImage" name="viewImage">
+                            </div>
+                            {{!-- <div class="preview"></div> --}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-success" data-dismiss="modal">Upload</button>
+                <input type="button" id="btnCrop" value="Crop" />
+                <input type="button" id="btnRestore" value="Restore" />
+                {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="crop">Crop</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{{!--  validation --}}
+<script>
+
+
+
+    $(document).ready(function () {
+
+
+        // Product add from validation
+        $("#product_AddForm").validate({
+            // Specify validation rules
+            rules: {
+                product_name: "required",
+                price: {
+                    required: true,
+                    digits: true
+                },
+                category: {
+                    required: true
+                },
+                product_image: {
+                    required: true
+
+                },
+
+            },
+            messages: {
+                product_name: {
+                    required: "Please enter product name",
+                },
+                price: {
+                    required: "Please enter product price",
+                    digits: "Please enter valid price"
+                },
+                category: {
+                    required: "Please select category ",
+                },
+                product_image: {
+                    required: "Please upload image "
+
+                },
+            },
+        });
+
+
+
+    });
+
+
+</script>
+
+
+
+
+
+{{!-- Cropping image --}}
+<script>
+    var $modal      =   $('#modal');
+    var canvas      =   $("#canvas"),
+        context     =   canvas.get(0).getContext("2d"),
+        $result     =   $('#result');
+
+    $('#product_image').on('change', function () {
+        
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+
+        $modal.modal('show');
+
+        if (this.files && this.files[0]) {
+            if (this.files[0].type.match(/^image\//)) {
+                var reader = new FileReader();
+                reader.onload = function (evt) {
+                    var img = new Image();
+                    img.onload = function () {
+                        context.canvas.height = img.height;
+                        context.canvas.width = img.width;
+                        context.drawImage(img, 0, 0);
+                        var cropper = canvas.cropper({
+                            aspectRatio: 16 / 9
+                        });
+                        $('#btnCrop').click(function () {
+                            $result.empty();
+                            // Get a string base 64 data url
+                            var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
+                            //alert(croppedImageDataURL)
+                            $result.append($('<img>').attr('src', croppedImageDataURL));
+
+                            $("#img_url").val(croppedImageDataURL);
+                            document.getElementById('imgView').src = croppedImageDataURL
+                        });
+                        $('#btnRestore').click(function () {
+                            canvas.cropper('reset');
+                            $result.empty();
+                            $('#img_url').val('0');
+                            document.getElementById('imgView').src = evt.target.result;
+                        });
+                    };
+                    img.src = evt.target.result;
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+            else {
+                alert("Invalid file type! Please select an image file.");
+            }
+        }
+        else {
+            alert('No file(s) selected.');
+        }
+    });
+
+  $(document).on('hide.bs.modal','#modal', function () {
+      
+ //Do stuff here
+});
+</script>
+
+
+
+
+<style>
+    /* Limit image width to avoid overflow the container */
+    img {
+        max-width: 100%;
+        /* This rule is very important, please do not ignore this! */
+        display: block;
+    }
+
+    #canvas {
+        height: 500px;
+        width: 500px;
+        background-color: #ffffff;
+        cursor: default;
+        border: 1px solid black;
+    }
+
+    /* #result img{
+        overflow: hidden;
+        width: 200px;
+        height: 200px;
+        margin: 10px;
+        border: 1px solid red;
+    }*/
+
+    .modal-lg {
+        max-width: 1000px !important;
+    }
+</style>

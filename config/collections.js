@@ -6,5 +6,6 @@ module.exports  = {
     ORDER_COLLECTION    :   'order',
     CATEGORY_COLLECTION :   'category',
     USERS_COLLECTION    :   'users',
+    USERDETAILS_COLLECTION     :   'userdetails',
 
 }

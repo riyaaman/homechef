@@ -1,6 +1,6 @@
 <!-- Page Title
 		============================================= -->
-<section id="page-title" class="page-title-parallax page-title-dark page-title-center "
+{{!-- <section id="page-title" class="page-title-parallax page-title-dark page-title-center "
     style="background-image: url('/images/sections/food-menu.jpg'); background-size: cover; padding: 80px 0 120px;"
     data-bottom-top="background-position:0 0px;" data-top-bottom="background-position:0px -300px;">
 
@@ -9,7 +9,7 @@
         <span class="font-weight-normal">Choose Items from Our Menu</span>
     </div>
 
-</section>
+</section> --}}
 <!-- #page-title end -->
 
 
@@ -26,7 +26,8 @@
                     <div class="style-msg successmsg" style="display: none;">
                         <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> You
                             Successfully Added Product To Cart</div>
-                        {{!-- <a href="#" class="button button-mini button-border button-rounded m-1"><span>View Cart</span></a> --}}
+                        {{!-- <a href="#" class="button button-mini button-border button-rounded m-1"><span>View
+                                Cart</span></a> --}}
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
 
@@ -40,11 +41,15 @@
                                 <!-- Portfolio Filter
 								============================================= -->
                                 <ul class="grid-filter" data-container="#shop">
-
+                                    {{#if products}}
                                     <li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
                                     {{#each categories}}
                                     <li><a href="#" data-filter=".{{this.cat_name}}">{{this.cat_name}}</a></li>
                                     {{/each}}
+
+                                    {{else}}
+                                    <h2 class="color">No Products Found</h2>
+                                    {{/if}}
                                 </ul><!-- .grid-filter end -->
                             </div>
 
@@ -57,110 +62,110 @@
 			        
                     ============================================= -->
                     <div id="shop" class="shop row grid-container gutter-30" data-layout="fitRows">
+                        {{!-- <div id="portfolio" class="portfolio row grid-container gutter-30" data-layout="fitRows">
+                            --}}
 
-                        {{#each products}}
-                       <input type="hidden" id="vendorId" name="vendorId" value="{{this.ven_id}}">
-                        <div class="product  col-md-4 col-sm-6 col-12 {{this.cat_name}}">
-                            {{!-- <div class="product col-lg-3 col-md-4 col-sm-6 col-12 {{this.cat_name}}"> --}}
-                            <div class="grid-inner  p-1 shadow">
-                                <div class="product-image">
-                                    <a href="#" class="">
-                                        <img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"
-                                            alt="1" class="rounded" style="width:400px;height:180px" />
-                                    </a>
-
-
-                                </div>
-                                <div class="product-desc">
-                                    <div class="product-title">
-                                        <h5 class="mb-1 text-center"><a href="#"
-                                                class="text-dark ">{{this.product_name}}</a></h5>
-                                    </div>
-                                    <div class="product-price text-center"><del></del> <ins>₹{{ this.price}} </ins>
-                                    </div>
-                                    <div class="row ml-0">
-                                        <button class="button text-white button-mini  button-rounded m-1 bg-color"
-                                            onclick="addToCart('{{this._id}}')">Add To Cart</button>
-                                        {{!-- <a href="/add_to_cart/{{this._id}}"
-                                            class="button text-white button-mini  button-rounded m-1 bg-color"><span><i
-                                                    class="icon-cart"></i>Add To Cart</span></a> --}}
-                                        <a href="#"
-                                            class="button button-mini button-border button-rounded m-1"><span>Buy
-                                                Now</span></a>
+                            {{#each products}}
+                            <input type="hidden" id="vendorId" name="vendorId" value="{{this.ven_id}}">
+                            <div class="product  col-md-4 col-sm-6 col-12 {{this.cat_name}}">
+                                <div class="grid-inner  p-1 shadow">
+                                    <div class="product-image">
+                                        <a class="">
+                                            <img src="../images/product-images/{{this._id}}.jpg"
+                                                alt="{{this.product_name}}" alt="1" class="rounded"
+                                                style="width:400px; height:200px" />
+                                        </a>
                                     </div>
 
+                                    <div class="product-desc">
+                                        <div class="product-title">
+                                            <h5 class="mb-1 text-center"><a class="text-dark ">{{this.product_name}}</a>
+                                            </h5>
+                                        </div>
+                                        <div class="product-price text-center"><del></del> <ins>₹{{ this.price}} </ins>
+                                        </div>
+                                        <div class="row ml-0">
+                                            <button class="button text-white button-mini  button-rounded m-1 bg-color"
+                                                onclick="addToCart('{{this._id}}')">Add To Cart</button>
+
+                                            <a href="/buynow"
+                                                class="button button-mini button-border button-rounded m-1"><span>Buy
+                                                    Now</span></a>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {{/each}}
+
+                      
+                            {{/each}}
 
 
 
-                    </div><!-- #shop end -->
+                        </div><!-- #shop end -->
 
-                </div><!-- .postcontent end -->
+                    </div><!-- .postcontent end -->
 
-                <!-- Sidebar
-						============================================= -->
-                <div class="sidebar col-lg-3">
-                    <div class="sidebar-widgets-wrap">
+                    <!-- Sidebar
+				============================================= -->
+                    <div class="sidebar col-lg-3">
+                        <div class="sidebar-widgets-wrap">
 
-                        <div class="widget widget_links clearfix">
+                            <div class="widget widget_links clearfix">
 
-                            {{!-- <h4>Shop Categories</h4> --}}
-                            <a href="/get_bakers">
-                                <img src="../images/vendor-images/{{vendor_id}}.jpg" alt="" /></a>
+                                {{!-- <h4>Shop Categories</h4> --}}
+                                <a href="/get_bakers">
+                                    <img src="../images/vendor-images/{{vendor_id}}.jpg" alt="" /></a>
 
-                            {{!-- <ul>
-                                {{#if vendor_id}}
-                                <li><a href="#">{{vendor_id}}</a></li>
+                                {{!-- <ul>
+                                    {{#if vendor_id}}
+                                    <li><a href="#">{{vendor_id}}</a></li>
+                                    {{/if}}
+                                </ul> --}}
+
+                            </div>
+
+                            <div class="widget clearfix">
+                                {{#if products}}
+                                <h4>Recent Items</h4>
+                                <div class="posts-sm row col-mb-30" id="recent-shop-list-sidebar">
+                                    {{#each latest_products}}
+                                    <div class="entry col-12">
+                                        <div class="grid-inner row no-gutters">
+                                            <div class="col-auto">
+                                                <div class="entry-image">
+                                                    <a>
+                                                        <img src="../images/product-images/{{this._id}}.jpg"
+                                                            alt="{{this.product_name}}" alt="1" class="rounded"
+                                                            style="width:100px;height:60px" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col pl-3">
+                                                <div class="entry-title">
+                                                    <h4><a>{{product_name}}</a></h4>
+                                                </div>
+                                                <div class="entry-meta no-separator">
+                                                    <ul>
+                                                        <li class="color">₹{{price}}</li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/each}}
+                                </div>
                                 {{/if}}
-                            </ul> --}}
-
-                        </div>
-
-                        <div class="widget clearfix">
-
-                            <h4>Recent Items</h4>
-                            <div class="posts-sm row col-mb-30" id="recent-shop-list-sidebar">
-                                {{#each latest_products}}
-                                <div class="entry col-12">
-                                    <div class="grid-inner row no-gutters">
-                                        <div class="col-auto">
-                                            <div class="entry-image">
-                                                <a href="#">
-                                                    <img src="../images/product-images/{{this._id}}.jpg"
-                                                        alt="{{this.product_name}}" alt="1" class="rounded"
-                                                        style="width:100px;height:60px" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col pl-3">
-                                            <div class="entry-title">
-                                                <h4><a href="#">{{product_name}}</a></h4>
-                                            </div>
-                                            <div class="entry-meta no-separator">
-                                                <ul>
-                                                    <li class="color">₹{{price}}</li>
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{/each}}
-
 
                             </div>
 
+
+
                         </div>
+                    </div><!-- .sidebar end -->
+                </div>
 
-
-
-                    </div>
-                </div><!-- .sidebar end -->
             </div>
-
         </div>
-    </div>
 </section><!-- #content end -->

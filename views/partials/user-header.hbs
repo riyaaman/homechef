@@ -24,11 +24,13 @@
 					============================================= -->
 					<div id="top-cart" class="header-misc-icon d-none d-sm-block justify-content-end">
 						<a href="/cart" >
-						<i class="icon-cart mr-2" style="font-size: 40px;"></i>
+						<i class="icon-cart mr-2" style="font-size: 40px;"><span  style="font-size:20px;">Cart</span></i>
 					
 						{{#if cart_count}}
-						<span class="top-cart-number" id="cart-count">{{cart_count}}</span>
+						<span class="top-cart-number" id="cart-count">{{cart_count}}</span>						
 						
+						{{else}}
+							<span class="top-cart-number" id="cart-count">0</span>	
 						{{/if}}
 						</a>					
 					</div><!-- #top-cart end -->

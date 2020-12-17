@@ -1,0 +1,238 @@
+<section id="content">
+    <div class="content-wrap " style="padding: 20px;">
+        <div class="container clearfix">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 mb-4">
+                    <h2 class="m-0 font-weight-bold text-theme float-left">Sales Report</h2>
+                    <a href=""><button class="btn bg-color text-white float-right mr-auto"
+                            onclick="javascript:salesreport_pdf();">Click To Download Pdf</button></a>
+                    <button onclick="downloadimage()" class="clickbtn btn bg-color text-white float-right mr-2">
+                        Click To Download Image</button>
+                </div>
+                <div class="card-body">
+                    {{#if admin_message}}
+                    <div class="style-msg successmsg" id="success">
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{admin_message}}
+
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+                    {{/if}}
+
+                    <form action="/vendor/sales_report_bydate" method="post" class="mb-0">
+                        <div class="input-daterange sales-date col-md-12 bottommargin-sm">
+                            <div class="row">
+                                <div class="col-md-4 col-4">
+                                    <label>Start Date</label>
+                                    <input type="text" value="{{details.start}}" id="sales-date-start"
+                                        class="sm-form-control text-left sales-date-start" name="start"
+                                        placeholder="DD/MM/YYYY" autocomplete="off">
+                                </div>
+                                <div class="col-md-4 col-4">
+                                    <label>End Date</label>
+                                    <input type="text" value="{{details.end}}"
+                                        class="sm-form-control text-left  sales-date-end" name="end"
+                                        placeholder="DD/MM/YYYY" autocomplete="off">
+                                </div>
+                                <div class="col-md-4 col-4">
+
+                                    <button class="button button-3d  mt-4 ">Filter</button>
+                                </div>
+                                {{!-- <div class="col-md-4 col-4 text-center">
+                                    <label>Return</label>
+                                    <button class="button button-3d m-0 rightmargin-sm">Filter</button>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="customers">
+                        <div class="table-responsive" id="htmltoimage">
+                            <table class="table table-hover table-striped table-bordered" id="order_table">
+                                {{!-- <table class="table table-striped table-bordered" id="order_table"> --}}
+                                    <thead>
+                                        <tr>
+                                            <th style="background-color: #928989; color; white;">Product</th>
+                                            <th style="background-color: #928989; color; white;">Price</th>
+                                            <th style="background-color: #928989; color; white;">Quantity</th>
+                                            <th style="background-color: #928989; color; white;"> Total </th>
+                                            <th style="background-color: #928989; color; white;"> Order_status</th>
+                                            <th style="background-color: #928989; color; white;">created</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each orders}}
+                                        <tr>
+                                            <td>{{ this.product.product_name }}</td>
+                                            <td>{{ this.product.price }}</td>
+                                            <td>{{ this.quantity }}</td>
+                                            <td>{{ this.totalAmount }}</td>
+                                            <td>{{ this.order_status }}</td>
+                                            <td>{{ this.created }}</td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="/javascripts/components/datepicker.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.2.61/jspdf.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+
+
+
+{{!-- <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script> --}}
+
+
+
+
+
+
+	
+<script type="text/javascript">
+/*$(document).ready(function() {
+    $('#order_example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+} )*/
+
+    //datepicker
+    $(function () {
+    //    $('#order_table').DataTable();
+
+  /*     $('#order_table').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );*/
+        
+        
+        $('.sales-date-start').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            //format: 'dd-mm-yyyy',  
+        });
+        $('.sales-date-end').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            // format: 'dd-mm-yyyy',  
+        });
+    });
+
+
+    //Sales Report Download as Image
+    function downloadimage() {
+        var container = document.getElementById("htmltoimage");; // full page 
+        html2canvas(container, { allowTaint: true }).then(function (canvas) {
+            var link = document.createElement("a");
+            document.body.appendChild(link);
+            link.download = "sales_report.jpg";
+            link.href = canvas.toDataURL();
+            link.target = '_blank';
+            link.click();
+        });
+    }
+
+
+
+    //Sales Report Download as Pdf
+    function salesreport_pdf() {
+        //  var pdf = new jsPDF('p', 'pt', 'letter');
+        var pdf = new jsPDF({
+            orientation: 'l', // landscape
+            unit: 'pt', // points, pixels won't work properly
+            format: 'letter' // set needed dimensions for any element
+        });
+        pdf.setFont("helvetica");
+        pdf.setFontType("bold");
+        pdf.setFontSize(9);
+        /*pdf.setTextColor(165, 0, 0);  */
+        $("#order_table").css("font-size", "12px");//
+
+         //pdf.setDrawColor(150,150,150);
+        //pdf.cell(40, 40, 50, 20, "cell");
+
+        source = $('#customers')[0];
+        specialElementHandlers = {
+            // element with id of "bypass" - jQuery style selector
+            '#bypassme': function (element, renderer) {
+                // true = "handled elsewhere, bypass text extraction"
+                return true
+            }
+        };
+        margins = {
+            top: 30,
+            bottom: 60,
+            left: 50,
+            width: 1500
+        };
+       // pdf.text(50, 40, "Header");
+
+
+        pdf.fromHTML(
+            source, 
+            margins.left, 
+            margins.top, { 
+            'width': margins.width, 
+            'elementHandlers': specialElementHandlers
+        },
+
+            function (dispose) {
+                pdf.save('SalesReport.pdf');
+            }, margins);
+        //  location.href = "/vendor/sales-report"
+    }
+
+
+
+</script>
+
+
+
+<style>
+    #htmltoimage {
+        width: 100%;
+        margin: auto;
+    }
+</style>
+ <style>
+    @CHARSET "UTF-8";
+    .page-break {
+      page-break-after: always;
+      page-break-inside: avoid;
+      clear:both;
+    }
+    .page-break-before {
+      page-break-before: always;
+      page-break-inside: avoid;
+      clear:both;
+    }
+   /* #customers{
+      position: absolute; 
+      left: 20px; 
+      top:180px; 
+      bottom: 0; 
+      overflow: auto; 
+      width:1000px;
+    }*/
+  
+  </style>
+  

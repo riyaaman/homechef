@@ -9,7 +9,10 @@ window.chartColors = {
 	green: 'rgb(26, 188, 156)',
 	blue: 'rgb(54, 162, 235)',
 	purple: 'rgb(153, 102, 255)',
-	grey: 'rgb(201, 203, 207)'
+	grey: 'rgb(201, 203, 207)',
+	lime: 'rgb(0, 255, 0)',
+	Olive: 'rgb(128,128,0)',
+	Teal: 'rgb(0,128,128)'
 };
 
 window.randomScalingFactor = function() {

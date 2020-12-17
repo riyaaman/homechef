@@ -1,0 +1,105 @@
+<section id="content">
+  <div class="content-wrap " style="padding: 20px;">
+    <div class="container clearfix">
+
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 mb-4">
+          <h2 class="m-0 font-weight-bold text-theme float-left">Blocked User Details</h2>
+
+          <a href="/admin/user_add"><button class="btn bg-color text-white float-right mr-auto">Add
+              New User</button></a>
+
+        </div>
+        <div class="card-body">
+          {{#if admin_message}}
+          <div class="style-msg successmsg" id="success">
+            <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{admin_message}} {{first_name}}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          </div>
+          {{/if}}
+
+          <table class="table table-striped" id="user_table">
+            <thead>
+              <tr>
+                {{!-- <th>Sl No</th> --}}
+                <th>First Name</th>
+                <th> Last Name</th>
+                <th> Phone</th>
+                <th> Email</th>
+                <th>Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              {{#each users}}
+              <tr>
+
+                <td>{{ this.first_name }}</td>
+                <td>{{ this.last_name }}</td>
+                <td>{{ this.phone }}</td>
+                <td>{{ this.email }}</td>
+
+                <td>
+                
+                  <a href="javascript:void(0);" class="btn btn-sm btn-secondary block" data-id="{{ _id }}">Unblock</a>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+
+
+
+<!-- Modal Block User-->
+<form id="add-row-form" action="/admin/user_unblock" method="post">
+  <div class="modal fade" id="BlockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Unblock User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <strong>Are you sure to Unblock this user?</strong>
+        </div>
+        <div class="modal-footer">
+          <input type="hidden" name="user_id" class="form-control user_id2" required>
+          <button type="button" class="btn btn-default bg-dark text-white" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn bg-color">Unblock</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<script>
+
+  $(document).ready(function () {
+
+    // Datatable for user details
+    $('#user_table').DataTable();
+
+
+    //showing unblock record modal
+    $('#user_table').on('click', '.block', function () {
+
+      var user_id = $(this).data('id');
+
+      $('#BlockModal').modal('show');
+      $('.user_id2').val(user_id);
+    });
+
+
+  });
+
+ 
+</script>

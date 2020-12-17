@@ -9,7 +9,8 @@ var fs = require("fs");
 /* Verify Is Admin Loggedin
 ============================================= */
 const verifyAdminLogin = (req, res, next) => {
-    if (req.session.adminLoggedIn) {
+    if (req.session.adminLoggedIn) {     
+   
         next();
     } else {
         res.redirect("/admin");
@@ -35,6 +36,7 @@ router.post("/admin_login", (req, res) => {
         if (response.loginStatus) {
             req.session.user = response.user;
             req.session.adminLoggedIn = true;
+            req.session.admin_message = false;
             res.redirect("dashboard");
         } else {
             req.session.adminLoginError = "Invalid Password or Username";
@@ -46,6 +48,7 @@ router.post("/admin_login", (req, res) => {
 /* Admin Login to Dashboard
 ============================================= */
 router.get("/dashboard", verifyAdminLogin, (req, res) => {
+  
     res.render("admin/dashboard", { admin_status: true });
 });
 
@@ -53,7 +56,7 @@ router.get("/dashboard", verifyAdminLogin, (req, res) => {
 ============================================= */
 router.get("/logout", (req, res) => {
     req.session.user = null;
-    req.session.adminLoggedIn = false;
+    req.session.adminLoggedIn = false;   
     res.redirect("/admin");
 });
 
@@ -77,17 +80,38 @@ router.post("/vendor_add", (req, res) => {
             req.session.vendor_message = " Email address Already Registered. Please Select Another One";
             res.redirect("vendor_add");
         } else {
-            let image = req.files.ven_image;
-            let id = response._id;
 
-            image.mv("./public/images/vendor-images/" + id + ".jpg", (err, done) => {
-                if (!err) {
-                    req.session.vendor_message = "Well Done ! You Successfully Added the Vendor";
-                    res.redirect("vendor_add");
-                } else {
-                    console.log(err);
-                }
-            });
+            let id = response._id;
+            var img_url = req.body.img_url
+           
+            if(img_url==0){
+                 let image = req.files.ven_image;             
+                image.mv("./public/images/vendor-images/" + id + ".jpg", (err, done) => {
+                    if (!err) {
+                        req.session.vendor_message = "Well Done ! You Successfully Added the Vendor";
+                        res.redirect("vendor_add");
+                    } else {
+                        console.log(err);
+                    }
+                });
+
+            }
+            else{
+                var base64Data  =   img_url.replace(/^data:image\/png;base64,/, "");             
+                fs.writeFile("./public/images/vendor-images/" + id + ".jpg", base64Data, 'base64', (err, done) => {
+                    if (!err) {
+                        req.session.vendor_message = "Well Done ! You Successfully Added the Vendor";
+                        res.redirect("vendor_add");
+                    } else {
+                        console.log(err);
+                    }
+                });
+
+            }
+
+           
+           
+           
         }
     });
 });
@@ -247,5 +271,119 @@ router.post("/category_delete", (req, res) => {
         res.redirect("category_manage");
     });
 });
+
+
+/*-------------------------------------------------User Management--------------------------------------------------*/
+
+/* View User Details
+============================================= */
+router.get("/users_view", verifyAdminLogin, function (req, res, next) {
+    userHelpers.get_AllUsers().then((users) => {     
+            admin_message = req.session.admin_message  
+            res.render("admin/users-view", { admin_status: true, users ,admin_message});  
+            req.session.admin_message  =    false        
+        })
+   
+});
+
+/* View Blocked User Details
+============================================= */
+router.get("/blocked_users_view", verifyAdminLogin, function (req, res, next) {
+
+    userHelpers.get_AllBlocked_Users().then((users) => {     
+            admin_message = req.session.admin_message  
+            res.render("admin/users-blocked", { admin_status: true, users ,admin_message});  
+            req.session.admin_message  =    false        
+        })
+   
+});
+
+
+
+
+/* Add User Details
+============================================= */
+router.get("/user_add", verifyAdminLogin, function (req, res, next) {        
+    admin_message = req.session.admin_message
+    res.render("admin/user-add", { admin_status: true,admin_message}); 
+    req.session.admin_message = false;
+
+});
+
+
+router.post("/user_add", (req, res) => {
+
+    let user_details = req.body;
+    first_name = user_details.first_name;
+
+    userHelpers.doSignup_User(req.body).then((response) => {
+       
+        if (response.signup_status == false) {
+            req.session.admin_message = " Email or Phone Number Already Registered. Please Select Another One";           
+        } 
+        else{
+            req.session.admin_message = " User Added Successfully";  
+        }
+        res.redirect("user_add");
+    });
+});
+
+
+/* Delete User Details
+============================================= */
+router.post("/user_delete", (req, res) => {
+    
+    let user_id = req.body.user_id;
+    userHelpers.delete_User(user_id).then((response) => {
+        try {           
+            req.session.admin_message = "You Successfully Deleted the User";
+            res.redirect("user_view");          
+        } catch (err) {
+            res.render("/error", { title: "Sorry,Something Went Wrong" });
+        
+        }
+    });
+});
+
+/* Block User Details
+============================================= */
+router.post("/user_block", (req, res) => {
+    
+    let user_id = req.body.user_id;
+    userHelpers.block_User(user_id).then((response) => {
+        try {           
+            req.session.admin_message = "You Successfully Blocked the User";
+            res.redirect("users_view");          
+        } catch (err) {
+            res.render("/error", { title: "Sorry,Something Went Wrong" });
+        
+        }
+    });
+});
+
+/* Un Block User 
+============================================= */
+router.post("/user_Unblock", (req, res) => {
+    
+    let user_id = req.body.user_id;
+    userHelpers.Unblock_User(user_id).then((response) => {
+        try {           
+            req.session.admin_message = "You Successfully Unblocked the User";
+            res.redirect("blocked_users_view");          
+        } catch (err) {
+            res.render("/error", { title: "Sorry,Something Went Wrong" });
+        
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

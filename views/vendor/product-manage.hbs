@@ -4,10 +4,10 @@
 
       <div class="card shadow mb-4">
         <div class="card-header py-3 mb-4">
-          <h2 class="m-0 font-weight-bold text-theme float-left">Product Details</h2>
+          <h2 class="m-0 font-weight-bold color float-left">Product Details</h2>
 
-          <button class="btn bg-color text-white float-right mr-auto" data-toggle="modal" data-target="#myModalAdd">Add
-            New Product</button>
+          <a href="product_add"><button class="btn bg-color text-white float-right mr-auto" data-toggle="modal" data-target="#myModalAdd">Add
+            New Product</button></a>
       
         </div>
         <div class="card-body">
@@ -58,7 +58,7 @@
 
 
 
-
+{{!-- 
 <!-- Modal Add Product-->
 <form action="/vendor/product_add" id="product_AddForm" method="post" enctype="multipart/form-data">
   <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -80,7 +80,7 @@
           </div>
         
           <div class="form-group">
-            <select id="category" name="category" class="form-control" placeholder="Product category" required>
+            <select id="category" name="category" class="form-control" placeholder="Product category"  required >
                {{!-- <option value="0">--Please Select Category --</option> --}}
                  {{#each categories}}
               <option value="{{this._id}}">{{this.cat_name}}</option>
@@ -92,9 +92,10 @@
             
             <img style="width: 50px;height:auto;" id="view_image"
                   src="" alt="" /><br>
-            <input type="file" class="form-control" name="product_image" id="product_image" placeholder="Image" required>
+            <input type="file" class="form-control" name="product_image" id="product_image"  accept="image/*" placeholder="Image" required>
                
                <span id="upload_error" class="text-danger"></span>
+              <input type="hidden" name="img_url" id="img_url" value=""/>
           </div>
         </div>
         <div class="modal-footer">
@@ -104,7 +105,7 @@
       </div>
     </div>
   </div>
-</form>
+</form> --}}
 
 <!-- Modal Update Product-->
 <form action="/vendor/product_update" method="post"  enctype="multipart/form-data" id="product-update-form">
@@ -186,7 +187,7 @@
 
      	
        // Product add from validation
-       $("#product_AddForm").validate({
+     /* $("#product_AddForm").validate({
 			// Specify validation rules
 			rules: {
 				product_name: "required",
@@ -219,7 +220,7 @@
          			
 				},			
 			},
-		}); 
+		}); */
 
 
         // Product edit from validation
@@ -318,4 +319,6 @@
     });
   
 </script>
+
+
 

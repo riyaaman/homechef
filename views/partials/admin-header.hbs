@@ -205,29 +205,33 @@
         <nav>
             <ul>
                 <li><a href="/admin"><i class="icon-dashboard"></i>Dashboard</a>
-                    <ul>
+                    {{!-- <ul>
                         <li><a href="#"></a></li>
-                    </ul>
+                    </ul> --}}
                 </li>
-                <li><a href="/admin/vendor_view"><i class="icon-industry"></i>Vendors</a>
+                <li><a href=""><i class="icon-industry"></i>Vendors</a>
                     <ul>
-                        <li><a href="#"></a></li>
+                        <li><a href="/admin/vendor_view">View Vendors</a></li>
+                        <li><a href="/admin/vendor_add">Add Vendors</a></li>
 
                     </ul>
                 </li>
                 <li><a href="/admin/category_manage"><i class="icon-list-alt"></i>Categories</a>
-                    <ul>
+                    {{!-- <ul>
                         <li><a href="#"></a></li>
-                    </ul>
+                    </ul> --}}
                 </li>
                 <li><a href="#"><i class="icon-first-order"></i>Orders </a>
                     <ul>
-                        <li><a href="#"></a></li>
+                        <li><a href="">Sales Report</a></li>
                     </ul>
                 </li>
-                <li><a href="#"><i class="icon-users"></i>Users </a>
+                <li><a href=""><i class="icon-users"></i>Users </a>
                     <ul>
-                        <li><a href="#"></a></li>
+                        <li><a href="/admin/users_view"> Users</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="/admin/blocked_users_view">Bocked Users</a></li>
                     </ul>
                 </li>
             </ul>
@@ -255,3 +259,23 @@
         </div>
     </div>
 </div>
+
+
+	<script>
+		jQuery(document).ready(function($){
+			$( '#vertical-nav nav ul li:has(ul)' ).addClass('sub-menu');
+			$( '#vertical-nav nav ul li:has(ul) > a' ).append( ' <i class="icon-angle-down"></i>' );
+
+			$( '#vertical-nav nav ul li:has(ul) > a' ).click( function(e){
+				var element = $(this);
+				$( '#vertical-nav nav ul li' ).not(element.parents()).removeClass('active');
+				element.parent().children('ul').slideToggle( function(){
+					$(this).find('ul').hide();
+					$(this).find('li.active').removeClass('active');
+				});
+				$( '#vertical-nav nav ul li > ul' ).not(element.parent().children('ul')).not(element.parents('ul')).slideUp();
+				element.parent('li:has(ul)').toggleClass('active');
+				e.preventDefault();
+			});
+		});
+	</script>

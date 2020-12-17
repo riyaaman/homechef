@@ -1,0 +1,159 @@
+<section id="content">
+    <div class="content-wrap " style="padding: 20px;">
+        <div class="container clearfix">
+            <div class="card mx-auto rounded-0 border mt-4 shadow ">
+                <div class="card-header ">
+                    <h2 class="color">Customer Orders</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table mt-5" id="order_table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                {{!-- <th scope="col">Date</th> --}}
+                                {{!-- <th scope="col">Name</th> --}}
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Pincode</th>
+                                {{!-- <th scope="col">State</th> --}}
+                                {{!-- <th scope="col">Amount</th> --}}
+                                <th scope="col">Payment</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                {{!-- <th scope="col"></th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                            <tr>
+                                <td></td>
+                                {{!-- <td>{{this.date}}</td> --}}
+                                {{!-- <td>{{this.first_name} </td> --}}
+                                {{!-- <td>{{this.first_name}} </td> --}}
+                                <td>{{this.deliveryDetails.billing_address}} </td>
+                                <td>{{this.deliveryDetails.billing_city}} </td>
+                                <td>{{this.deliveryDetails.billing_pincode}} </td>
+                                {{!-- <td>{{this.deliveryDetails.billing_state}} </td> --}}
+                                {{!-- <td>{{this.totalAmount}}</td> --}}
+                                <td>{{this.paymentMethod}}</td>
+                                <td>{{this.order_status}}</td>
+                                <td>{{this.created_date}}</td>
+                                {{!-- <td>
+                                    <a class="btn bg-color"
+                                        href="/vendor/view_order_products_byvendor/{{this._id}}">View
+                                        Products</a>
+                                </td> --}}
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+    $(document).ready(function () {
+        var table = $('#order_table').DataTable({
+            "footerCallback": function (row, data, start, end, display) {
+                var api = this.api(),
+                    data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+                // Total over this page
+                pageTotal = api
+                    .column(6, {
+                        page: 'current'
+                    })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                Total = api
+                    .column(6)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Update footer
+                $(api.column(6).footer()).html(
+                    '' + pageTotal.toFixed(2) + '<br>(Total: ' + Total.toFixed(2) + ')' + ''
+                );
+            },
+            select: {
+                style: 'single'
+            },
+            order: [
+                [2, 'asc']
+            ],
+
+            dom: 'Bfrtip',
+            "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                //debugger;
+                var index = iDisplayIndexFull + 1;
+                $("td:first", nRow).html(index);
+                return nRow;
+            },
+
+            "pageLength": 20,
+            "lengthMenu": [
+                [20, 30, 50, -1],
+                [20, 30, 50, "All"]
+            ],
+            columnDefs: [{
+                targets: 0,
+                render: function (data, type, row, meta) {
+                    console.log(meta.row);
+                    console.log(type == 'export' ? meta.row : data);
+                    return type == 'export' ? meta.row : data;
+                }
+            }],
+            buttons: ['pageLength',
+                {
+                    extend: 'print',
+                    text: 'Print All',
+                    autoPrint: true,
+                    exportOptions: {
+                        columns: [':not(.hidden-print)'],
+                        orthogonal: 'export',
+                        modifier: {
+                            page: 'all'
+                        },
+                    },
+                    messageTop: function () {
+                        return '<h2 class="text-center"></h2>'
+                    },
+                    messageBottom: 'Print: 01-May-2019',
+                    customize: function (win) {
+
+                        $(win.document.body).find('h1').css('text-align', 'center');
+                        $(win.document.body).find('table')
+                            .removeClass('table-striped table-responsive-sm table-responsive-lg dataTable')
+                            .addClass('compact')
+                            .css('font-size', 'inherit', 'color', '#000');
+
+                    },
+                    footer: true
+                },
+
+            ]
+        })
+    });
+</script>
