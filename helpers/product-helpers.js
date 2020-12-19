@@ -252,27 +252,21 @@ module.exports = {
     /* Delete product
     ============================================= */
     delete_Product: (productId) => {
-        return new Promise((resolve, reject) => {
+         return new Promise((resolve, reject) => {      
             db.get()
-                .collection(collection.PRODUCT_COLLECTION)
-                .removeOne({ _id: objectId(productId) })
-                .then((product) => {
-                    resolve(product);
-                });
+            .collection(collection.PRODUCT_COLLECTION)
+            .updateOne(
+                {_id: objectId(productId)  },
+                {
+                    $set: {
+                        status: 0,
+                    },
+                }
+            )
+            .then((response) => {
+                resolve(response);
+            });
         });
-        // db.get()
-        // .collection(collection.PRODUCT_COLLECTION)
-        // .updateOne(
-        //     {_id: objectId(productId)  },
-        //     {
-        //         $set: {
-        //             status: 0,
-        //         },
-        //     }
-        // )
-        // .then((response) => {
-        //     resolve(response);
-        // });
     },
 
     /* Get Product Name By Vendor Id
@@ -297,9 +291,17 @@ module.exports = {
         });
     },
 
+
+
+
+      /*------------------------------------- Sales Report For Vendor-----------------------------------------------
+   ------------------------------------------------------------------------------------------------------------------*/
+
+
     /*View Sales Report By Vendor Id 
     ============================================= */
     view_SalesReport_Byvendor: (vendorId) => {
+
         return new Promise(async (resolve, reject) => {
             let orderItems = await db
                 .get()
@@ -309,22 +311,17 @@ module.exports = {
                         $unwind: "$products",
                     },
                     {
-                        $match: {"products.ven_id": objectId(vendorId) },
+                        $match: { "products.ven_id": objectId(vendorId) },
                     },
                     {
                         $project: {
-                            // userId: 1,
-                            // status: 1,
-                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
-                            //ven_id: "$products.ven_id",
+                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },                         
                             item: "$products.item",
                             product_name: "$products.product_name",
                             quantity: "$products.quantity",
                             order_status: "$products.order_status",
-                            // order_status: { $ne: [ "$products.order_status", "completed" ] }
                         },
                     },
-
                     {
                         $lookup: {
                             from: collection.PRODUCT_COLLECTION,
@@ -332,7 +329,7 @@ module.exports = {
                             foreignField: "_id",
                             as: "product",
                         },
-                    },                  
+                    },
                     {
                         $unwind: "$product",
                     },
@@ -346,18 +343,16 @@ module.exports = {
                         $set: {
                             totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
                         },
-                    },                   
+                    },
                 ])
                 .toArray();
             resolve(orderItems);
         });
     },
 
-    
-
     /*View Sales Report By Vendor Id, Date &Status
     ============================================= */
-    view_SalesReport_ByDate_Id: (vendorId, dates) => {
+    view_SalesReport_ByDate_Id_status: (vendorId, dates) => {
         start = dates.start;
         end = dates.end;
         status = dates.status;
@@ -376,7 +371,6 @@ module.exports = {
                         $project: {
                             created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
                             created_date: { $dateToString: { format: "%Y-%m-%d", date: "$created_date" } },
-                            //ven_id: "$products.ven_id",
                             item: "$products.item",
                             product_name: "$products.product_name",
                             quantity: "$products.quantity",
@@ -390,7 +384,6 @@ module.exports = {
                                 $lte: end,
                             },
                             order_status: status,
-
                             // $or:
                             // [
                             //    { order_status: status },
@@ -428,11 +421,76 @@ module.exports = {
         });
     },
 
+    /*View Sales Report By Vendor Id, Date 
+    ============================================= */
+    view_SalesReport_ByDate_Id: (vendorId, dates) => {
+        start = dates.start;
+        end = dates.end;
+        status = dates.status;
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $unwind: "$products",
+                    },
+                    {
+                        $match: { "products.ven_id": objectId(vendorId) },
+                    },
+                    {
+                        $project: {
+                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
+                            created_date: { $dateToString: { format: "%Y-%m-%d", date: "$created_date" } },
+                            item: "$products.item",
+                            product_name: "$products.product_name",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                        },
+                    },
+                    {
+                        $match: {
+                            created_date: {
+                                $gte: start,
+                                $lte: end,
+                            },
+                          
+                        },
+                    },
+
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+
+                    {
+                        $unwind: "$product",
+                    },
+                    {
+                        $addFields: {
+                            convertedPrice: { $toDecimal: "$product.price" },
+                            convertedQty: { $toInt: "$quantity" },
+                        },
+                    },
+                    {
+                        $set: {
+                            totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
+                        },
+                    },
+                ])
+                .toArray();
+            resolve(orderItems);
+        });
+    },
+
     /*Get Customer  Order History By Vendor Id
     ============================================= */
     get_UserOrder_history_ByvendorId: (vendorId) => {
         return new Promise(async (resolve, reject) => {
-         
             let orders = await db
                 .get()
                 .collection(collection.ORDER_COLLECTION)
@@ -443,11 +501,9 @@ module.exports = {
                     {
                         $match: {
                             "products.ven_id": objectId(vendorId),
+                            $or: [{ "products.order_status": "completed" }, { "products.order_status": "cancelled" }],
                         },
                     },
-                    { $match:
-                         { $or: [ { "products.order_status":"completed" }, { "products.order_status":"cancelled" } ] } },
-        
                     {
                         $set: {
                             created_date: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
@@ -466,7 +522,6 @@ module.exports = {
                 ])
                 .toArray();
             resolve(orders);
-            // console.log(orders);
         });
     },
 
@@ -513,7 +568,6 @@ module.exports = {
                             as: "product",
                         },
                     },
-
                     {
                         $unwind: "$product",
                     },
@@ -530,12 +584,11 @@ module.exports = {
                     },
                 ])
                 .toArray();
-            // console.log("vendor order:",orderItems)
             resolve(orderItems);
         });
     },
 
-    /*Get Customer  Order Sales Report By Vendor Id and previous week
+    /*Get Customer  Order Sales Report By Vendor Id and previous Month
     ============================================= */
     get_SalesReport_ByvendorId_Month: (vendorId) => {
         return new Promise(async (resolve, reject) => {
@@ -545,17 +598,20 @@ module.exports = {
                 .aggregate([
                     {
                         $unwind: "$products",
-                    },
+                    },                 
                     {
                         $match: {
-                            created_date: {
-                                $gte: new Date(new Date() - 30 * 60 * 60 * 24 * 1000),
+                            "products.ven_id": objectId(vendorId),
+                            $expr: {
+                                $and: [
+                                    { $eq: [{ $year: "$created_date" }, { $year: new Date() }] },
+                                    { $eq: [1, { $subtract: [{ $month: new Date() }, { $month: "$created_date" }] }] },
+                                ],
                             },
                         },
                     },
                     {
                         $project: {
-                            //deliveryDetails: 1,
                             userId: 1,
                             status: 1,
                             created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
@@ -568,9 +624,6 @@ module.exports = {
                         },
                     },
                     {
-                        $match: { ven_id: objectId(vendorId) },
-                    },
-                    {
                         $lookup: {
                             from: collection.PRODUCT_COLLECTION,
                             localField: "item",
@@ -578,13 +631,12 @@ module.exports = {
                             as: "product",
                         },
                     },
-
                     {
                         $unwind: "$product",
                     },
                     {
                         $addFields: {
-                            convertedPrice: { $toInt: "$product.price" },
+                            convertedPrice: { $toDouble: "$product.price" },
                             convertedQty: { $toInt: "$quantity" },
                         },
                     },
@@ -600,8 +652,8 @@ module.exports = {
         });
     },
 
-    /*------------------------------------- Chart Area------------------------------------------------------
-   ------------------------------------------------------------------------------------------------------------------*/
+    /*------------------------------------- Chart Area Vendor------------------------------------------------------*/
+  
 
     /*View Sales Report (Product Count) chart By Vendor Id 
     ============================================= */
@@ -681,21 +733,19 @@ module.exports = {
                     },
                     {
                         $match: {
-                            created_date: {
-                                $gte: new Date(new Date() - 30 * 60 * 60 * 24 * 1000),
-                            },
                             "products.ven_id": objectId(vendorId),
+                            $expr: {
+                                $and: [
+                                    { $eq: [{ $year: "$created_date" }, { $year: new Date() }] },
+                                    { $eq: [{ $month: new Date() }, { $month: "$created_date" }] },
+                                ],
+                            },
                         },
                     },
-
                     {
                         $project: {
-                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
-                            // ven_id: "$products.ven_id",
                             item: "$products.item",
                             quantity: "$products.quantity",
-                            // order_status: "$products.order_status",
-                            // order_status: { $ne: [ "$products.order_status", "completed" ] }
                         },
                     },
                     {
@@ -706,7 +756,6 @@ module.exports = {
                             as: "product",
                         },
                     },
-
                     {
                         $unwind: "$product",
                     },
@@ -716,30 +765,14 @@ module.exports = {
                             convertedQty: { $toInt: "$quantity" },
                             product_name: "$product.product_name",
                         },
-                    },
-                    {
-                        $set: {
-                            totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
-                        },
-                    },
+                    },                  
                     {
                         $group: {
                             _id: "$item",
-                            product_name: { $first: "$product.product_name" },
-                            totalAmount: { $sum: "$totalAmount" },
-                            //  totalPrice: { $sum: { $multiply: [ "$convertedPrice", "$convertedQty" ] } },
+                            product_name: { $first: "$product.product_name" },               
+                           totalAmount: { $sum: { $multiply: [ "$convertedPrice", "$convertedQty" ] } },
                         },
-                    },
-                    {
-                        $project: {
-                            product_name: 1,
-                            quantity: 1,
-                            totalAmount: 1,
-                            convertedPrice: 1,
-                            //order_status: "$products.order_status",
-                            // order_status: { $ne: [ "$products.order_status", "completed" ] }
-                        },
-                    },
+                    },                  
                 ])
                 .toArray();
             // console.log("vendor order:",orderItems)
@@ -747,7 +780,7 @@ module.exports = {
         });
     },
 
-    /*View Sales Report by Month 
+    /*View Sales Report chart by Month 
     ============================================= */
     view_SalesReport_Chart_Month_Byvendor: (vendorId) => {
         return new Promise(async (resolve, reject) => {
@@ -760,23 +793,285 @@ module.exports = {
                     },
                     {
                         $match: {
-                            created_date: {
-                                $gte: new Date(new Date() - 30 * 60 * 60 * 24 * 1000),
-                            },
                             "products.ven_id": objectId(vendorId),
+                            $expr: {
+                                $or: [
+                                    {
+                                        $and: [
+                                            { $eq: [{ $year: "$created_date" }, { $year: new Date() }] },
+                                            { $eq: [{ $month: new Date() }, { $month: "$created_date" }] },
+                                        ],
+                                    },
+                                    {
+                                        $and: [
+                                            { $eq: [{ $year: "$created_date" }, { $year: new Date() }] },
+                                            {
+                                                $eq: [
+                                                    1,
+                                                    { $subtract: [{ $month: new Date() }, { $month: "$created_date" }] },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
                         },
                     },
-
                     {
                         $project: {
                             created_date: 1,
                             created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
-                            // ven_id: "$products.ven_id",
                             item: "$products.item",
                             quantity: "$products.quantity",
-                            // order_status: "$products.order_status",
-                            // order_status: { $ne: [ "$products.order_status", "completed" ] }
-                            month: { $month: "$created_date" },
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+                    {
+                        $unwind: "$product",
+                    },
+                    {
+                        $addFields: {
+                            convertedPrice: { $toDouble: "$product.price" },
+                            convertedQty: { $toInt: "$quantity" },
+                        },
+                    },
+                    {
+                        $group: {
+                            _id: {
+                                month: { $month: "$created_date" },
+                                // day: { $dayOfMonth: "$created_date" },
+                                year: { $year: "$created_date" },
+                            },
+                            totalPrice: { $sum: { $multiply: ["$convertedPrice", "$convertedQty"] } },
+                            count: { $sum: 1 },
+                        },
+                    },
+                ])
+                .toArray();
+            //console.log("vendor order1:", orderItems);
+            resolve(orderItems);
+        });
+    },
+
+
+
+
+    
+    /*------------------------------------- Sales Report For Admin-----------------------------------------------
+   ------------------------------------------------------------------------------------------------------------------*/
+
+    /*Get all Sales Report 
+    ============================================= */
+    get_All_Sales_Report: () => {
+
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $unwind: "$products",
+                    },                 
+                    {
+                        $project: {
+                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },                         
+                            item: "$products.item",
+                            product_name: "$products.product_name",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+                    {
+                        $unwind: "$product",
+                    },
+                    {
+                        $addFields: {
+                            convertedPrice: { $toDecimal: "$product.price" },
+                            convertedQty: { $toInt: "$quantity" },
+                        },
+                    },
+                    {
+                        $set: {
+                            totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
+                        },
+                    },
+                ])
+                .toArray();
+            resolve(orderItems);
+        });
+    },
+
+     /*Get Customer  Order Sales Report Of Previous week
+    ============================================= */
+    get_SalesReport_Byweek: () => {
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $unwind: "$products",
+                    },
+                    {
+                        $match: {
+                            created_date: {
+                                $gte: new Date(new Date() - 7 * 60 * 60 * 24 * 1000),
+                            },
+                        },
+                    },
+                    {
+                        $project: {
+                          
+                            userId: 1,
+                            status: 1,
+                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
+                            ven_id: "$products.ven_id",
+                            item: "$products.item",
+                            product_name: "$products.product_name",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",                          
+                        },
+                    },                 
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+                    {
+                        $unwind: "$product",
+                    },
+                    {
+                        $addFields: {
+                            convertedPrice: { $toDecimal: "$product.price" },
+                            convertedQty: { $toInt: "$quantity" },
+                        },
+                    },
+                    {
+                        $set: {
+                            totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
+                        },
+                    },
+                ])
+                .toArray();
+            resolve(orderItems);
+        });
+    },
+
+    /*Get Customer  Order Sales Report Of  Previous Month
+    ============================================= */
+    get_SalesReport_Bymonth: () => {
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $unwind: "$products",
+                    },                 
+                    {
+                        $match: {                          
+                            $expr: {
+                                $and: [
+                                    { $eq: [{ $year: "$created_date" }, { $year: new Date() }] },
+                                    { $eq: [1, { $subtract: [{ $month: new Date() }, { $month: "$created_date" }] }] },
+                                ],
+                            },
+                        },
+                    },
+                    {
+                        $project: {
+                            userId: 1,
+                            status: 1,
+                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
+                            ven_id: "$products.ven_id",
+                            item: "$products.item",
+                            product_name: "$products.product_name",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+                    {
+                        $unwind: "$product",
+                    },
+                    {
+                        $addFields: {
+                            convertedPrice: { $toDouble: "$product.price" },
+                            convertedQty: { $toInt: "$quantity" },
+                        },
+                    },
+                    {
+                        $set: {
+                            totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
+                        },
+                    },
+                ])
+                .toArray();
+            resolve(orderItems);
+        });
+    },
+
+     /*View Sales Report By  Date &Status
+    ============================================= */
+    view_SalesReport_ByDate_Status: (dates) => {
+        start = dates.start;
+        end = dates.end;
+        status = dates.status;
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $unwind: "$products",
+                    },                 
+                    {
+                        $project: {
+                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
+                            created_date: { $dateToString: { format: "%Y-%m-%d", date: "$created_date" } },
+                            item: "$products.item",
+                            product_name: "$products.product_name",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                        },
+                    },
+                    {
+                        $match: {
+                            created_date: {
+                                $gte: start,
+                                $lte: end,
+                            },
+                            order_status: status,
+                            // $or:
+                            // [
+                            //    { order_status: status },
+
+                            // ]
                         },
                     },
 
@@ -794,51 +1089,147 @@ module.exports = {
                     },
                     {
                         $addFields: {
+                            convertedPrice: { $toDecimal: "$product.price" },
+                            convertedQty: { $toInt: "$quantity" },
+                        },
+                    },
+                    {
+                        $set: {
+                            totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
+                        },
+                    },
+                ])
+                .toArray();
+            resolve(orderItems);
+        });
+    },
+
+    /*View Sales Report By Date 
+    ============================================= */
+    view_SalesReport_ByDate: (dates) => {
+        start = dates.start;
+        end = dates.end;
+        status = dates.status;
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $unwind: "$products",
+                    },
+                   
+                    {
+                        $project: {
+                            created: { $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
+                            created_date: { $dateToString: { format: "%Y-%m-%d", date: "$created_date" } },
+                            item: "$products.item",
+                            product_name: "$products.product_name",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                        },
+                    },
+                    {
+                        $match: {
+                            created_date: {
+                                $gte: start,
+                                $lte: end,
+                            },
+                          
+                        },
+                    },
+
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+
+                    {
+                        $unwind: "$product",
+                    },
+                    {
+                        $addFields: {
+                            convertedPrice: { $toDecimal: "$product.price" },
+                            convertedQty: { $toInt: "$quantity" },
+                        },
+                    },
+                    {
+                        $set: {
+                            totalAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
+                        },
+                    },
+                ])
+                .toArray();
+            resolve(orderItems);
+        });
+    },
+
+     /*------------------------------------- Chart Area Admin------------------------------------------------------*/
+
+
+    /*View Sales Report (Product Amount)  Chart 
+    ============================================= */
+    view_SalesReport_Chart_Product_Amount: () => {
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    {
+                        $unwind: "$products",
+                    },
+                    {
+                        $match: {
+                         
+                            $expr: {
+                                $and: [
+                                    { $eq: [{ $year: "$created_date" }, { $year: new Date() }] },
+                                    { $eq: [{ $month: new Date() }, { $month: "$created_date" }] },
+                                   // { $eq: [{ $dayOfMonth: new Date() }, { $dayOfMonth: "$created_date" }] },
+                                ],
+                            },
+                        },
+                    },
+                    {
+                        $project: {
+                            item: "$products.item",
+                            quantity: "$products.quantity",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+                    {
+                        $unwind: "$product",
+                    },
+                    {
+                        $addFields: {
                             convertedPrice: { $toInt: "$product.price" },
                             convertedQty: { $toInt: "$quantity" },
                             product_name: "$product.product_name",
                         },
-                    },
-                    //  {
-                    //     $set: {
-                    //         totalAmount:{ $multiply: [ "$convertedPrice", "$convertedQty" ] },
-                    //         //month: {$month: "$created_date"},
-                    //     },
-                    // },
+                    },                  
                     {
                         $group: {
-                            _id: {
-                                month: { $month: "$created_date" },
-                                day: { $dayOfMonth: "$created_date" },
-                                year: { $year: "$created_date" },
-                            },
-                            totalPrice: { $sum: { $multiply: ["$convertedPrice", "$convertedQty"] } },
-                            count: { $sum: 1 },
+                            _id: "$item",
+                            product_name: { $first: "$product.product_name" },               
+                           totalAmount: { $sum: { $multiply: [ "$convertedPrice", "$convertedQty" ] } },
                         },
-                    },
-                    // {
-                    //     $group:
-                    //       {
-                    //         _id: "$item",
-                    //         product_name: { $first: "$product.product_name" },
-                    //         totalAmount: { $sum: "$totalAmount" },
-                    //       }
-                    //   },
-                    // {
-                    //     $project: {
-                    //         product_name :1,
-                    //         quantity: 1,
-                    //         totalAmount:1,
-                    //         convertedPrice:1,
-                    //         month:1
-                    //        //order_status: "$products.order_status",
-                    //         // order_status: { $ne: [ "$products.order_status", "completed" ] }
-                    //     },
-                    // },
+                    },                  
                 ])
                 .toArray();
-            //  console.log("vendor order1:",orderItems)
+            console.log("vendor order:",orderItems)
             resolve(orderItems);
         });
     },
+
 };

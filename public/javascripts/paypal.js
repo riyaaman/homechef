@@ -28,7 +28,8 @@ paypal.Buttons({
     onApprove:function (data,actions){
         var order_id = document.getElementById("order_id").value;
         return actions.order.capture().then(function(details){
-            console.log(details)         
+            console.log(details)    
+            alert(details.id)     
             //location.href = "/order_paypal_success?order_id=" + order_id;   
             location.href = "/order_paypal_success/"+order_id;          
         })

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="application/html" src="https://securegw-stage.paytm.in/merchantpgpui/checkoutjs/merchants/udcOzt25918766716511.js"> </script>
+</head>
+<body>
+    <div>
+        <form action="" method="POST">
+            <label for="email">Email:</label>
+            <input type="email" name="email">
+            <label for="phone">Phone:</label>
+            <input type="text" name="phone">
+            <label for="amount">Amount:</label>
+            <input type="text" name="amount">
+            <button type="submit" onclick="onScriptLoad()">Submit</button>
+        </form>
+    </div>
+
+
+
+
+
+
+
+    
+<script>
+  function onScriptLoad(){
+      alert("ji")
+      var config = {
+        "root": "f1&j61jK#4Ka3r4O",
+        "flow": "DEFAULT",
+        "data": {
+        "orderId": "456", /* update order id */
+        "token": "", /* update token value */
+        "tokenType": "TXN_TOKEN",
+        "amount": "25" /* update amount */
+        },
+        "handler": {
+          "notifyMerchant": function(eventName,data){
+              alert("hrllo")
+            console.log("notifyMerchant handler function called");
+            console.log("eventName => ",eventName);
+            console.log("data => ",data);
+          } 
+        }
+      };
+
+      if(window.Paytm && window.Paytm.CheckoutJS){
+          window.Paytm.CheckoutJS.onLoad(function excecuteAfterCompleteLoad() {
+              // initialze configuration using init method 
+              window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
+                  // after successfully updating configuration, invoke JS Checkout
+                  window.Paytm.CheckoutJS.invoke();
+              }).catch(function onError(error){
+                  console.log("error => ",error);
+              });
+          });
+      } 
+  }
+</script>
+</body>
+</html>
+

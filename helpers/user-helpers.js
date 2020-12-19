@@ -286,6 +286,8 @@ module.exports = {
     /* Login For Users(customers)
     ============================================= */
     doLogin_User: (userData) => {
+        console.log("hello:",userData.email)
+    
         return new Promise(async (resolve, reject) => {
             let loginStatus = false;
             let response = {}; //null object created
@@ -294,8 +296,11 @@ module.exports = {
                 .get()
                 .collection(collection.USERS_COLLECTION)
                 .findOne({ $or: [{ email: userData.email }, { phone: userData.email }] });
+
             if (user) {
+                console.log("user exist")
                 bcrypt.compare(userData.password, user.password).then((loginStatus) => {
+                    console.log("hnnnnn")
                     if (loginStatus) {
                         response.user = user;
                         response.loginStatus = true;
@@ -309,6 +314,7 @@ module.exports = {
                     }
                 });
             } else {
+                console.log("user no exist")
                 resolve({ status: false });
             }
         });
@@ -1176,14 +1182,7 @@ module.exports = {
     ============================================= */
     get_UserOrders_ByvendorId: (vendorId) => {
         return new Promise(async (resolve, reject) => {
-            // let orders = await db
-            //     .get()
-            //     .collection(collection.ORDER_COLLECTION)
-            //     .find({ "products.ven_id": objectId(vendorId) })
-            //     .toArray();
-
-            // console.log(orders);
-            // resolve(orders);
+          
             let orders = await db
                 .get()
                 .collection(collection.ORDER_COLLECTION)
@@ -1384,6 +1383,209 @@ module.exports = {
                 });
         });
     },
+
+
+
+
+      /*=============================             Order Section (Admin)         ============================== */
+
+
+
+
+     /*Get All Customer Orders 
+    ============================================= */
+
+    get_UserOrders_Byproducts: () => {
+       
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    
+                    {
+                        $unwind: "$products",
+                    },
+                    { $match:
+                        { $or: [ { "products.order_status":"placed" }, { "products.order_status":"pending" } ] } 
+                    },                  
+                    {
+                        $project: {
+                            //deliveryDetails: 1,
+                            userId: 1,
+                            //status: 1,
+                            ven_id: "$products.ven_id",
+                            item: "$products.item",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                            paymentMethod:1,
+                            created_date:{ $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
+                        },
+                    }, 
+                                  
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.USERS_COLLECTION,
+                            localField: "userId",
+                            foreignField: "_id",
+                            as: "users",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.VENDOR_COLLECTION,
+                            localField: "ven_id",
+                            foreignField: "_id",
+                            as: "vendor",
+                        },
+                    },
+                    {
+                        $unwind: "$product"
+                    },
+                    {
+                        $unwind: "$vendor"
+                    },
+                    {
+                        $unwind: "$users"
+                    },
+                    {
+                        $addFields: {
+                           convertedPrice: { $toDouble: "$product.price" },
+                           convertedQty: { $toInt: "$quantity" },
+                        }
+                     },
+                     {
+                        $set: {
+                            totalAmount:{ $multiply: [ "$convertedPrice", "$convertedQty" ] },
+                        },
+                    },
+                 
+                 
+                     {
+                        $project: {     
+                            product_name:"$product.product_name",                       
+                            ven_shop: "$vendor.ven_shop",
+                            user_name:"$users.first_name",
+                            totalAmount:1,
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                            paymentMethod:1,
+                            order_status:1,
+                            created_date:1
+                        },
+                    }, 
+                ])
+                .toArray();
+             //console.log("vendor order:",orderItems)
+            resolve(orderItems);
+        });
+    },
+
+       /*Get All Customer Orders 
+    ============================================= */
+
+    get_UserOrderHistory_Byproducts: () => {
+       
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db
+                .get()
+                .collection(collection.ORDER_COLLECTION)
+                .aggregate([
+                    
+                    {
+                        $unwind: "$products",
+                    },
+                    { $match:
+                        { $or: [ { "products.order_status":"completed" }, { "products.order_status":"cancelled" } ] } 
+                    },                  
+                    {
+                        $project: {
+                            //deliveryDetails: 1,
+                            userId: 1,
+                            //status: 1,
+                            ven_id: "$products.ven_id",
+                            item: "$products.item",
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                            paymentMethod:1,
+                            created_date:{ $dateToString: { format: "%d-%m-%Y", date: "$created_date" } },
+                        },
+                    }, 
+                                  
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: "item",
+                            foreignField: "_id",
+                            as: "product",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.USERS_COLLECTION,
+                            localField: "userId",
+                            foreignField: "_id",
+                            as: "users",
+                        },
+                    },
+                    {
+                        $lookup: {
+                            from: collection.VENDOR_COLLECTION,
+                            localField: "ven_id",
+                            foreignField: "_id",
+                            as: "vendor",
+                        },
+                    },
+                    {
+                        $unwind: "$product"
+                    },
+                    {
+                        $unwind: "$vendor"
+                    },
+                    {
+                        $unwind: "$users"
+                    },
+                    {
+                        $addFields: {
+                           convertedPrice: { $toDouble: "$product.price" },
+                           convertedQty: { $toInt: "$quantity" },
+                        }
+                     },
+                     {
+                        $set: {
+                            totalAmount:{ $multiply: [ "$convertedPrice", "$convertedQty" ] },
+                        },
+                    },
+                 
+                 
+                     {
+                        $project: {     
+                            product_name:"$product.product_name",                       
+                            ven_shop: "$vendor.ven_shop",
+                            user_name:"$users.first_name",
+                            totalAmount:1,
+                            quantity: "$products.quantity",
+                            order_status: "$products.order_status",
+                            paymentMethod:1,
+                            order_status:1,
+                            created_date:1
+                        },
+                    }, 
+                ])
+                .toArray();
+             //console.log("vendor order:",orderItems)
+            resolve(orderItems);
+        });
+    },
+
 
     
 };

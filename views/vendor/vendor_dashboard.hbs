@@ -60,7 +60,7 @@
 							</div>
 							<div class="mr-5">4 Item Sold!</div>
 						</div>
-						<a class="card-footer text-white clearfix small z-1" href="#">
+						<a class="card-footer text-white clearfix small z-1" href="/vendor/sales_report">
 							<span class="float-left">View Details</span>
 							<span class="float-right">
 								<i class="fas fa-angle-right"></i>
@@ -76,7 +76,7 @@
 							</div>
 							<div class="mr-5">400 Total Amount!</div>
 						</div>
-						<a class="card-footer text-white clearfix small z-1" href="#">
+						<a class="card-footer text-white clearfix small z-1" href="/vendor/sales_report">
 							<span class="float-left">View Details</span>
 							<span class="float-right">
 								<i class="fas fa-angle-right"></i>
@@ -92,7 +92,7 @@
 							</div>
 							<div class="mr-5">6 Sales Amount!</div>
 						</div>
-						<a class="card-footer text-white clearfix small z-1" href="#">
+						<a class="card-footer text-white clearfix small z-1" href="/vendor/sales_report">
 							<span class="float-left">View Details</span>
 							<span class="float-right">
 								<i class="fas fa-angle-right"></i>
@@ -236,18 +236,18 @@
 	$(document).ready(function () {
 
 		$.ajax({
-			url: "/vendor/sales_report_chart",
+			url: "/vendor/sales_report_chart_by_month",
 			method: "GET",
 			success: function (data) {
 
 				var data = data
-				var product = [];
-				var count = [];
+				//var month = [];
+				var totalPrice = [];
+				var month = ['This Month','Previous Month'];
 
 				for (var i in data) {
-					product.push(data[i].product_name);
-					//count.push(data[i].count);
-					count.push(data[i].totalAmount);
+					//month.push(data[i].month);
+					totalPrice.push(data[i].totalPrice);
 				}
 				function getRandomColor() {
 					var letters = '0123456789ABCDEF';
@@ -261,17 +261,14 @@
 					type: 'pie',
 					data: {
 						datasets: [{
-							data: count,
+							data:totalPrice ,
 							backgroundColor: [
 								window.chartColors.red,
 								window.chartColors.lime,
-								window.chartColors.Olive,
-								window.chartColors.Teal,							
-								window.chartColors.blue,
 							],
 							label: 'Dataset 1'
 						}],
-						labels: product
+						labels:month 
 
 
 					},

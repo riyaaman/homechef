@@ -19,22 +19,18 @@ const verifyAdminLogin = (req, res, next) => {
 
 /* Admin Login
 ============================================= */
-router.get("/", function (req, res, next) {
-    //res.set('Cache-Control', 'no-cache');
-    //     res.header('Cache-Control', 'no-cache');
-
-    if (req.session.user) {
+router.get("/", function (req, res, next) {    
+    if (req.session.admin) {
         res.redirect("admin/dashboard");
     } else {
         res.render("admin/login", { adminLoginError: req.session.adminLoginError });
         req.session.adminLoginError = false;
     }
 });
-
 router.post("/admin_login", (req, res) => {
     userHelpers.doLogin(req.body).then((response) => {
         if (response.loginStatus) {
-            req.session.user = response.user;
+            req.session.admin = response.user;
             req.session.adminLoggedIn = true;
             req.session.admin_message = false;
             res.redirect("dashboard");
@@ -55,8 +51,10 @@ router.get("/dashboard", verifyAdminLogin, (req, res) => {
 /* Admin Logout
 ============================================= */
 router.get("/logout", (req, res) => {
-    req.session.user = null;
+    req.session.admin = null;
     req.session.adminLoggedIn = false;   
+    req.session.vendor_message = false
+    req.session.admin_message = false;
     res.redirect("/admin");
 });
 
@@ -380,10 +378,91 @@ router.post("/user_Unblock", (req, res) => {
 
 
 
+/*------------------------------------------------- Order Management--------------------------------------------------*/
+
+
+/*Get All Orders By Products
+============================================= */
+router.get("/get_all_orders", verifyAdminLogin, async (req, res, next)=> {  
+  
+    await userHelpers.get_UserOrders_Byproducts().then((orders) => {  
+     
+        res.render("admin/view-all-orders", { admin_status: true, orders });  
+    })
+
+});
+
+
+/*Get All Order Hitsory By Products
+============================================= */
+router.get("/get_all_order_history", verifyAdminLogin, function (req, res, next) {  
+    userHelpers.get_UserOrderHistory_Byproducts().then((orders) => {  
+        res.render("admin/view-all-orderhistory", { admin_status: true, orders });  
+    })
+
+});
+
+/*------------------------------               Sales Management                  ------------------*/
+
+
+
+/* View All Sales Report 
+============================================= */
+router.get("/get_all_sales_report", verifyAdminLogin, function (req, res, next) {  
+    productHelpers.get_All_Sales_Report().then((orders) => {  
+        res.render("admin/sales-report", { admin_status: true, orders });  
+    })
+
+});
+
+
+/* Get Sales Report of Previous Week & Month
+============================================= */
+router.get("/sales_report_by_parameters/:value", verifyAdminLogin, async (req, res) => {
+    var value = req.params.value;
+    orders = null
+    if(value == 0){       
+        orders = await productHelpers.get_SalesReport_Byweek();
+    }
+    else{      
+        orders = await productHelpers.get_SalesReport_Bymonth();
+    }
+   
+    res.render("admin/sales-report", { admin_status: true, orders,value });  
+});
+
+
+/* View Sales Report  By  Date
+============================================= */
+router.post("/sales_report_bydate", verifyAdminLogin, async (req, res) => {
+    let orders = null
+       if(req.body.status == 1){
+            orders = await productHelpers.view_SalesReport_ByDate(req.body);
+       }
+       else{
+            orders = await productHelpers.view_SalesReport_ByDate_Status(req.body);
+       }      
+       let details = {  
+        start: req.body.start,
+        end: req.body.end,
+       status:req.body.status
+    };
+       res.render("admin/sales-report", { admin_status:true, orders,details});
+});
 
 
 
 
+
+/* Get Sales Report  chart (Product & Amount)
+============================================= */
+router.get("/sales_report_chart", verifyAdminLogin, async (req, res) => {    
+    products_amount = await ( productHelpers.view_SalesReport_Chart_Product_Amount())
+    res.json(products_amount);
+  
+});
+
+   
 
 
 module.exports = router;

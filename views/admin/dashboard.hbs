@@ -1,18 +1,3 @@
-<!-- Page Title
-		============================================= -->
-{{!-- <section id="page-title">
-
-	<div class="container clearfix">
-		<h1>Navigation Tree</h1>
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="#">Home</a></li>
-			<li class="breadcrumb-item"><a href="#">Submenu1</a></li>
-			<li class="breadcrumb-item active" aria-current="page">Submenu2</li>
-		</ol>
-	</div>
-
-</section> --}}
-<!-- #page-title end -->
 
 <style>
 .chart-samples ul { list-style: none; }
@@ -37,12 +22,9 @@
 <section id="content">
 	<div class="content-wrap">
 
-
 		<!-- Summary Area
 		============================================= -->
-
-		<div class="container clearfix">
-		
+		<div class="container clearfix">		
 			<div class="row">
 			<div class="col-xl-3 col-sm-6 mb-3">
 				<div class="card text-white bg-primary o-hidden h-100">
@@ -114,17 +96,18 @@
 
 		<!-- Charts Area
 		============================================= -->
-		<div class="container section">		
-			<div class="row clearfix">			
-				
-				
+		<div class="container section">
+			<div class="row clearfix">
+
+
 				<div class="col-lg-6">
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-chart-pie"></i>
-							Sales Report</div>
+							Sales Report
+						</div>
 						<div class="card-body">
-							<canvas id="myPieChart" width="100%" height="100"></canvas>
+							<canvas id="chart_month" width="100%" height="100"></canvas>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 					</div>
@@ -133,27 +116,172 @@
 					<div class="card mb-3">
 						<div class="card-header">
 							<i class="fas fa-chart-pie"></i>
-							Total Sales In This Month</div>
+							Total Sales In This Month
+						</div>
 						<div class="card-body">
-							<canvas id="chart-0" width="100%" height="100"></canvas>
+						
+							<canvas id="chart-1" width="100%" height="100"></canvas>
 						</div>
 						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 					</div>
 				</div>
+				{{!-- <div class="col-lg-6 ">
+					<div class="card mb-3">
+						<div class="card-header">
+							<i class="fas fa-chart-pie"></i>
+							Total Sales In This Month
+						</div>
+						<div class="card-body">
+						
+							<canvas id="chart-2" width="100%" height="100"></canvas>
+						</div>
+						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+					</div>
+				</div> --}}
 			</div>
-			
-
-					{{!-- <div class="toolbar center">
-						<button class="btn btn-secondary btn-sm" id="randomizeData">Randomize Data</button>
-						<button class="btn btn-secondary btn-sm" id="addDataset">Add Dataset</button>
-						<button class="btn btn-secondary btn-sm" id="removeDataset">Remove Dataset</button>
-						<button class="btn btn-secondary btn-sm" id="addData">Add Data</button>
-						<button class="btn btn-secondary btn-sm" id="removeData">Remove Data</button>
-					</div> --}}
-					<!-- Charts Area End -->
-
 		</div>
 	</div>
 </section> 
 <!-- #content end -->
  
+<script>
+
+	$(document).ready(function () {
+
+		$.ajax({
+			url: "/admin/sales_report_chart",
+			method: "GET",
+			success: function (data) {
+
+				var data = data
+				var product = [];
+				var count = [];
+
+				for (var i in data) {
+					product.push(data[i].product_name);
+					//count.push(data[i].count);
+					count.push(data[i].totalAmount);
+				}
+				function getRandomColor() {
+					var letters = '0123456789ABCDEF';
+					var color = '#';
+					for (var i = 0; i < 6; i++) {
+						color += letters[Math.floor(Math.random() * 16)];
+					}
+					return color;
+				}
+				var config = {
+					type: 'line',
+					data: {
+						datasets: [{
+							data: count,
+							//backgroundColor: window.chartColors.red,
+							borderColor: window.chartColors.red,
+							label: 'Product-Amount'
+						}],
+						labels: product
+
+
+					},
+					options: {
+						responsive: true,
+						legend: {
+							position: 'top',
+						},
+						title: {
+							display: true,
+							text: 'Sales Chart'
+						},
+						animation: {
+							animateScale: true,
+							animateRotate: true
+						}
+					}
+				};
+
+
+				var ctx = document.getElementById("chart-1").getContext("2d");
+				window.myDoughnut = new Chart(ctx, config);
+
+
+			},
+			error: function (data) {
+				console.log(data);
+			}
+		});
+	});
+</script>
+
+
+
+
+
+<script>
+
+	$(document).ready(function () {
+
+		$.ajax({
+			url: "/admin/sales_report_chart_by_month",
+			method: "GET",
+			success: function (data) {
+
+				var data = data
+				//var month = [];
+				var totalPrice = [];
+				var month = ['This Month','Previous Month'];
+
+				for (var i in data) {
+					//month.push(data[i].month);
+					totalPrice.push(data[i].totalPrice);
+				}
+				function getRandomColor() {
+					var letters = '0123456789ABCDEF';
+					var color = '#';
+					for (var i = 0; i < 6; i++) {
+						color += letters[Math.floor(Math.random() * 16)];
+					}
+					return color;
+				}
+				var config = {
+					type: 'pie',
+					data: {
+						datasets: [{
+							data:totalPrice ,
+							backgroundColor: [
+								window.chartColors.red,
+								window.chartColors.lime,
+							],
+							label: 'Dataset 1'
+						}],
+						labels:month 
+
+
+					},
+					options: {
+						responsive: true,
+						legend: {
+							position: 'top',
+						},
+						title: {
+							display: true,
+							text: 'Sales Chart'
+						},
+						animation: {
+							animateScale: true,
+							animateRotate: true
+						}
+					}
+				};
+
+
+				var ctx = document.getElementById("chart_month").getContext("2d");
+				window.myDoughnut = new Chart(ctx, config);
+
+
+			},
+			error: function (data) {
+				console.log(data);
+			}
+		});
+	});
+</script>

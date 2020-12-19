@@ -253,27 +253,15 @@ router.get("/sales_report", verifyVendorLogin, async (req, res) => {
 /* View Sales Report  By Vendor Id & Date
 ============================================= */
 router.post("/sales_report_bydate", verifyVendorLogin, async (req, res) => {
-    //console.log(req.body)
-   // var start_date = req.body.start;
-   
-    // var date = new Date(start_date);
-
-    // console.log(
-    //     (date.getMonth() > 8 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1)) +
-    //         "-" +
-    //         (date.getDate() > 9 ? date.getDate() : "0" + date.getDate()) +
-    //         "-" +
-    //         date.getFullYear()
-    //     );
-        // console.log(
-        //        date.getFullYear()       +
-        //         "-" +
-        //         (date.getMonth() > 8 ? date.getMonth() + 1 : "0" + (date.getMonth() + 1))  +
-        //         "-" +               
-        //         (date.getDate() > 9 ? date.getDate() : "0" + date.getDate())
-        //     );
-
-    let orders = await productHelpers.view_SalesReport_ByDate_Id(req.session.vendor._id, req.body);
+ let orders = null
+    if(req.body.status == 1){
+         orders = await productHelpers.view_SalesReport_ByDate_Id(req.session.vendor._id, req.body);
+    }
+    else{
+         orders = await productHelpers.view_SalesReport_ByDate_Id_status(req.session.vendor._id, req.body);
+    }
+ 
+  
     let details = {
         name: req.session.vendor.ven_name,
         shop_name: req.session.vendor.ven_shop,
@@ -286,9 +274,7 @@ router.post("/sales_report_bydate", verifyVendorLogin, async (req, res) => {
 
 
 router.get("/report",  async (req, res) => {
-    // let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
-    // let categories = await productHelpers.get_Allcategories();
-    // res.render("vendor/sales-report-demo", { vendor_status: true, categories, details });
+ 
     let orders = await productHelpers.view_SalesReport_Byvendor(req.session.vendor._id);
     let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
     res.render("vendor/sales-report_org", { vendor_status: true, orders, details });
@@ -315,8 +301,15 @@ router.get("/sales_report_chart", verifyVendorLogin, async (req, res) => {
     
     products_amount = await ( productHelpers.view_SalesReport_Chart_Amount_Byvendor(req.session.vendor._id))
     res.json(products_amount);
-    products_amount1 = await ( productHelpers.view_SalesReport_Chart_Month_Byvendor(req.session.vendor._id))
-  
+ 
+});
+
+/* Get Sales Report pie chart(sales this month & Previous month)
+============================================= */
+router.get("/sales_report_chart_by_month", verifyVendorLogin, async (req, res) => {
+    
+    sales_month = await ( productHelpers.view_SalesReport_Chart_Month_Byvendor(req.session.vendor._id))
+    res.json(sales_month);
    // products = await ( productHelpers.view_SalesReport_chart_Byvendor(req.session.vendor._id))
    // data ={product_amount:products_amount,products:products}
    // res.json(products);
@@ -365,30 +358,6 @@ router.get("/sales_report_by_status/:value", verifyVendorLogin, async (req, res)
    
    res.render("vendor/sales-report", { vendor_status: true, orders, details,value });
 });
-
-
-
-
-/* Get Sales Report by Vendor Id , Previous Week & Month
-============================================= */
-// router.get("/report_success", verifyVendorLogin, async (req, res) => {
-//     let details = {
-//         name: req.session.vendor.ven_name,
-//         shop_name: req.session.vendor.ven_shop       
-//     };
-//     orders  =   req.session.orders
-//     value   =  req.session.value
-//     //console.log(value)
-//     res.render("vendor/sales-report", { vendor_status: true, orders, details,value });
-//     req.session.orders = false
-//     req.session.value   = false
-// })
-
-
-
-
-
-
 
 
 

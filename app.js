@@ -43,7 +43,7 @@ app.use(session ({
         secret:"Key",
         cookie:{maxAge:600000},
         duration: 30 * 60 * 1000,
-        activeDuration: 5 * 60 * 1000
+        activeDuration:5 * 60 * 1000
     }))
 app.use(fileUpload())
 app.use(flash())

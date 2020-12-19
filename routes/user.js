@@ -9,10 +9,28 @@ var messagebird = require("messagebird")("NXdZZmOVZ5XRJJJD3SH1ugXJM");
 /* Verify Is User Logged in
 ============================================= */
 const verifyUserLogin = (req, res, next) => {
-    if (req.session.userLoggedIn) {
-        req.session.user.user_message = req.session.user_message;
-        next();
+    if (req.session.userLoggedIn) {        
+        userData ={
+            email:req.session.user.email,
+            password:req.session.user.password
+        }
+        userHelpers.doLogin_User(userData).then((response) => {
+            console.log("status:",response.loginStatus)
+      
+            if (response.loginStatus == "blocked") {
+                req.session.user_message = "Your Account is Blocked By Admin";
+                req.session.user = null;                
+                req.session.userLoggedIn = false;
+                res.redirect("/user_login");
+            } 
+            else{
+                req.session.user.user_message = req.session.user_message;
+                next();
+            }
+        });
+      
     } else {
+        
         res.redirect("/user_login");
     }
 };
@@ -22,14 +40,17 @@ const verifyUserLogin = (req, res, next) => {
 router.get("/", async (req, res, next) => {
     let products = await productHelpers.get_Allproducts();
     let latest_products = products.slice(0, 12);
-    let user_details = {};
+    let user_details = null;
     user = req.session.user;
     let cart_count = null;
-    user_details = req.session.user;
+   
     if (user) {
+       
+        user_details = req.session.user;
         cart_count = await userHelpers.get_CartCount(user._id);        
         req.session.cart_count = cart_count;      
     }
+
     res.render("user/index", { user_status: true, user_details, latest_products, cart_count });
 });
 
@@ -99,10 +120,13 @@ router.get("/user_login", (req, res) => {
 
 router.post("/user_login", (req, res) => {
     userHelpers.doLogin_User(req.body).then((response) => {
+        console.log("status:",response.loginStatus)
         if (response.loginStatus == true) {
+            
             req.session.user = response.user;
             req.session.userLoggedIn = true;
             req.session.user_message = false;
+            req.session.user.password = req.body.password
             res.redirect("/");
         } else if (response.loginStatus == "blocked") {
             req.session.user_message = "Your Account is Blocked";
@@ -118,6 +142,8 @@ router.get("/user_logout", (req, res) => {
     req.session.user = null;
     req.session.userLoggedIn = false;
     req.session.cart_count = null;
+    req.session.user_message = false;
+
     res.redirect("/");
 });
 
@@ -192,6 +218,7 @@ router.post("/profile_add", verifyUserLogin, (req, res) => {
 /*User Profile
 ============================================= */
 router.get("/profile/:id", verifyUserLogin, async (req, res) => {
+    
     user_id = req.params.id;
    
     cart_count = null;
@@ -467,9 +494,9 @@ router.post("/change_profile_image", verifyUserLogin, (req, res) => {
 
 /*Get paypal test
 ============================================= */
-router.get("/paypal", verifyUserLogin, async (req, res) => {
-    res.render("user/paypal-test");
-});
+// router.get("/paypal", verifyUserLogin, async (req, res) => {
+//     res.render("user/paypal-test");
+// });
 
 /*Shows Payment  Failed message For Paypal
 ============================================= */
@@ -486,6 +513,15 @@ router.get("/order_paypal_success/:order_id", verifyUserLogin, async (req, res) 
         res.render("user/order-success");
     });
     req.session.cart_count = false;
+});
+
+
+
+
+/*Get paytm test
+============================================= */
+router.get("/paytm_test",  async (req, res) => {
+    res.render("user/paytm_test");
 });
 
 module.exports = router;
