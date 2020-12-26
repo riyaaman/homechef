@@ -48,15 +48,11 @@ router.post("/vendor_login", (req, res) => {
 });
 
 router.get("/ven_dashboard", verifyVendorLogin, async (req, res) => {
-    vendor_status = true;
-    let product_count = await productHelpers.get_AllproductCount_ByVenId(req.session.vendor._id);
-
-    if (product_count.count_status == false) {
-        product_count = null;
-    }
+ 
     let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
-
-    res.render("vendor/vendor_dashboard", { vendor_status, details, product_count });
+    let count   =   await productHelpers.get_Count_Byvendor(req.session.vendor._id)
+    console.log(count)
+    res.render("vendor/vendor_dashboard", { vendor_status:true, details,count });
 });
 
 /* settings of vendor
@@ -225,10 +221,13 @@ router.get("/customer_orders", verifyVendorLogin, async (req, res) => {
 /* View Order Products By Vendor Id
 ============================================= */
 router.get("/view_order_products_byvendor/:id", verifyVendorLogin, async (req, res) => {
-    order_id = req.params.id;
-    let orders = await userHelpers.view_Order_Products_Byvendor(req.session.vendor._id, order_id);
-    let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
-    res.render("vendor/ven-view-order-products", { vendor_status: true, orders, details });
+    order_id    =   req.params.id;
+    let orders  =   await userHelpers.view_Order_Products_Byvendor(req.session.vendor._id, order_id);
+   
+    delivery_details = orders.slice(0, 1);
+    console.log("hello:",delivery_details)
+    let details     =   { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    res.render("vendor/ven-view-order-products", { vendor_status: true, orders, details,delivery_details });
 });
 
 /*Change Order Status By Vendor

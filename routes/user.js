@@ -1,36 +1,37 @@
 var express = require("express");
 var router = express.Router();
+
 var userHelpers = require("../helpers/user-helpers");
 var productHelpers = require("../helpers/product-helpers");
-const session = require("express-session");
-const { response } = require("express");
+
+// const session = require("express-session");
+// const { response } = require("express");
+
 var messagebird = require("messagebird")("NXdZZmOVZ5XRJJJD3SH1ugXJM");
+
+
 
 /* Verify Is User Logged in
 ============================================= */
 const verifyUserLogin = (req, res, next) => {
-    if (req.session.userLoggedIn) {        
-        userData ={
-            email:req.session.user.email,
-            password:req.session.user.password
-        }
+    if (req.session.userLoggedIn) {
+        userData = {
+            email: req.session.user.email,
+            password: req.session.user.password,
+        };
         userHelpers.doLogin_User(userData).then((response) => {
-            console.log("status:",response.loginStatus)
-      
+           
             if (response.loginStatus == "blocked") {
                 req.session.user_message = "Your Account is Blocked By Admin";
-                req.session.user = null;                
+                req.session.user = null;
                 req.session.userLoggedIn = false;
                 res.redirect("/user_login");
-            } 
-            else{
+            } else {
                 req.session.user.user_message = req.session.user_message;
                 next();
             }
         });
-      
     } else {
-        
         res.redirect("/user_login");
     }
 };
@@ -40,17 +41,15 @@ const verifyUserLogin = (req, res, next) => {
 router.get("/", async (req, res, next) => {
     let products = await productHelpers.get_Allproducts();
     let latest_products = products.slice(0, 12);
-    let user_details = null;
-    user = req.session.user;
+    let user_details = null;   
     let cart_count = null;
-   
-    if (user) {
-       
-        user_details = req.session.user;
-        cart_count = await userHelpers.get_CartCount(user._id);        
-        req.session.cart_count = cart_count;      
-    }
+    user = req.session.user;
 
+    if (user) {
+        user_details = req.session.user;
+        cart_count = await userHelpers.get_CartCount(user._id);
+        req.session.cart_count = cart_count;
+    }
     res.render("user/index", { user_status: true, user_details, latest_products, cart_count });
 });
 
@@ -107,7 +106,7 @@ router.post("/signup", (req, res) => {
     });
 });
 
-/* User Login & Logout
+/* User Login 
 ============================================= */
 router.get("/user_login", (req, res) => {
     if (req.session.user) {
@@ -120,13 +119,12 @@ router.get("/user_login", (req, res) => {
 
 router.post("/user_login", (req, res) => {
     userHelpers.doLogin_User(req.body).then((response) => {
-        console.log("status:",response.loginStatus)
+        console.log("status:", response.loginStatus);
         if (response.loginStatus == true) {
-            
             req.session.user = response.user;
             req.session.userLoggedIn = true;
             req.session.user_message = false;
-            req.session.user.password = req.body.password
+            req.session.user.password = req.body.password;
             res.redirect("/");
         } else if (response.loginStatus == "blocked") {
             req.session.user_message = "Your Account is Blocked";
@@ -138,6 +136,8 @@ router.post("/user_login", (req, res) => {
     });
 });
 
+/* User  Logout
+============================================= */
 router.get("/user_logout", (req, res) => {
     req.session.user = null;
     req.session.userLoggedIn = false;
@@ -205,23 +205,19 @@ router.post("/step3", function (req, res) {
 
 /* User Profile Add/Update 
 ============================================= */
-router.post("/profile_add", verifyUserLogin, (req, res) => {
-    let user_details = req.body;
+router.post("/profile_add", verifyUserLogin, (req, res) => {    
     user_id = req.session.user._id;
-
     userHelpers.add_User_Profile(req.body, user_id).then((response) => {
         req.session.user_message = " Profile Updated Successfully";
         res.redirect("/profile/" + user_id);
     });
 });
 
-/*User Profile
+/*Get User Profile Details
 ============================================= */
 router.get("/profile/:id", verifyUserLogin, async (req, res) => {
-    
     user_id = req.params.id;
-   
-    cart_count = null;
+    let cart_count = null;
     let user = await userHelpers.get_UserDetails(user_id);
     user_details = req.session.user;
     cart_count = req.session.cart_count;
@@ -251,6 +247,86 @@ router.post("/change_password", verifyUserLogin, (req, res) => {
         }
 
         res.redirect("/user_settings/id=" + user_id);
+    });
+});
+
+/*Change Profile Image Of User
+============================================= */
+router.post("/change_profile_image", verifyUserLogin, (req, res) => {
+    let image = req.files.profile_image_upload;
+    let id = req.session.user._id;
+
+    image.mv("./public/images/profile-images/" + id + ".jpg", (err, done) => {
+        if (!err) {
+            // req.session.user_message = "Well Done ! You Successfully Added the Image";
+            res.redirect("profile/" + id);
+        } else {
+            console.log(err);
+        }
+    });
+});
+
+/*Forget Password of user 
+============================================= */
+router.get("/forget_password", (req, res) => {
+    user_message = req.session.user_message;
+    res.render("user/forget-password", { user_message });
+    req.session.user_message = false;
+});
+
+/*Forget Password of user (post method)
+============================================= */
+router.post("/forget_password", async (req, res) => {
+    email = req.body.email;
+    await userHelpers
+        .forget_Password(req.body)
+        .then((response) => {
+            if (response.status == 0) {
+                req.session.user_message = "No account with that email address exists.";
+                res.redirect("forget_password");
+            } else {
+                console.log("error");
+                req.session.user_message = "An e-mail has been sent to " + email + " with further instructions.";
+                res.redirect("forget_password");
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+/*Reset Password of user 
+============================================= */
+router.get("/reset/:token", async (req, res) => {
+    token = req.params.token;
+    userHelpers
+        .resetpassword_Response(req.params.token)
+        .then((response) => {
+            if (response.status == 0) {
+                req.session.user_message = "Password reset token is invalid or has expired.Please Try again";
+                res.redirect("/forget");
+            } else {
+                res.render("user/reset-password", { token });
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+    //    res.render("user/reset")
+});
+
+/* Reser Password of a user (post) 
+============================================= */
+router.post("/reset_password", (req, res) => {
+    userHelpers.reset_Password_User(req.body).then((response) => {
+        if (response.resetStatus == true) {
+            req.session.user_message = "Password Updated Successfully. You Can Login Here";
+            res.redirect("/user_login");
+        } else {
+            req.session.user_message = "Password reset token is invalid or has expired.Please Try again";
+            res.redirect("/forget");
+        }
     });
 });
 
@@ -301,32 +377,6 @@ router.get("/get_products_bybaker/:id", async (req, res) => {
     });
 });
 
-/*Contact
-============================================= */
-router.get("/contact", (req, res) => {
-    user_details = null;
-    cart_count = null;
-    if (req.session.user) {
-        user_details = req.session.user;
-        cart_count = req.session.cart_count;
-    }
-    res.render("user/contact", { user_status: true, user_details, cart_count });
-});
-
-/*About
-============================================= */
-router.get("/about", (req, res) => {
-    user_details = null;
-    cart_count = null;
-    if (req.session.user) {
-        user_details = req.session.user;
-        cart_count = req.session.cart_count;
-    }
-    userHelpers.get_AllVendors().then((vendors) => {
-        res.render("user/about", { user_status: true, vendors, user_details, cart_count });
-    });
-});
-
 /*Buy Now
 ============================================= */
 router.get("/buynow", verifyUserLogin, (req, res) => {
@@ -339,10 +389,10 @@ router.get("/buynow", verifyUserLogin, (req, res) => {
     res.redirect("/cart");
 });
 
-/* Add to cart
+/* Items Add to Cart
 ============================================= */
 router.post("/add_to_cart", verifyUserLogin, (req, res) => {
-    console.log("userid:",req.session.user._id)
+    value = req.body.value;
     userHelpers.add_ToCart(req.body, req.session.user._id).then(async () => {
         // cart_count = await userHelpers.get_CartCount(user._id);
         if (req.session.cart_count) {
@@ -351,7 +401,7 @@ router.post("/add_to_cart", verifyUserLogin, (req, res) => {
         } else {
             req.session.cart_count = 1;
         }
-        res.json({ status: true, cart_count: 1 });
+        res.json({ status: true, cart_count: 1, value });
     });
 });
 
@@ -364,7 +414,7 @@ router.get("/cart", verifyUserLogin, async (req, res) => {
     cart_count = null;
     if (req.session.user) {
         user_details = req.session.user;
-        cart_count = req.session.cart_count;
+        cart_count   = req.session.cart_count;
     }
     let user = req.session.user._id;
     if (products.length > 0) {
@@ -407,11 +457,11 @@ router.post("/remove_from_cart", async (req, res, next) => {
 /*Proceed to place order
 ============================================= */
 router.get("/place_order", verifyUserLogin, async (req, res) => {
-    //let user_address = null
-    user_details = req.session.user;
+    let user_address = null
+    let user_details = req.session.user;
     let total = await userHelpers.get_TotalAmount(req.session.user._id);
     user_address = await userHelpers.get_UserDetails(req.session.user._id);
-    
+
     res.render("user/place-order", { user_status: true, total, user: req.session.user, user_details, user_address });
 });
 
@@ -450,9 +500,8 @@ router.get("/orders", verifyUserLogin, async (req, res) => {
     user_details = req.session.user;
     let orders = null;
     orders = await userHelpers.get_UserOrders_ByuserId(req.session.user._id);
-    cart_count = req.session.cart_count;   
+    cart_count = req.session.cart_count;
     res.render("user/orders", { user: req.session.user, orders, user_status: true, user_details, cart_count });
-    
 });
 
 /*View Order Products By User Id
@@ -466,37 +515,17 @@ router.get("/view-order-products/:id", async (req, res) => {
 /*Verify Payment & Change Status
 ============================================= */
 router.post("/verify_payment", (req, res) => {
-    userHelpers
-        .verify_Payment(req.body)
-        .then(() => {
-            userHelpers.change_PaymentStatus(req.body["order[receipt]"]).then(() => {
-                res.json({ status: true });
-            });
-        })
-        .catch((err) => {
-            res.json({ status: false, errMsg: "" });
+    
+    userHelpers.verify_Payment(req.body)
+    .then(() => {
+        userHelpers.change_PaymentStatus(req.body["order[receipt]"]).then(() => {
+            res.json({ status: true });
         });
-});
-
-router.post("/change_profile_image", verifyUserLogin, (req, res) => {
-    let image = req.files.profile_image_upload;
-    let id = req.session.user._id;
-
-    image.mv("./public/images/profile-images/" + id + ".jpg", (err, done) => {
-        if (!err) {
-            // req.session.user_message = "Well Done ! You Successfully Added the Image";
-            res.redirect("profile/" + id);
-        } else {
-            console.log(err);
-        }
+    })
+    .catch((err) => {
+        res.json({ status: false, errMsg: "" });
     });
 });
-
-/*Get paypal test
-============================================= */
-// router.get("/paypal", verifyUserLogin, async (req, res) => {
-//     res.render("user/paypal-test");
-// });
 
 /*Shows Payment  Failed message For Paypal
 ============================================= */
@@ -515,13 +544,39 @@ router.get("/order_paypal_success/:order_id", verifyUserLogin, async (req, res) 
     req.session.cart_count = false;
 });
 
-
-
-
 /*Get paytm test
 ============================================= */
-router.get("/paytm_test",  async (req, res) => {
+router.get("/paytm_test", async (req, res) => {
     res.render("user/paytm_test");
+});
+
+/*  =============================================      Menu          ============================================= */
+
+/*Contact
+============================================= */
+router.get("/contact", (req, res) => {
+    user_details = null;
+    cart_count = null;
+    if (req.session.user) {
+        user_details = req.session.user;
+        cart_count = req.session.cart_count;
+    }
+    res.render("user/contact", { user_status: true, user_details, cart_count });
+});
+
+/*About
+============================================= */
+router.get("/about", (req, res) => {
+    user_details = null;
+    cart_count = null;
+    if (req.session.user) {
+        user_details = req.session.user;
+        cart_count = req.session.cart_count;
+    }
+    userHelpers.get_AllVendors().then((vendors) => {
+        res.render("user/about", { user_status: true, vendors, user_details, cart_count });
+    })
+    
 });
 
 module.exports = router;

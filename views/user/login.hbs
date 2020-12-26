@@ -3,84 +3,69 @@
 <section id="content">
 	<div class="content-wrap py-0">
 
-		<div class="section dark p-0 m-0 h-100 position-absolute"></div>
-		<div class="section p-0 m-0 h-100 position-absolute"
-			style="background: url('/images/common/recipe-single.jpg') center center no-repeat; background-size: cover; background-attachment: fixed;">
+		<div class="section  p-0 m-0 h-100 position-absolute"></div>
+		<div class="section p-0 m-0 h-100 position-absolute" style="background: url('/images/common/common-bg.jpg') center center no-repeat; background-size: cover; 
+			background-attachment: fixed;filter: brightness(.5);">
 		</div>
 
 		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
 			<div class="vertical-middle">
-				<div class="container py-5">
-
+				<div class="container ">
 					<div class="text-center">
-						<a href="/"><img src="/images/logo-dark.png" alt=" Logo" style="height: 100px;"></a>
+						<a href="/"><img src="/images/logo-dark.png" alt=" Logo" style="height: 90px;"></a>
 					</div>
-
-					<div class="card mx-auto rounded-0 border-0" style="max-width: 400px;">
-						<div class="card-body" style="padding: 40px;">
+					<div class="card mx-auto rounded-2 border-1 hub-sign ">
+						<div class="card-body">
 							<form id="login-form" name="login-form" class="mb-0" action="/user_login" method="post">
-								<h3>Login to your Account</h3>
-
+								<h3 class="m-3">Login to your Account</h3>
 								{{#if user_message}}
-								<span class=" text-danger">{{user_message}}</span><br>
+								<span class=" text-danger">{{user_message}}</span><br><br>
 								{{/if}}
 								<div class="row">
-									<div class="col-12 form-group">
-										{{!-- <label for="login-form-username">Email:</label> --}}
-										<input type="text" id="email" name="email" value=""
+									<div class="col-12 form-group has-error">
+										<input type="text" id="email" name="email" value="" autocomplete="off"
 											class="form-control not-dark" placeholder="Email/Mobile" />
 									</div>
-
-									<div class="col-12 form-group">
-										{{!-- <label for="password">Password:</label> --}}
+									<div class="col-12 form-group has-error">
 										<input type="password" id="password" name="password" value=""
 											class="form-control not-dark" placeholder="Password" />
 									</div>
-
 									<div class="col-12 form-group mb-0">
-										<button type="submit" class="button bg-color m-0">Login</button>
-										<a href="/signup" class="float-right text-danger">New Customer?Start Here</a>
+										<button type="submit" class="sign-button hub-btn">Login</button>
 									</div>
 								</div>
 							</form>
-
-							{{!-- <div class="line line-sm"></div> --}}
 							<div class="divider divider-rounded divider-center m-2">
-								<span class="text-theme">or login with</span></div>
+								<span class="text-theme">or login with</span>
+							</div>
 							{{#if error}}
 							<p class="text-danger font-size-13">{{error}}</p>
 							{{/if}}
 							<form method="post" action="step2" id="login-otp-form" name="login-otp-form">
 								<div class="row">
-									<div class="col-12 form-group">
-										<input type="tel" name="number" id="number" class="form-control not-dark"
-											placeholder="eg:96895391310" />
+									<div class="col-12 form-group has-error">
+										<input type="tel" name="number" id="number"
+											class="form-control text-black not-dark" placeholder="eg:96895391310"
+											autocomplete="off" />
 										<div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
-
 									</div>
 									<div class="col-12 form-group">
-
-										<input type="submit" id="btn-submit" class="button  bg-color m-0"
+										<input type="submit" id="btn-submit" class="sign-button hub-btn"
 											value="Send code" />
-
 									</div>
 								</div>
-								{{!-- <input type="submit" class="button-3d bg-color" value="Send code" /> --}}
-
+								<div class="form-group">
+									<div class="clearfix">
+										<a class="color-link" href="/signup">Sign up</a>
+										<a class="float-right color-link" href="/forget_password">Forgot your password ?</a>
+									</div>
+								</div>
 							</form>
-
-
-
 						</div>
-					</div>
-
-					<div class="text-center text-muted mt-3"><small>Copyrights &copy; All Rights Reserved by Crossroads
-							.</small></div>
-
+					</div>				
 				</div>
 			</div>
 		</div>
-
 	</div>
 </section><!-- #content end -->
 
@@ -91,28 +76,21 @@
 		$("#login-form").validate({
 			// Specify validation rules
 			rules: {
-
 				email: {
 					required: true,
-					//email: true
+					email: true
 				},
-
 				password: {
-
 					required: true,
-
 				},
-
 			},
 			messages: {
-
-
 				email: {
-					required: "Please enter email address",
+					required: "",
 					//email: "Please enter a valid email address.",
 				},
 				password: {
-					required: "Please enter password ",
+					required: "",
 
 				},
 

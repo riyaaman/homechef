@@ -1,6 +1,6 @@
 <!-- Page Title
 ============================================= -->
-<section id="page-title" class="page-title-parallax page-title-center border-bottom "
+{{!-- <section id="page-title" class="page-title-parallax page-title-center border-bottom "
 	style="background-image: url('/images/sections/6.jpg'); background-size: 100% auto;"
 	data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
 
@@ -9,129 +9,72 @@
 		<h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">Our Bakers</h1>
 	</div>
 
-</section><!-- #page-title end -->
+</section> --}}
+<!-- #page-title end -->
+{{!-- <section id="page-title" class="page-title-mini">
+
+	<div class="container clearfix">
+		<span>A Short Page Title Tagline</span>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="#">Home</a></li>
+			<li class="breadcrumb-item"><a href="#">Bakers</a></li>
+		</ol>
+	</div>
+
+</section> --}}
+
+
+<section id="page-title" class="page-title-parallax page-title-dark " 
+	style="background-image: url('images/common/bg.jpg'); background-size: cover; padding: 100px 0";
+	 >
+
+	<div class="container clearfix">
+		{{!-- <h2 class="color">Bakers</h2> --}}
+		
+		<ol class="breadcrumb" style="right: 0;">
+			<li class="breadcrumb-item color"><a href="/">Home</a></li>
+			{{!-- <li class="breadcrumb-item"><a href="#">Shortcodes</a></li> --}}
+			<li class="breadcrumb-item active" aria-current="page">Bakers</li>
+		</ol></span>
+	</div>
+
+</section>
 
 <!-- Content
 ============================================= -->
 <section id="content">
 	<div class="content-wrap pb-0" style="overflow: visible;">
 		<div class="container">
-
 			<div class="row posts-md col-mb-30 mb-0">
-
 				{{#each vendors}}
-				<div class="col-lg-4 col-sm-6">
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					<div class="hovereffect">
+						<img class="img-responsive" src="../images/vendor-images/{{this._id}}.jpg"
+							alt="{{this.ven_shop}}">
+						<div class="overlay">
+							<h2>{{this.ven_shop}}</h2>
+							<a class="info" href="/get_products_bybaker/{{this._id}}">View Items</a>
+						</div>
+					</div>
+				</div>
+				{{!-- <div class="col-lg-3 col-sm-6">
 					<div class="entry">
-						<div class="entry-image">
+						<div class="entry-image vendor-image">
 							<a href="/get_products_bybaker/{{this._id}}">
-								<img style="width: 500px;height: 280px;" src="../images/vendor-images/{{this._id}}.jpg"
-									alt="{{this.ven_shop}}" /></a>
+								<img src="../images/vendor-images/{{this._id}}.jpg" alt="{{this.ven_shop}}" /></a>
 
 						</div>
 						<div class="entry-title mt-0 p-2 title-xs nott" style="background-color: #7f3535 ;">
 							<div class="entry-meta mt-0 mb-2">
-								<ul>
-									{{!-- <li><a href="#">{{this.created}}</a></li> --}}
-									{{!-- <li><a href="#">Video</a></li> --}}
-								</ul>
+
 							</div>
 
 							<h2 class="mb-0 text-center"><a class="text-white text-center"
 									href="/get_products_bybaker/{{this._id}}">{{this.ven_shop}}</a></h2>
 						</div>
 					</div>
-				</div>
+				</div> --}}
 				{{/each}}
-
-				{{!-- <div class="col-lg-4 col-sm-6">
-							<div class="entry">
-								<div class="entry-image">
-									<a href="images/blogs/2.jpg" data-lightbox="image"><img src="images/blogs/2.jpg" alt="Image 2"></a>
-								</div>
-								<div class="entry-title mt-0 p-4 title-xs nott">
-									<div class="entry-meta mt-0 mb-2">
-										<ul>
-											<li><a href="#">21th Mar 2021</a></li>
-											<li><a href="#">Book</a></li>
-										</ul>
-									</div>
-
-									<h2 class="mb-0"><a href="#">We Delivered Heart Shape Cornbread Waffles.</a></h2>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-sm-6">
-							<div class="entry">
-								<div class="entry-image">
-									<a href="images/blogs/3.jpg" data-lightbox="image"><img src="images/blogs/3.jpg" alt="Image 3"></a>
-								</div>
-								<div class="entry-title mt-0 p-4 title-xs nott">
-									<div class="entry-meta mt-0 mb-2">
-										<ul>
-											<li><a href="#">10th Feb 2021</a></li>
-											<li><a href="#">Recipe</a></li>
-										</ul>
-									</div>
-
-									<h2 class="mb-0"><a href="#">Top Delicious Recipes from world's Best Chefs.</a></h2>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-sm-6">
-							<div class="entry">
-								<div class="entry-image">
-									<a href="images/blogs/4.jpg" data-lightbox="image"><img src="images/blogs/4.jpg" alt="Image 1"></a>
-								</div>
-								<div class="entry-title mt-0 p-4 title-xs nott">
-									<div class="entry-meta mt-0 mb-2">
-										<ul>
-											<li><a href="#">08th Apr 2021</a></li>
-											<li><a href="#">Video</a></li>
-										</ul>
-									</div>
-
-									<h2 class="mb-0"><a href="#">Make Ahead Super Green Vegan Quinoa Sandwich.</a></h2>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-sm-6">
-							<div class="entry">
-								<div class="entry-image">
-									<a href="images/blogs/5.jpg" data-lightbox="image"><img src="images/blogs/5.jpg" alt="Image 2"></a>
-								</div>
-								<div class="entry-title mt-0 p-4 title-xs nott">
-									<div class="entry-meta mt-0 mb-2">
-										<ul>
-											<li><a href="#">21th Mar 2021</a></li>
-											<li><a href="#">Book</a></li>
-										</ul>
-									</div>
-
-									<h2 class="mb-0"><a href="#">We Delivered Heart Shape Cornbread Waffles.</a></h2>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-sm-6">
-							<div class="entry">
-								<div class="entry-image">
-									<a href="images/blogs/6.jpg" data-lightbox="image"><img src="images/blogs/6.jpg" alt="Image 3"></a>
-								</div>
-								<div class="entry-title mt-0 p-4 title-xs nott">
-									<div class="entry-meta mt-0 mb-2">
-										<ul>
-											<li><a href="#">10th Feb 2021</a></li>
-											<li><a href="#">Recipe</a></li>
-										</ul>
-									</div>
-
-									<h2 class="mb-0"><a href="#">Top Delicious Recipes from world's Best Chefs.</a></h2>
-								</div>
-							</div>
-						</div> --}}
 
 			</div>
 		</div>
@@ -144,3 +87,96 @@
 		style="position: absolute; bottom: 0; left: 0; width: 100%; z-index: 3; background: url('images/sketch-header.png') repeat center bottom; background-size: auto 100%; height: 40px; margin-bottom: -10px;">
 	</div>
 </section><!-- #content end -->
+
+<style>
+	.hovereffect {
+		width: 100%;
+		height: 100%;
+		float: left;
+		overflow: hidden;
+		position: relative;
+		text-align: center;
+		cursor: default;
+	}
+
+	.hovereffect .overlay {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		overflow: hidden;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		/*background-color:rgba(0,0,0,0.5);*/
+		background-color: rgb(214 14 14 / 50%);
+		-webkit-transition: all .4s ease-in-out;
+		transition: all .4s ease-in-out
+	}
+
+	.hovereffect img {
+		display: block;
+		position: relative;
+		-webkit-transition: all .4s linear;
+		transition: all .4s linear;
+	}
+
+	.hovereffect h2 {
+		text-transform: uppercase;
+		color: #fff;
+		text-align: center;
+		position: relative;
+		font-size: 17px;
+		background: rgb(181 62 62);
+		/*background:rgba(0,0,0,0.6);*/
+		-webkit-transform: translatey(-100px);
+		-ms-transform: translatey(-100px);
+		transform: translatey(-100px);
+		-webkit-transition: all .2s ease-in-out;
+		transition: all .2s ease-in-out;
+		padding: 10px;
+	}
+
+	.hovereffect a.info {
+		text-decoration: none;
+		display: inline-block;
+		text-transform: uppercase;
+		color: #fff;
+		border: 1px solid #fff;
+		background-color: transparent;
+		opacity: 0;
+		filter: alpha(opacity=0);
+		-webkit-transition: all .2s ease-in-out;
+		transition: all .2s ease-in-out;
+		margin: 50px 0 0;
+		padding: 7px 14px;
+	}
+
+	.hovereffect a.info:hover {
+		box-shadow: 0 0 5px #fff;
+	}
+
+	.hovereffect:hover img {
+		-ms-transform: scale(1.2);
+		-webkit-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+
+	.hovereffect:hover .overlay {
+		opacity: 1;
+		filter: alpha(opacity=100);
+	}
+
+	.hovereffect:hover h2,
+	.hovereffect:hover a.info {
+		opacity: 1;
+		filter: alpha(opacity=100);
+		-ms-transform: translatey(0);
+		-webkit-transform: translatey(0);
+		transform: translatey(0);
+	}
+
+	.hovereffect:hover a.info {
+		-webkit-transition-delay: .2s;
+		transition-delay: .2s;
+	}
+</style>

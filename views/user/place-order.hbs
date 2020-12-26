@@ -139,21 +139,7 @@
 								value="PAYPAL">
 							<label class="custom-control-label " for="paypal1">Pay with PayPal</label>
 						</div><br>
-						{{!-- <label>
-							<input type="radio" name="payment-option" value="paypal" checked>
-							<img src="/demo/checkout/static/img/paypal-mark.jpg" alt="Pay with PayPal">
-						</label>
-
-						<label>
-							<input type="radio" name="payment-option" value="card">
-							<img src="/demo/checkout/static/img/card-mark.png"
-								alt="Accepting Visa, Mastercard, Discover and American Express">
-						</label>
-
-						<div id="paypal-button-container"></div>
-						<div id="card-button-container" class="hidden"><button>Continue</button></div> --}}
-
-						{{!-- <a href="#" class="button button-3d float-left">Place Order</a> --}}
+					
 						<button type="submit" class="float-left btn btn-success mr-5 mb-2"
 							id="checkout">Continue</button>
 						<br><br>
@@ -163,7 +149,7 @@
 					</div>
 					<input type="hidden" name="cart_id" id="cart_id" value="{{total}}" />
 					<input type="hidden" name="order_id" id="order_id" value="" />
-					<input type="button" name="btnPaytm" id="btnPaytm" value="paytm" onclick="onScriptLoad();">
+					{{!-- <input type="button" name="btnPaytm" id="btnPaytm" value="paytm" onclick="onScriptLoad();"> --}}
 					<!-- Set up a container element for the button -->
 
 

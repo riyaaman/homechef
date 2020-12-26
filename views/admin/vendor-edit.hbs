@@ -9,10 +9,10 @@
                 </div>
                 <div class="card-body" style="padding: 20px;">
 
-                    {{#if vendor.vendor_message}}
+                    {{#if admin_details.admin_message}}
                     <div class="style-msg successmsg" id="success">
                         <div class="sb-msg">
-                            {{vendor.vendor_message}} </div>
+                            {{admin_details.admin_message}} </div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
                     {{/if}}
@@ -42,7 +42,7 @@
 
                         <div class="col-12 form-group">
                             <label for="ven_image"></label>
-                            <img id="imgView" class="pt-3" src="/images/vendor-images/{{vendor._id}}.jpg"
+                            <img id="imgView_vendor" class="pt-3" src="/images/vendor-images/{{vendor._id}}.jpg"
                                 alt="{{vendor.ven_name}}" style="width:100px;height:auto" />
                             <input type="file" class="form-control" name="ven_image" id="ven_image" placeholder="Image"
                                 onchange="viewImage(event)">
@@ -102,7 +102,7 @@
 
     //view uploaded image
     function viewImage(event) {
-        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+        document.getElementById('imgView_vendor').src = URL.createObjectURL(event.target.files[0])
     }
 
     $(function () {

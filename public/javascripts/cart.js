@@ -2,7 +2,8 @@
 // const { post } = require("../../app")
 
 //Product add to cart
-function addToCart(proId) {
+function addToCart(proId,value) {
+
     var vendor_id = $("#vendorId").val();
 
     $.ajax({
@@ -12,9 +13,10 @@ function addToCart(proId) {
         data: {
             product_id: proId,
             ven_id: vendor_id,
+            value:value
         },
         success: (response) => {
-           
+          
             if (response.status) {
                
                 let count = $("#cart-count").html();
@@ -26,6 +28,9 @@ function addToCart(proId) {
                 $("#cart-count").html(count);
                 count1 = $("#cart-count").val();               
                 $(".successmsg").show();
+                if(response.value==1){
+                    location.href = "/cart";
+                }
             }
             else{
                 location.href = "/user_login";

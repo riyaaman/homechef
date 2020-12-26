@@ -5,46 +5,47 @@
 
 		<div class="section dark p-0 m-0 h-100 position-absolute"></div>
 		<div class="section p-0 m-0 h-100 position-absolute"
-			style="background: url('/images/common/recipe-single.jpg') center center no-repeat; background-size: cover;background-attachment: fixed;">
+			style="background: url('/images/common/common-bg.jpg') center center no-repeat; background-size: cover;
+			background-attachment: fixed;filter: brightness(.5);">
 		</div>
 
 		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
 			<div class="vertical-middle ">
-				<div class="container py-5">
+				<div class="container ">
 
 					<div class="text-center">
 						<a href="/"><img src="/images/logo-dark.png" alt=" Logo" style="height: 100px;"></a>
 					</div>
 
-					<div class="card mx-auto rounded-0 border-0 " style="max-width: 600px;">
-						<div class="card-body " style="padding: 20px;">
+					<div class="card mx-auto hub-sign" >
+						<div class="card-body ">
 							<form id="register-form" name="register-form" class="mb-0" action="/signup" method="post">
-								<h3>Create Your Account Here</h3>
+								<h3 class="text-white">Create Your Account Here</h3>
 								{{#if user_message}}
 								<p class=" text-danger">{{user_message}}</p>
 								{{/if}}
 
 								<div class="row">
-									<div class="col-12 form-group">
+									<div class="col-12 form-group  has-error">
 										{{!-- <label for="first_name">First Name:</label> --}}
 										<input type="text" id="first_name" name="first_name" value=""
 											class="form-control not-dark" placeholder="First Name" required />
 
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-12 form-group  has-error">
 										{{!-- <label for="last_name">Last Name:</label> --}}
 										<input type="text" id="last_name" name="last_name" value=""
 											class="form-control not-dark" placeholder="Last Name" required />
 
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-12 form-group  has-error">
 										{{!-- <label for="email">Email:</label> --}}
 										<input type="text" id="email" name="email" value="" onblur="checkEmail()"
 											class="form-control not-dark" placeholder="Email" required />
 										<div id="email_error" class="text-danger" style="font-size: 14px;"></div>
 
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-12 form-group  has-error">
 										{{!-- <label for="text">Mobile:</label> --}}
 										<input type="text" id="phone" name="phone" value=""
 											class="form-control not-dark" placeholder="Mobile" required />
@@ -52,7 +53,7 @@
 
 									</div>
 
-									<div class="col-12 form-group">
+									<div class="col-12 form-group  has-error">
 										{{!-- <label for="password">Password:</label> --}}
 										<input type="password" id="password" name="password" value="" autocomplete="off"
 											class="form-control not-dark" placeholder="Password" required
@@ -62,7 +63,7 @@
 										</div>
 
 									</div>
-									<div class="col-12 form-group">
+									<div class="col-12 form-group  has-error">
 										{{!-- <label for="password_confirm">Confirm Password:</label> --}}
 										<input type="password" id="password_confirm" placeholder="Confirm Password"
 											name="password_confirm" value="" class="form-control not-dark" />
@@ -70,14 +71,14 @@
 									</div>
 
 									<div class="col-12 form-group mb-0">
-										<button type="submit" class="button button-3d button-black m-0"
-											value="">SignUp</button>
-										<a href="/user_login" class="float-right">Already have an account? Log in</a>
+										<button type="submit" class="hub-btn"
+											value="">SignUp</button><br><br>
+										<a href="/user_login" class="float-right color-link">Already have an account? Log in</a>
 									</div>
 								</div>
 							</form>
 
-							<div class="line line-sm"></div>
+							{{!-- <div class="line line-sm"></div> --}}
 
 						</div>
 					</div>

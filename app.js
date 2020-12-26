@@ -17,8 +17,8 @@ var fileUpload        =   require('express-fileupload')
 var flash             =   require('express-flash-messages')
 
 
-// var messagebird = require('messagebird')('NXdZZmOVZ5XRJJJD3SH1ugXJM');
-//var messagebird = require('messagebird')('test_gshuPaZoeEG6ovbc8M79w0QyM');
+var nodemailer        =   require('nodemailer');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

@@ -11,9 +11,9 @@
 
         </div>
         <div class="card-body">
-          {{#if admin_message}}
+          {{#if admin_details.admin_message}}
           <div class="style-msg successmsg" id="success">
-            <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{admin_message}} {{first_name}}
+            <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{admin_details.admin_message}} {{first_name}}
             </div>
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
           </div>

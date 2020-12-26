@@ -5,91 +5,89 @@
 	Overwriting Default Theme Styles for Better Handling Updates
 -----------------------------------------------------------------*/
 
-
 :root {
-	/* --themecolor: #1ABC9C; */
-	--themecolor:#7f3535;
+    /* --themecolor: #1ABC9C; */
+    --themecolor: #7f3535;
 }
-
 
 /*** 
 ====================================================================
      Global 
 ==================================================================== 
 ***/
-.bg-color{
-	background-color:var(--themecolor) !important;
+.bg-color {
+    background-color: var(--themecolor) !important;
+    background-image: linear-gradient(to bottom, #815252 0, #7f3535 100%);
+    border: 1px solid #946e6e;
+    padding: 7px 15px;
+    
 }
-.color{
-	color:var(--themecolor) !important;
+.color {
+    color: var(--themecolor) !important;
 }
-.text-theme{
-	color:var(--themecolor);
+.text-theme {
+    color: var(--themecolor);
 }
 
-.font-size-13{
-	font-size: 13px;
+.font-size-13 {
+    font-size: 13px;
 }
-
 
 .bg-dark {
     background-color: #343a40 !important;
 }
-.button-lightgreen{
-	background-color:#1ABC9C;
+.button-lightgreen {
+    background-color: #1abc9c;
 }
-.content-wrap{
-	padding: 40px 0
-
+.content-wrap {
+    padding: 40px 0;
 }
 
 label.error {
-	text-transform:capitalize;
+    text-transform: capitalize;
     display: block !important;
-}    
-.btn{
-	color:white;
-} 
+}
+.btn {
+    color: white;
+}
 /*** 
 ====================================================================
      Header 
 ==================================================================== 
 ***/
 
-
 /* removing border bottom */
 #header.transparent-header.full-header #header-wrap {
-	border-bottom:none;
+    border-bottom: none;
 }
 #header.full-header #logo {
-	border:none;
+    border: none;
 }
-#header.full-header #primary-menu > ul{
-	border:none;
+#header.full-header #primary-menu > ul {
+    border: none;
 }
-.top-cart-number {    
-    top: -20px;  
-	right: -17px;
+.top-cart-number {
+    top: -20px;
+    right: -17px;
 }
 
-@media (min-width: 992px){
-	.dark #header.full-header, #header.full-header.dark {
-		border:none;
-	}
-	.dark .full-header .primary-menu .menu-container, .full-header.dark .primary-menu .menu-container {
-		border:none;
-	}
-	.full-header .primary-menu .menu-container {
-		border:none;
-	}
-	/* .sub-menu-container {
+@media (min-width: 992px) {
+    .dark #header.full-header,
+    #header.full-header.dark {
+        border: none;
+    }
+    .dark .full-header .primary-menu .menu-container,
+    .full-header.dark .primary-menu .menu-container {
+        border: none;
+    }
+    .full-header .primary-menu .menu-container {
+        border: none;
+    }
+    /* .sub-menu-container {
 	
 		border-top-color: var(--themecolor) !important;
 	} */
-	
 }
-
-
 
 /*** 
 ====================================================================
@@ -97,53 +95,56 @@ label.error {
 ==================================================================== 
 ***/
 
-.recipe-itmes .row  {
-	border-top: 1px solid #EEE;
-	margin-top: -1px;
-	margin-bottom: -1px;
+.recipe-itmes .row {
+    border-top: 1px solid #eee;
+    margin-top: -1px;
+    margin-bottom: -1px;
 }
 
-.recipe-itmes .row [class^=col-] {
-	border-right: 1px solid #EEE;
-	border-bottom: 1px solid #EEE;
+.recipe-itmes .row [class^="col-"] {
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 .recipe-itmes .card {
-	border: 0;
-	background: transparent;
-	border-radius: 0;
-	padding: 20px 10px;
+    border: 0;
+    background: transparent;
+    border-radius: 0;
+    padding: 20px 10px;
 }
 
 .recipe-itmes .card-author {
-	font-size: 12px;
-	font-weight: 400;
-	color: #AAA;
-	margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: #aaa;
+    margin-bottom: 0;
 }
 
 .recipe-itmes .card-title {
-	font-size: 18px;
-	line-height: 1.3;
+    font-size: 18px;
+    line-height: 1.3;
 }
 .recipe-itmes .card-author a {
-	color: #999;
-	text-transform: uppercase;
-	margin-left: 2px;
-	font-weight: 600;
+    color: #999;
+    text-transform: uppercase;
+    margin-left: 2px;
+    font-weight: 600;
 }
 
-.recipe-itmes .card-title a { color: #222; }
+.recipe-itmes .card-title a {
+    color: #222;
+}
 
 .recipe-itmes .card-date {
-	margin-top: 15px;
-	color: #555;
-	margin-bottom: 0;
-	font-weight: 400;
+    margin-top: 15px;
+    color: #555;
+    margin-bottom: 0;
+    font-weight: 400;
 }
 
-.recipe-itmes .card-date i { margin-right: 6px; }
-
+.recipe-itmes .card-date i {
+    margin-right: 6px;
+}
 
 /*** 
 ====================================================================
@@ -158,9 +159,9 @@ label.error {
     height: 80%;
 }
 .about-img > img + img {
-	position: relative;
-	margin-top: 60px;
-	border: 12px solid #FFF;
+    position: relative;
+    margin-top: 60px;
+    border: 12px solid #fff;
 }
 .hover-effect:hover {
     -webkit-transform: translateY(-4px);
@@ -170,9 +171,9 @@ label.error {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 .hover-effect {
-    -webkit-transition: transform .25s ease, box-shadow .3s ease;
-    -o-transition: transform .25s ease, box-shadow .3s ease;
-    transition: transform .25s ease, box-shadow .3s ease;
+    -webkit-transition: transform 0.25s ease, box-shadow 0.3s ease;
+    -o-transition: transform 0.25s ease, box-shadow 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.3s ease;
     -webkit-transform-style: preserve-3d;
     -webkit-backface-visibility: hidden;
     box-shadow: none;
@@ -186,9 +187,8 @@ label.error {
 ***/
 
 .grid-filter li.activeFilter a:hover {
-	color:white;
+    color: white;
 }
-
 
 /*** 
 ====================================================================
@@ -197,11 +197,11 @@ label.error {
 ***/
 
 .feature-box.media-box.fbox-bg {
-	-webkit-transform: scale(1);
-	-ms-transform: scale(1);
-	-o-transform: scale(1);
-	transform: scale(1);
-	box-shadow: 0 1px 1px 0 rgba(10, 16, 34, .2);
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transform: scale(1);
+    box-shadow: 0 1px 1px 0 rgba(10, 16, 34, 0.2);
     -webkit-transition: all 200ms ease;
     -o-transition: all 200ms ease;
     transition: all 200ms ease;
@@ -209,13 +209,232 @@ label.error {
 }
 
 .feature-box.media-box.fbox-bg:hover {
-	box-shadow: 0 10px 30px -5px rgba(10, 16, 34, .2);
-	-webkit-transform: scale(1.05);
-	-ms-transform: scale(1.05);
-	-o-transform: scale(1.05);
-	transform: scale(1.05);
+    box-shadow: 0 10px 30px -5px rgba(10, 16, 34, 0.2);
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    transform: scale(1.05);
 }
 
-.feature-box h3 { font-size: 17px; }
+.feature-box h3 {
+    font-size: 17px;
+}
 
-.feature-box h3 span.subtitle { font-size: 14px; }
+.feature-box h3 span.subtitle {
+    font-size: 14px;
+}
+
+/*** 
+====================================================================
+    LoginPage ,SignUp,ResetPassword
+==================================================================== 
+***/
+
+.hub-sign {
+    margin: auto;
+
+    width: 480px;
+    background-color: #1a1a1a;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 10px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2), 5px 5px 15px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2), 5px 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.hub-sign .form-group .form-control {
+    /* margin-top: -1px; */
+    border-radius: 0;
+    height: 45px;
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+    color: rgb(5, 5, 5);
+}
+
+.hub-sign .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    color: #ddd;
+    background-color: #313131;
+    background-image: none;
+    border: 0;
+    border-radius: 0 4px 4px 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.hub-sign .sign-button:hover {
+    color: #053919;
+}
+
+.hub-sign .sign-button {
+    width: 100%;
+    display: block;
+    margin: 15px 0;
+    height: 45px;
+    font-size: 18px;
+}
+
+.hub-btn:hover,
+.btn-primary:hover,
+.btn-default:hover,
+.hub-btndis:hover,
+.btn-default:hover {
+    background-position: 0 0;
+}
+
+.hub-sign a:hover {
+    color: white;
+}
+
+.hub-btn,
+.btn-primary,
+.btn-default {
+    cursor: pointer;
+    color: #053919;
+    display: inline-block;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #a1c25a;
+    border: 1px solid #a1c25a;
+    padding: 7px 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 3px;
+    text-align: center;
+    text-shadow: 1px 1px 0 #b5e5c5;
+    background-image: -webkit-linear-gradient(top, #bddb7e 0, #85a936 100%);
+    background-image: -o-linear-gradient(top, #bddb7e 0, #85a936 100%);
+    background-image: linear-gradient(to bottom, #bddb7e 0, #85a936 100%);
+    box-shadow: inset -0.1em 0 1em 0.1em rgba(255, 255, 255, 0.1), 0 3px 0 0 #11490f, 1px 1px 5px rgba(0, 0, 0, 0.5),
+        1px 5px 5px -5px rgba(0, 0, 0, 0.5);
+    background-size: 100% 150%;
+    background-position: 0 100%;
+    -webkit-transition-property: color, background, text-shadow, box-shadow, border-color;
+    -o-transition-property: color, background, text-shadow, box-shadow, border-color;
+    transition-property: color, background, text-shadow, box-shadow, border-color;
+    -webkit-transition-duration: 0.25s;
+    -o-transition-duration: 0.25s;
+    transition-duration: 0.25s;
+}
+
+.color-link {
+    color: #a1c25a;
+}
+.hub-sign .form-group:nth-of-type(2) .form-control {
+    border-radius: 0 0 4px 4px;
+}
+.hub-sign .form-group .form-control:focus {
+    z-index: 2;
+}
+.has-error .form-control:focus {
+    border-color: #843534;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+    color: #ddd;
+}
+.hub-sign .form-group .form-control {
+    background-color: #313131;
+    margin-top: -1px;
+    border-radius: 0;
+    height: 45px;
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+    color: #fff;
+}
+.has-error .form-control {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    color: #ddd;
+}
+.hub-sign .form-control:focus {
+    border-color: #a1c25a;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.hub-sign .subtitle {
+    padding: 20px 0;
+    font-weight: 400;
+    font-size: 18px;
+    /* line-height: 1; */
+    text-align: center;
+    background-color: #1d1d1d;
+    background-image: -webkit-linear-gradient(top,#272727 0,#141414 100%);
+    background-image: -o-linear-gradient(top,#272727 0,#141414 100%);
+    background-image: linear-gradient(to bottom,#272727 0,#141414 100%);
+}
+
+@media (max-width: 640px) {
+    .hub-sign {
+        width: 380px;
+        margin: 15px 0;
+    }
+}
+
+
+
+/*** 
+====================================================================
+    Products By Vendor
+==================================================================== 
+***/
+.product-image{
+    position: relative;
+    width: 250px;     
+    height:200px;
+    overflow: hidden;
+ }
+ .product-image img {
+    position: absolute;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    top: 50%;     
+    left: 50%;
+    transform: translate( -50%, -50%);
+   
+}
+ img.landscape {
+   height: 100%;
+   width: auto;
+}
+.grid-inner:hover {
+   box-shadow: 0 3px 10px 0 rgba(0,0,0,.16);
+   transform: scale(1.1);
+   transition: all .4s ease-in-out;
+}
+
+
+/*** 
+====================================================================
+    Products By Vendor
+==================================================================== 
+***/
+.vendor-image{
+    position: relative;
+    width: 230px;     
+    height:220px;
+    overflow: hidden;
+ }
+ .product-image img {
+    position: absolute;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    top: 50%;     
+    left: 50%;
+    transform: translate( -50%, -50%);
+   
+}
