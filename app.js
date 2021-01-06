@@ -10,10 +10,18 @@ var vendorRouter      =   require('./routes/vendor');
 
 var hbs               =   require('express-handlebars');
 var app               =   express();
-app.listen(process.env.PORT || 3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+const http = require('http');
+const port = process.env.PORT || 3000
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/html');
+  res.end('<h1>Hello World</h1>');
 });
 
+server.listen(port,() => {
+  console.log(`Server running at port `+port);
+});
 
 var db                =   require('./config/connection');
 var session           =   require('express-session');
