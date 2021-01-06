@@ -11,6 +11,8 @@ var vendorRouter      =   require('./routes/vendor');
 var hbs               =   require('express-handlebars');
 var app               =   express();
 
+
+
 var db                =   require('./config/connection');
 var session           =   require('express-session');
 var fileUpload        =   require('express-fileupload')
