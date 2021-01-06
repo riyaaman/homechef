@@ -1,7 +1,5 @@
 <div class="container rounded bg-white mt-5 mb-5" id="profile">
     <div class="row">
-
-
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <form name="change_form" id="change_form" action="/change_profile_image" method="POST"
@@ -15,18 +13,15 @@
                     </div>
                     <span id="add_error" class="text-danger"></span>
                 </form>
-                {{!-- <img class="rounded-circle mt-5" width="150px" src="/images/common/profile.png"> --}}
                 <span class="font-weight-bold">{{this.user_details.first_name}}</span><span
                     class="text-black-50">{{this.user_details.email}}</span>
                 <span class="mt-2">
-                    <a class="text-danger " href="/user_settings/{{this.user_details._id}}">Change Password</a>
+                    <a class="text-danger " href="/user_settings">Change Password</a>
                 </span>
             </div>
         </div>
-
-
         <div class="col-md-8 card text-dark shadow mb-3">
-            {{#if user_details.user_message}}
+            {{#if user_details.userMessage}}
             <div class="style-msg successmsg">
                 <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong>
                     Profile Updated Successfully</div>
@@ -37,7 +32,6 @@
 
             <div class="p-3 py-5">
                 <form action="/profile_add" method="POST" name="profile-form">
-
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="labels">First Name</label>
                             <input type="text" name="first_name" class="form-control" placeholder="first name"
@@ -47,14 +41,12 @@
                             <input type="text" name="last_name" class="form-control"
                                 value="{{this.user_details.last_name}}" placeholder="surname">
                         </div>
-
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12"><label class="labels">Mobile Number</label>
                             <input type="text" class="form-control" placeholder="enter phone number" readonly
                                 value="{{this.user_details.phone}}">
                         </div>
-
                         {{#if user}}
                         {{#each user}}
                         <div class="col-md-12"><label class="labels">Address</label>

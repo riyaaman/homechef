@@ -21,19 +21,16 @@
 						<div class="card-body ">
 							<form id="register-form" name="register-form" class="mb-0" action="/signup" method="post">
 								<h3 class="text-white">Create Your Account Here</h3>
-								{{#if user_message}}
-								<p class=" text-danger">{{user_message}}</p>
+								{{#if userMessage}}
+								<p class=" text-danger">{{userMessage}}</p>
 								{{/if}}
 
 								<div class="row">
 									<div class="col-12 form-group  has-error">
-										{{!-- <label for="first_name">First Name:</label> --}}
 										<input type="text" id="first_name" name="first_name" value=""
 											class="form-control not-dark" placeholder="First Name" required />
-
 									</div>
 									<div class="col-12 form-group  has-error">
-										{{!-- <label for="last_name">Last Name:</label> --}}
 										<input type="text" id="last_name" name="last_name" value=""
 											class="form-control not-dark" placeholder="Last Name" required />
 
@@ -94,9 +91,9 @@
 
 
 <script>
-	$(document).ready(function () {
 
-		//form validation
+	//Specify The Validation For Register Form
+	$(document).ready(function () {		
 		$("#register-form").validate({
 			// Specify validation rules
 			rules: {
@@ -118,25 +115,25 @@
 			},
 			messages: {
 				first_name: {
-					required: "",
+					required: "Enter your first name",
 				},
 				last_name: {
-					required: "",
+					required: "Enter your last name",
 				},
 
 				phone: {
-					required: "",
+					required: "Enter your mobile number",
 					digits: "Please enter valid phone number",
 					//minlength: "Phone number field accept only 10 digits",
 					//maxlength: "Phone number field accept only 10 digits",
 				},
 				email: {
-					required: "",
+					required: "Enter your email",
 					email: "Please enter a valid email address.",
 				},
 				password: {
-					required: "",
-					minlength: "Minimum langth should be 6 characters",
+					required: "Enter your password",
+					minlength: "Passwords must be at least 6 characters.",
 
 				},
 				password_confirm: {
@@ -149,7 +146,7 @@
 
 	});
 
-	//check passwordstrength
+	//Check passwordstrength
 	function checkPasswordStrength() {
 		var number = /([0-9])/;
 		var alphabets = /([a-zA-Z])/;
@@ -173,34 +170,28 @@
 
 
 
-	//checking is email exist or not
+	//Checking  Email Registered or not
 	function checkEmail() {
-		//$("#email").change(function () {
-
-		var email = $('#email').val();
-
+		var email = $('#email').val()
 		if (!email == "") {
-
 			$.ajax({
 				type: 'post',
 				url: '/useremail_check',
 				data: 'email=' + email,
 				success: function (response) {
-					if (response.add_failed == "true") {
+					if (response.user_add_failed == "true") {
 						$("#email_error").show();
 						$("#email_error").html("Email Already Registered!");
 						//$("#email").val("")
 						return false
 					}
 					else {
-
 						$("#email_error").hide();
 						return true
 					}
 				}
 			})
 		}
-
 	}
 
 

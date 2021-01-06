@@ -1,0 +1,200 @@
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+    <div class="container clearfix">
+        <h1 class="color">Coupon Details</h1>        
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">View Coupon</li>
+        </ol>
+    </div>
+</section>
+
+<!-- Content
+============================================= -->
+<section id="content">
+    <div class="content-wrap " style="padding: 20px;">
+        <div class="container clearfix">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    {{!-- <h2 class="m-0 font-weight-bold text-theme float-left">Coupon Details</h2> --}}
+                    <button class="btn bg-color text-white float-right mr-auto" data-toggle="modal"
+                        data-target="#myModalAdd">Add
+                        New Coupon</button>
+                </div>
+                <div class="card-body">
+                       {{#if admin_details.adminMessage}}
+                        <div class="style-msg errormsg" id="error">
+                            <div class="sb-msg">{{admin_details.adminMessage}} 
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        </div>
+                        {{/if}}
+
+                    <table class="table table-striped" id="mytable">
+                        <thead>
+                            <tr>
+                                <th>Coupon Code</th>
+                                <th>Amount(%)</th>
+                                <th>Minimum Amount</th>
+                                <th>Expiry Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each coupon_details}}
+                            <tr>
+                                <td>{{ coupon_code }}</td>
+                                <td>{{ coupon_amount }}</td>
+                                <td>{{ minimum_amount }}</td>
+                                <td>{{ expiry_date }}</td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete"
+                                        data-id="{{ _id }}">Delete</a>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+</section>
+
+
+<!-- Modal Add Coupon-->
+<form action="/admin/coupon_add" method="post" name="myModalAdd" id="coupon_add_form">
+    <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add New Coupon</h5>
+                
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                            <p class="coupon_error text-danger"></p>
+                        <input type="text" id="coupon_amount" name="coupon_amount" class="form-control" required
+                            placeholder="Please Enter Coupon Amount(%)"><br>
+                        <input type="text" id="minimum_amount" name="minimum_amount" class="form-control" required
+                            placeholder="Please Enter Minimum Amount"><br>
+                        <div class="form-group">
+                            <input type="text" value="" id="expiry_date" class="sm-form-control text-left expiry_date"
+                                name="expiry_date" placeholder="yyyy-mm-dd" autocomplete="off">
+                        </div><br>
+                        <div id="btnCoupon" name="btnCoupon" class="btn bg-color">Generate Coupon Code</div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="coupon_code" id="coupon_code" class="form-control" required>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-color">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<!-- Modal Delete Product-->
+<form id="add-row-form" action="coupon_delete" method="post">
+    <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Delete Coupon</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <strong>Are you sure to delete this data?</strong>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="coupon_id" class="form-control coupon_id2" required>
+                    <button type="button" class="btn bg-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn bg-color">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script src="/javascripts/components/datepicker.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('.expiry_date').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+          //   format: 'dd-mm-yyyy',  
+        });
+
+
+        //showing delete record modal
+        $('#mytable').on('click', '.delete', function () {
+
+            var coupon_id = $(this).data('id');
+
+            $('#DeleteModal').modal('show');
+            $('.coupon_id2').val(coupon_id);
+        });
+
+
+
+        $("#btnCoupon").click(function () {
+            $.ajax({
+                url: 'generate_coupon_code',
+                method: 'get',
+                success: (coupon_code) => {
+                    if (coupon_code) {
+                        $("#coupon_code").val("SNGY-" + coupon_code);
+                    }
+                }
+            })
+        });
+
+
+        // Checking If Coupon Available or not
+       jQuery('#coupon_code').on('input', function() {
+            let coupon_code =   $("#coupon_code").val()
+            $.ajax({
+                url: 'check_coupon_Available/'+coupon_code,
+                method: 'get',
+                success: (response) => {                   
+                    if (response) {
+                        var coupon_error = coupon_code + ": This Coupon Already In Database"
+                        $(".coupon_error").text(coupon_error)
+                        $("#coupon_code").val("")
+                    }
+                }
+            })          
+        });
+
+        // Specify validation rules
+        $("#coupon_add_form").validate({
+            rules: {
+                coupon_amount: {
+                    minlength: 1, maxlength: 2
+                }
+            },
+            messages: {
+                coupon_code: "",
+                coupon_amount: "Please Enter a Value Less Than 100"
+            }
+
+        });
+
+    });
+
+</script>

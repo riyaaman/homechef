@@ -18,16 +18,16 @@
 						<div class="card-body">
 							<form id="login-form" name="login-form" class="mb-0" action="/user_login" method="post">
 								<h3 class="m-3">Login to your Account</h3>
-								{{#if user_message}}
-								<span class=" text-danger">{{user_message}}</span><br><br>
+								{{#if userMessage}}
+								<span class=" text-danger">{{userMessage}}</span><br><br>
 								{{/if}}
 								<div class="row">
 									<div class="col-12 form-group has-error">
-										<input type="text" id="email" name="email" value="" autocomplete="off"
+										<input type="text" id="email" name="email" value="ashitha@gmail.com" 
 											class="form-control not-dark" placeholder="Email/Mobile" />
 									</div>
 									<div class="col-12 form-group has-error">
-										<input type="password" id="password" name="password" value=""
+										<input type="password" id="password" name="password" value="ashitha"
 											class="form-control not-dark" placeholder="Password" />
 									</div>
 									<div class="col-12 form-group mb-0">
@@ -73,12 +73,12 @@
 
 <script>
 	$(document).ready(function () {
+
+		// Specify validation for login 
 		$("#login-form").validate({
-			// Specify validation rules
 			rules: {
 				email: {
-					required: true,
-					email: true
+					required: true					
 				},
 				password: {
 					required: true,
@@ -87,19 +87,16 @@
 			messages: {
 				email: {
 					required: "",
-					//email: "Please enter a valid email address.",
 				},
 				password: {
-					required: "",
-
+					required: ""
 				},
-
 			},
-
 		});
+		
 
-		$("#login-otp-form").validate({
-			// Specify validation rules
+		// Specify validation for login with otp
+		$("#login-otp-form").validate({		
 			rules: {
 				number: {
 					required: true,
@@ -119,7 +116,6 @@
 		$('#login-otp-form').submit(function () {
 			var phone = $('#number').val();
 			if (!phone == "") {
-
 				$.ajax({
 					type: 'post',
 					url: '/phone_check',
@@ -137,7 +133,6 @@
 					}
 				});
 			}
-
 			// we cancel the normal submission of the form    
 			return false;
 		});

@@ -8,18 +8,15 @@
                     <h3 class="m-0 font-weight-bold text-theme color ">Add Product Details</h3>
                 </div>
                 <div class="card-body" style="padding: 40px;">
-
                     {{#if vendor_message}}
                     <div class="style-msg successmsg" id="success">
                         <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{vendor_message}}
                         </div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
-
                     {{/if}}
 
                     <form action="/vendor/product_add" id="product_AddForm" method="post" enctype="multipart/form-data">
-
                         <div class="col-12 form-group">
                             <label for="product_name">Product Name:</label>
                             <input type="text" name="product_name" class="form-control" placeholder="Product Name"
@@ -27,12 +24,21 @@
 
                         </div>
                         <div class="col-12 form-group">
-                            <label for="ven_shop_name">Price:</label>
-                            <input type="text" name="price" class="form-control" placeholder="Product Price" required>
+                            <label for="product_description">Description</label>
+                            <textarea class="form-control" id="product_description" name="product_description" rows="3"></textarea>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="price">Price:</label>
+                            <input type="text" name="price" type="number" class="form-control" placeholder="Product Price" required>
 
                         </div>
                         <div class="col-12 form-group">
-                            <label for="ven_phone">Category:</label>
+                            <label for="discount_price">Discount Price:</label>
+                            <input type="text" name="discount_price" type="number"  class="form-control" placeholder="Product Discount Amount" >
+
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="category">Category:</label>
                             <select id="category" name="category" class="form-control" placeholder="Product category"
                                 required>
                                 {{!-- <option value="0">--Please Select Category --</option> --}}
@@ -42,24 +48,18 @@
                             </select>
 
                         </div>
-
-
                         <div class="col-12 form-group">
                             <label for="product_image">Image</label>
                             <img id="imgView" class="pt-3" src="" alt="" style="width:100px;height:auto" /><br>
                             <input type="file" class="form-control" name="product_image" id="product_image"
                                 accept="image/*" placeholder="Image" required>
                             <br>
-
                             <span id="upload_error" class="text-danger"></span>
                             <input type="hidden" name="img_url" id="img_url" value="" />
                         </div>
-
                         <div class="col-12 form-group mt-2">
                             <button type="submit" class="button button-3d bg-color  m-0">Save</button>
-
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -71,8 +71,8 @@
 
 
 {{!-- Model for crop image --}}
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" >
-    <div class="modal-dialog modal-lg" role="document" >
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalLabel">Crop Image
@@ -104,7 +104,7 @@
                 <input type="button" id="btnCrop" value="Crop" />
                 <input type="button" id="btnRestore" value="Restore" />
                 {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="crop">Crop</button> --}}
+                <button type="button" class="btn btn-primary" id="crop">Crop</button> --}}
             </div>
         </div>
     </div>
@@ -114,14 +114,9 @@
 
 
 
-{{!--  validation --}}
+{{!-- validation --}}
 <script>
-
-
-
     $(document).ready(function () {
-
-
         // Product add from validation
         $("#product_AddForm").validate({
             // Specify validation rules
@@ -166,18 +161,15 @@
 </script>
 
 
-
-
-
 {{!-- Cropping image --}}
 <script>
-    var $modal      =   $('#modal');
-    var canvas      =   $("#canvas"),
-        context     =   canvas.get(0).getContext("2d"),
-        $result     =   $('#result');
+    var $modal = $('#modal');
+    var canvas = $("#canvas"),
+        context = canvas.get(0).getContext("2d"),
+        $result = $('#result');
 
     $('#product_image').on('change', function () {
-        
+
         document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
 
         $modal.modal('show');
@@ -224,10 +216,10 @@
         }
     });
 
-  $(document).on('hide.bs.modal','#modal', function () {
-      
- //Do stuff here
-});
+    $(document).on('hide.bs.modal', '#modal', function () {
+
+        //Do stuff here
+    });
 </script>
 
 
@@ -240,22 +232,14 @@
         /* This rule is very important, please do not ignore this! */
         display: block;
     }
-    
+
     #canvas {
-        height: 450px ;
+        height: 450px;
         width: 450px;
         background-color: #ffffff;
         cursor: default;
         border: 1px solid black;
     }
-
-    /* #result img{
-        overflow: hidden;
-        width: 200px;
-        height: 200px;
-        margin: 10px;
-        border: 1px solid red;
-    }*/
 
     .modal-lg {
         max-width: 1000px !important;

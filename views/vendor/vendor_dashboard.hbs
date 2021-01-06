@@ -34,12 +34,11 @@
 			<div class="row">
 				<div class="col-xl-3 col-sm-6 mb-3">
 					<div class="card text-white bg-primary o-hidden h-100">
+						<div class="tile-heading">Total Products</div>
 						<div class="card-body">
-							<div class="card-body-icon">
-								<i class="fas fa-fw fa-comments"></i>
-							</div>
-							{{#if count}}
-							<div class="mr-5">{{count.product_count}} Total Products</div>
+						
+							{{#if product_count}}
+							<div class="mr-5">{{product_count}} Products</div>
 							{{else}}
 							<div class="mr-5">No Products!</div>
 							{{/if}}
@@ -52,14 +51,18 @@
 						</a>
 					</div>
 				</div>
-				{{#each count}}
+				{{!-- {{#each count}} --}}
 				<div class="col-xl-3 col-sm-6 mb-3">
 					<div class="card text-white bg-warning o-hidden h-100">
+						<div class="tile-heading">Total Orders</div>
 						<div class="card-body">
-							<div class="card-body-icon">
-								<i class="fas fa-fw fa-list"></i>
-							</div>
-							<div class="mr-5">{{this.order_count}} Orders</div>
+							
+							{{#if count.order_count}}
+							<div class="mr-5">{{count.order_count}}  Orders</div>
+							{{else}}
+							<div class="mr-5">No Orders!</div>
+							{{/if}}
+						
 						</div>
 						<a class="card-footer text-white clearfix small z-1" href="/vendor/sales_report">
 							<span class="float-left">View Details</span>
@@ -71,11 +74,15 @@
 				</div>
 				<div class="col-xl-3 col-sm-6 mb-3">
 					<div class="card text-white bg-success o-hidden h-100">
-						<div class="card-body">
-							<div class="card-body-icon">
-								<i class="fas fa-fw fa-shopping-cart"></i>
-							</div>
-							<div class="mr-5">{{this.sale_quantity}} Item Sold</div>
+						<div class="tile-heading" >Total Sale Quantity</div>
+						<div class="card-body">							
+							{{#if count.sale_quantity}}
+							<div class="mr-5">{{count.sale_quantity}} Items </div>
+							{{else}}
+							<div class="mr-5">No  Item Sold!</div>
+							{{/if}}
+						
+						
 						</div>
 						<a class="card-footer text-white clearfix small z-1" href="/vendor/sales_report">
 							<span class="float-left">View Details</span>
@@ -87,11 +94,16 @@
 				</div>
 				<div class="col-xl-3 col-sm-6 mb-3">
 					<div class="card text-white bg-danger o-hidden h-100">
-						<div class="card-body">
-							<div class="card-body-icon">
-								<i class="fas fa-fw fa-life-ring"></i>
-							</div>
-							<div class="mr-5">{{this.total_amount}}/- Total </div>
+						
+						<div class="tile-heading" >Total Sales</div>
+						<div class="card-body">							
+					
+							{{#if count.total_amount}}
+							<div class="mr-5 " style="font-size:20px;">{{count.total_amount}} K</div>
+							{{else}}
+							<div class="mr-5">No  Sale Amount!</div>
+							{{/if}}
+						
 						</div>
 						<a class="card-footer text-white clearfix small z-1" href="/vendor/sales_report">
 							<span class="float-left">View Details</span>
@@ -100,8 +112,7 @@
 							</span>
 						</a>
 					</div>
-				</div>
-				{{/each}}
+				
 			</div>
 
 		</div>
@@ -110,8 +121,6 @@
 		============================================= -->
 		<div class="container section">
 			<div class="row clearfix">
-
-
 				<div class="col-lg-6">
 					<div class="card mb-3">
 						<div class="card-header">
@@ -137,19 +146,6 @@
 						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 					</div>
 				</div>
-				{{!-- <div class="col-lg-6 ">
-					<div class="card mb-3">
-						<div class="card-header">
-							<i class="fas fa-chart-pie"></i>
-							Total Sales In This Month
-						</div>
-						<div class="card-body">
-						
-							<canvas id="chart-2" width="100%" height="100"></canvas>
-						</div>
-						<div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-					</div>
-				</div> --}}
 			</div>
 		</div>
 	</div>

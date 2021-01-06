@@ -2,34 +2,27 @@
 ============================================= -->
 <section id="content">
 	<div class="content-wrap py-0">
-
 		<div class="section p-0 m-0 h-100 position-absolute"
 			style="background: url('../images/common/recipe-single.jpg') center center no-repeat; background-size: cover;background-attachment: fixed;">
 		</div>
-
 		<div class="section bg-transparent min-vh-100 p-0 m-0">
 			<div class="vertical-middle">
 				<div class="container-fluid py-5 mx-auto">
 					<div class="center">
 						<img src="/images/logo-dark.png" alt=" Logo">
 					</div>
-
 					<div class="card mx-auto rounded-0 border-0"
 						style="max-width: 400px; background-color: rgba(255,255,255,0.93);">
 						<div class="card-body">
-
 							<form id="login-form" name="login-form" class="mb-0 login" action="/admin/admin_login"
 								method="post">
 								<h3>Login to your Admin Account</h3>
-								
 								{{#if adminLoginError}}
 								<div class="style-msg errormsg">
 									<div class="sb-msg"><i class="icon-remove"></i><strong>Oh sorry!</strong>
 										{{adminLoginError}}</div>
 								</div>
 								{{/if}}
-
-
 								<div class="row">
 									<div class="col-12 form-group">
 										<label for="username">Username:</label>
@@ -43,11 +36,9 @@
 											class="form-control not-dark" />
 										<small id="error_password" class="text-danger"></small>
 									</div>
-
 									<div class="col-12 form-group text-center pt-4">
 										<button type="submit" class="button button-3d button-black m-0"
-											id="login-form-submit" name="login-form-submit" value="login">Login</button>
-										{{!-- <a href="#" class="float-right">New Customer? Start Here</a> --}}
+											id="login-form-submit" name="login-form-submit" value="login">Login</button>									
 									</div>
 								</div>
 							</form>
@@ -55,21 +46,16 @@
 						</div>
 					</div>
 					<div class="text-center dark mt-3"><small>Copyrights &copy; All Rights Reserved by
-							Crossroads</small></div>
-				</div>
+							Crossroads</small></div>				</div>
 			</div>
 		</div>
-
 	</div>
 </section><!-- #content end -->
 
 <script>
-
 	$(document).ready(function () {
-			
 		// Specify validation rules
 		$("#login-form").validate({
-		
 			rules: {
 				username: {
 					required: true
@@ -87,11 +73,7 @@
 				},
 			}
 		});
-
 		// we cancel the normal submission of the form    
 		return false;
 	});
-
-
-
 </script>

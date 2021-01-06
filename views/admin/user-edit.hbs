@@ -1,0 +1,140 @@
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+    <div class="container clearfix">
+        <h1 class="color">Edit User Details</h1>        
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a href="/admin/users_view">View Users </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit User Details</li>
+        </ol>
+    </div>
+</section>
+
+
+<!-- Content
+============================================= -->
+<section id="content">
+    <div class="content-wrap">
+        <div class="container">
+            <div class="card mb-0 shadow">
+                <div class="card-body" style="padding: 40px;">
+                    {{#if admin_details.adminMessage}}
+                    <div class="style-msg errormsg" >
+                        <div class="sb-msg">
+                        {{admin_details.adminMessage}}
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+                    {{/if}}
+                    <form id="useredit-form" name="useredit-form" class="row mb-0" action="/admin/user_edit"
+                        method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="user_id" id="user_id" value="{{user._id}}">
+                        <div class="col-12 form-group">
+                            <label for="first_name">First Name:</label>
+                            <input type="text" id="first_name" name="first_name" value="{{user.first_name}}"
+                                class="form-control" required>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="last_name">Last Name:</label>
+                            <input type="text" id="last_name" name="last_name" value="{{user.last_name}}"
+                                class="form-control" required>
+                        </div>
+                        
+                          <div class="col-12 form-group">
+                            <label for="address">Address:</label>
+                            <input type="text" id="address" name="address" value="{{user.user_details.address}}"
+                                class="form-control" required>
+                        </div>
+                          <div class="col-12 form-group">
+                            <label for="City">City:</label>
+                            <input type="text" id="city" name="city" value="{{user.user_details.city}}"
+                                class="form-control" required>
+                        </div>
+                         <div class="col-12 form-group">
+                            <label for="postcode">Postcode:</label>
+                            <input type="text" id="postcode" name="postcode" value="{{user.user_details.postcode}}"
+                                class="form-control" required>
+                        </div>
+                           <div class="col-12 form-group">
+                            <label for="state">State:</label>
+                            <input type="text" id="state" name="state" value="{{user.user_details.state}}"
+                                class="form-control" required>
+                        </div>
+                      
+                     
+                         <div class="col-12 form-group mt-2">
+                        <button type="submit" class="button button-3d bg-color  m-0" id="ven-submit" name="ven-submit"
+                        value="register">Update User Details</button>
+                     </form>
+                </div>
+                      
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+ {{!-- //Speciy validation For User Register Form --}}
+<script>   
+    $(document).ready(function () {
+        
+        $("#useredit-form").validate({
+            // Specify validation rules
+            rules: {
+                email: {
+                    email: true
+                },
+                phone: {
+                    digits: true,
+                    //minlength: 10,
+                    //maxlength: 10,
+                },
+                password: {
+                    minlength: 6,
+                    required: true,
+                },
+                password_confirm: {
+                    equalTo: "#password"
+                }
+            },
+            messages: {
+                first_name: {
+                    required: "",
+                },
+                last_name: {
+                    required: "",
+                },
+
+                phone: {
+                    required: "",
+                    digits: "Please enter valid phone number",
+                    //minlength: "Phone number field accept only 10 digits",
+                    //maxlength: "Phone number field accept only 10 digits",
+                },
+                email: {
+                    required: "",
+                    email: "Please enter a valid email address.",
+                },
+                password: {
+                    required: "",
+                    minlength: "Minimum langth should be 6 characters",
+
+                },
+                password_confirm: {
+                    equalTo: "Passwords Doesn't Match",
+
+                },
+            },
+
+        });
+
+    });
+
+  
+</script>
+
+
+
+

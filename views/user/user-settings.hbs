@@ -13,18 +13,14 @@
                     <div class="card mx-auto rounded-0 shadow"
                         style="max-width: 400px; background-color: rgba(255,255,255,0.93);">
                         <div class="card-header font-weight-bold bg-color text-white">  Change Password Here </div>
-                        <div class="card-body">
-                          
+                        <div class="card-body">                          
                             <form id="change-password-form" name="login-form" class="mb-0" action="/change_password"
-                                method="post">
-                              
-                                {{#if user_details.user_message}}
-                                <p class=" text-danger">{{user_details.user_message}}</p>
+                                method="post">                              
+                                {{#if user_details.userMessage}}
+                                <p class=" text-danger">{{user_details.userMessage}}</p>
                                 {{/if}}
-
-
                                 <div class="row">
-                                    <input type="hidden" id="user_id" name="user_id" value="{{user_details._id}}">
+                                    {{!-- <input type="hidden" id="user_id" name="user_id" value="{{user_details._id}}"> --}}
                                     <div class="col-12 form-group">
                                         <label for="old_password">Old Password</label>
                                         <input type="text" id="old_password" name="old_password" value=""
@@ -40,33 +36,26 @@
                                         <input type="password" id="confirm_password" name="confirm_password" value=""
                                             class="form-control not-dark" required />
                                     </div>
-
                                     <div class="col-12 form-group text-center pt-4">
-
                                         <button type="submit" class="button button-3d button-black m-0"
                                             id="login-form-submit"  >Change Password</button>
                                         {{!-- <a href="#" class="float-right">New Customer? Start Here</a> --}}
                                     </div>
                                 </div>
                             </form>
-
-
-
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
-
     </div>
 </section><!-- #content end -->
 
 
 <script>
-	$(document).ready(function () {
-			// Specify validation rules
+
+    // Specify validation rules 
+	$(document).ready(function () {		
 		$("#change-password-form").validate({
 		
 			rules: {

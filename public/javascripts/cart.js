@@ -1,11 +1,14 @@
-// const { response } = require("express")
-// const { post } = require("../../app")
+
 
 //Product add to cart
-function addToCart(proId,value) {
-
-    var vendor_id = $("#vendorId").val();
-
+function addToCart(proId,value,price,discount_price) {
+    var vendor_id = $("#vendorId").val(); 
+    if(discount_price)  {
+        price   =   discount_price      
+    }
+    else{
+        price   =   price
+    }
     $.ajax({
         //url:'/add_to_cart/'+proId,
         url: "/add_to_cart",
@@ -13,21 +16,21 @@ function addToCart(proId,value) {
         data: {
             product_id: proId,
             ven_id: vendor_id,
+            price:price,
             value:value
         },
-        success: (response) => {
-          
-            if (response.status) {
-               
+        success: (response) => {          
+            if (response.status) {               
                 let count = $("#cart-count").html();
                 if (!count) {
                     count = 0;
                 }
-
                 count = parseInt(count) + 1;
                 $("#cart-count").html(count);
                 count1 = $("#cart-count").val();               
                 $(".successmsg").show();
+                window.scrollTo(500, 0);
+                
                 if(response.value==1){
                     location.href = "/cart";
                 }
@@ -40,8 +43,8 @@ function addToCart(proId,value) {
 }
 
 //Change the quantity of product
-function changeQuantity(cartId, proId, userId, count) {
-    let quantity = parseInt(document.getElementById(proId).innerHTML);
+function changeQuantity(cartId, proId, userId, count) {   
+    let quantity = parseInt(document.getElementById(proId).innerHTML);    
     $.ajax({
         url: "/change_product_quantity",
         data: {
@@ -52,16 +55,19 @@ function changeQuantity(cartId, proId, userId, count) {
             user: userId,
         },
         method: "post",
-        success: (response) => {
-            if (response.removeProduct) {
-              
+        success: (response) => {            
+            if (response.removeProduct) {   
                 location.reload();
-            } else {
-                document.getElementById(proId).innerHTML = quantity + count;
-                document.getElementById("subtotal").innerHTML = response.total;
+            } 
+            else if (response.removeCart) {   
+                location.reload();
+            }
+            else {
+                document.getElementById(proId).innerHTML = quantity + count;       
+                document.getElementById("discount").innerHTML = response.discount;     
+                document.getElementById("subtotal").innerHTML = response.total_org;
                 document.getElementById("total").innerHTML = response.total + " Rs.";
-
-                $("#cart-count").html(response.cart_count);
+                $("#cart-count").html(response.cart_count);                
             }
         },
     });
@@ -77,10 +83,8 @@ function removeFromCart(cartId, proId) {
         },
         method: "post",
         success: (response) => {
-            //  if(response.cart==0){
             $("#cart-count").html(response.cart);
-            location.reload();
-            // }
+            location.reload()          
         },
     });
 }

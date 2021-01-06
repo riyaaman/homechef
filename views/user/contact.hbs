@@ -1,13 +1,13 @@
 <!-- Page Title
 		============================================= -->
 <section id="page-title" class="page-title-parallax page-title-center border-bottom "
-    style="background-image: url('images/sections/6.jpg'); background-size: 100% auto;"
-    data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
+	style="background-image: url('images/sections/6.jpg'); background-size: 100% auto;"
+	data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
 
-    <div class="container clearfix">
-        <span class="font-primary ls1 mb-2 color" style="font-size: 14px;">Top Services</span>
-        <h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">Connect With Us</h1>
-    </div>
+	<div class="container clearfix">
+		<span class="font-primary ls1 mb-2 color" style="font-size: 14px;">Contact </span>
+		<h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">Connect With Us</h1>
+	</div>
 
 </section><!-- #page-title end -->
 
@@ -15,100 +15,140 @@
 ============================================= -->
 <section id="content" class="bg-light" style="overflow: inherit;">
 
-    <div class="content-wrap">
+	<div class="content-wrap">
 
-        <div class="container">
+		<div class="container">
 
-            <div class="row">
-                <div class="col-md-6">
-                    	{{!-- <h3 class="font-secondary h1 color">Get Connect with Us!</h3> --}}
-                    <h2 class="nott mb-5">Get Connect with Us!</h2>
-                    <p class="lead">Questions? Comments? Please fill out the Form or Email us at <a
-                            href="mailto:snacky@demo.com">snacky@demo.com</a>.</p>
-                    <p>Thank you for being in touch!</p>
-                    <div class="line line-sm"></div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga debitis deleniti dolores
-                        cupiditate quia reiciendis, obcaecati facere. Amet et enim itaque sapiente. Culpa, incidunt,p
-                        eveniet.</p>
-                    <p>Collaboratively redefine fully tested processes and extensible partnerships. Professionally
-                        exploit team building opportunities rather than client-focused e-markets. Objectively deliver
-                        functionalized platforms through client-centric.</p>
-                </div>
-               	<div class="p-5 reservation-form rounded bg-white mt-4">
-				<h3 class="font-secondary h1 color">Our Restaurants</h3>
-				<div class="row mt-4 clearfix" style="font-size: 16px; line-height: 1.7;">
-					<div class="col-sm-6">
-						<address style="line-height: 1.7;">
-							<strong>India:</strong><br>
-							795 Kottayam North <br>
-							Kottayam<br>
-						</address>
+			<div class="row">
+				<div class="col-md-6">
+					{{!-- <h3 class="font-secondary h1 color">Get Connect with Us!</h3> --}}
+					<h2 class="nott mb-5">Get Connect with Us!</h2>
+					{{#if this.userMessage }}
+					<div class="style-msg successmsg">
+						<div class="sb-msg"> {{this.userMessage}} </div>
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 					</div>
-					<div class="col-sm-6">
-						<abbr title="Phone Number"><strong>Phone:</strong></abbr>  8547 632521<br>
-						<abbr title="Fax"><strong>Fax:</strong></abbr>  11 4752 1433<br>
-						<abbr title="Email Address"><strong>Email:</strong></abbr> snacky@demo.com
-					</div>
+					{{/if}}
+					<p class="lead">Questions? Comments? Please fill out the Form or Email us at <a
+							href="mailto:snackydemo@gmail.com">snackydemo@gmail.com</a>.</p>
+					<p>Thank you for being in touch!</p>
+					<div class="line line-sm"></div>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga debitis deleniti dolores
+						cupiditate quia reiciendis, obcaecati facere. Amet et enim itaque sapiente. Culpa, incidunt,p
+						eveniet.</p>
+					<p>Collaboratively redefine fully tested processes and extensible partnerships. Professionally
+						exploit team building opportunities rather than client-focused e-markets. Objectively deliver
+						functionalized platforms through client-centric.</p>
 				</div>
+				<div class="p-5 reservation-form rounded bg-white mt-4">
+					<h3 class="font-secondary h1 color">Our Restaurants</h3>
+					<div class="row mt-4 clearfix" style="font-size: 16px; line-height: 1.7;">
+						<div class="col-sm-6">
+							<address style="line-height: 1.7;">
+								<strong>India:</strong><br>
+								795 Kottayam North <br>
+								Kottayam<br>
+							</address>
+						</div>
+						<div class="col-sm-6">
+							<abbr title="Phone Number"><strong>Phone:</strong></abbr> 8547 632521<br>
+							<abbr title="Fax"><strong>Fax:</strong></abbr> 11 4752 1433<br>
+							<abbr title="Email Address"><strong>Email:</strong></abbr> snackydemo@gmail.com
+						</div>
+					</div>
+					<div class=" mt-4 mt-lg-0" data-loader="button">
+						<form class="mb-0 row" id="form_contact" name="form_contact" action="/contact" method="post">
 
-				<div class="form-widget mt-4 mt-lg-0" data-loader="button">
-
-					<div class="form-result"></div>
-
-					<form class="mb-0 row" id="template-contactform" name="template-contactform" action="include/form.php" method="post">
-
-						<div class="form-process">
-							<div class="css3-spinner">
-								<div class="css3-spinner-scaler"></div>
+							<div class="col-sm-6 mb-3  ">
+								<input type="text" id="contact_name" name="contact_name" value=""
+									class="sm-form-control border-form-control required" placeholder="Name" required />
 							</div>
-						</div>
+							<div class="col-sm-6 mb-3">
+								<input type="email" id="contact_email" name="contact_email" value=""
+									class="required email sm-form-control border-form-control"
+									placeholder="Email Address" />
+							</div>
+							<div class="clear"></div>
+							<div class="col-sm-6 mb-3">
+								<input type="text" id="contact_phone" name="contact_phone" value=""
+									class="sm-form-control border-form-control required digits" placeholder="Phone" />
+							</div>
 
-						<div class="col-sm-6 mb-3">
-							<input type="text" id="template-contactform-name" name="template-contactform-name" value="" class="sm-form-control border-form-control required" placeholder="Name" />
-						</div>
-						<div class="col-sm-6 mb-3">
-							<input type="email" id="template-contactform-email" name="template-contactform-email" value="" class="required email sm-form-control border-form-control" placeholder="Email Address" />
-						</div>
-
-						<div class="clear"></div>
-
-						<div class="col-sm-6 mb-3">
-							<input type="text" id="template-contactform-phone" name="template-contactform-phone" value="" class="sm-form-control border-form-control required" placeholder="Phone" />
-						</div>
-
-						<div class="col-sm-6 mb-3 input-daterange travel-date-group">
-							<input type="text" id="template-contactform-subject" name="subject" value="" class="sm-form-control border-form-control text-left required" placeholder="Subject">
-						</div>
-
-						<div class="clear"></div>
-
-						<div class="col-12 mb-3">
-                            <textarea  id="template-contactform-subject" name="message" value="" class="sm-form-control border-form-control text-left required" placeholder="Message" rows="6" cols="30"></textarea>
-								{{!-- <textarea class="required form-control form-control-pill" id="recipe-contactform-message" name="recipe-contactform-message" rows="6" cols="30"></textarea> --}}
-						</div>
-
-						
-
-						<div class="clear"></div>
-
-						<div class="col-12 mb-0">
-							<button class="button button-circle button-large text-white ml-0 mt-3" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit">Reserve Now</button>
-						</div>
-
-						<div class="clear"></div>
-
-						<div class="col-12 d-none">
-							<input type="text" id="template-contactform-botcheck" name="template-contactform-botcheck" value="" class="sm-form-control" />
-						</div>
-
-						<input type="hidden" name="prefix" value="template-contactform-">
-
-					</form>
-
+							<div class="col-sm-6 mb-3 input-daterange travel-date-group">
+								<input type="text" id="subject" name="subject" value=""
+									class="sm-form-control border-form-control text-left required"
+									placeholder="Subject">
+							</div>
+							<div class="clear"></div>
+							<div class="col-12 mb-3">
+								<textarea id="message" name="message" value=""
+									class="sm-form-control border-form-control text-left required" placeholder="Message"
+									rows="6" cols="30"></textarea>
+							</div>
+							<button type="submit" class="button button-circle button-large text-white ml-0 mt-3"
+								id="btnContact" value="register">Contact Now</button>
+						</form>
+						<div class="form-result"></div>
+					</div>
 				</div>
 			</div>
-            </div>
-
-        </div>
-    </div>
+		</div>
+	</div>
 </section><!-- #content end -->
+
+
+<script>
+
+	//Specify The Validation For Register Form
+	$(document).ready(function () {
+
+		$("#form_contact-form").validate({
+			rules: {
+				contact_email: {
+					required: true,
+					email: true
+				},
+				contact_phone: {
+					digits: true,
+					//minlength: 10,
+					//maxlength: 10,
+				},
+				contact_name: {
+					required: true,
+				},
+			},
+			messages: {
+				contact_name: {
+					required: "Enter your first name",
+				},
+				contact_phone: {
+					required: "Enter your mobile number",
+					digits: "Please enter valid phone number",
+					//minlength: "Phone number field accept only 10 digits",
+					//maxlength: "Phone number field accept only 10 digits",
+				},
+				contact_email: {
+					required: "Enter your email",
+					email: "Please enter a valid email address.",
+				},
+
+			},
+
+		});
+
+	});
+	$("#form_contact").validate({
+		rules: {
+
+		},
+		messages: {
+			cat_name: "Category name required",
+			contact_email: "Enter your email",
+			contact_name: "Enter your Name",
+			contact_phone: "Enter Valid Phone Number",
+			subject: "Please Enter Subject",
+			message: "Please Enter Message"
+		}
+
+	});
+</script>

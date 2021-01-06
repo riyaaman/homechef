@@ -1,45 +1,42 @@
-<!-- Page Title
+
+<!--Subtitle
 ============================================= -->
-<section id="page-title" class="page-title-parallax page-title-center border-bottom "
-    style="background-image: url('/images/sections/6.jpg'); background-size: 100% auto;"
-    data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
-
+<section id="page-title" class="page-title-mini">
     <div class="container clearfix">
-        <span class="font-primary ls1 mb-2 color" style="font-size: 14px;">Top Services</span>
-        <h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">Our Bakers</h1>
+        {{!-- <h1>Our Items</h1> --}}
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/orders">Order History</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> View Items</li>
+        </ol>
     </div>
+</section>
 
-</section><!-- #page-title end -->
+<!--Content
+============================================= -->
 <section>
     <div class="container mt-5">
         <div class="row">
-         
                 {{#each products}}
-
                 <div class="col-lg-3 col-md-6 bottommargin-sm" >
                     <div class="feature-box media-box fbox-bg shadow">
                         <div class="fbox-media">
-                            <a href="#" > <img src="/images/product-images/{{this.product._id}}.jpg" alt="{{this.product.product_name}}" class="card-img-top"
+                            <a href="/get_products_bybaker/{{this.product.vendor_id}}"> <img src="/images/product-images/{{this.product._id}}.jpg" alt="{{this.product.product_name}}" class="card-img-top"
                             style="width:250px;height:200px;"></a>
                         </div>
                         <div class="fbox-content border-0">
-                            <h3 class="nott ls0 font-weight-semibold">{{this.product.product_name}}
-                                <span class="subtitle font-weight-light ls0">Rs.{{this.product.price}}</span></h3>
-                                <span class="subtitle font-weight-light ls0">Quantity :{{this.quantity}} ,
-                                    Total :{{this.totalAmount}} Rs
+                            <h3 class="nott ls0 font-weight-semibold">{{this.product.product_name}}</h3>
+                                <span class="subtitle font-weight-light ls0">Quantity :{{this.quantity}} <br>
+                                   Gross :{{this.totalAmount}} Rs
                                 </span><br>
-                                <span>Status: {{this.order_status}}</span>
-                            {{!-- <a href="#" class="button-link border-0 color">Read More</a> --}}
+                                  <span class="subtitle font-weight-light ls0 color">
+                                    Total :{{this.discountAmount}} Rs
+                                </span><br>
+                                <span class="color font-weight-bold">Status: {{this.order_status}}</span>
                         </div>
-                    </div>
+                    </div> 
                 </div>
-
                 {{/each}}
-
-           
-
-
         </div>
     </div>
-
 </section>

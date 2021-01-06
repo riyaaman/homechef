@@ -1,26 +1,34 @@
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+    <div class="container clearfix">
+        <h1 class="color">Add User Details</h1>        
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a href="/admin/users_view">View Users </a></li>
+            <li class="breadcrumb-item active" aria-current="page">add User</li>
+        </ol>
+    </div>
+</section>
+
+
 <!-- Content
 ============================================= -->
 <section id="content">
     <div class="content-wrap">
         <div class="container">
             <div class="card mb-0 shadow">
-                <div class="card-header py-3 ">
-                    <h3 class="m-0 font-weight-bold text-theme ">Add User Details</h3>
-                </div>
                 <div class="card-body" style="padding: 40px;">
-
-                    {{#if admin_message}}
-                    <div class="style-msg successmsg" id="success">
-                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{admin_message}}
+                    {{#if admin_details.adminMessage}}
+                    <div class="style-msg errormsg" >
+                        <div class="sb-msg">
+                        {{admin_details.adminMessage}}
                         </div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
-
                     {{/if}}
-
                     <form id="register-form" name="register-form" class="row mb-0" action="/admin/user_add"
                         method="post" enctype="multipart/form-data">
-
                         <div class="col-12 form-group">
                             <label for="first_name">First Name:</label>
                             <input type="text" id="first_name" name="first_name" value="{{user.first_name}}"
@@ -73,13 +81,13 @@
 </section>
 
 
-{{!-- validation --}}
-
 
 <script>
+
+    //Speciy validation For User Register Form
     $(document).ready(function () {
 
-        //form validation
+        
         $("#register-form").validate({
             // Specify validation rules
             rules: {
@@ -158,19 +166,14 @@
 
     //checking is email exist or not
     function checkEmail() {
-        //$("#email").change(function () {
-
-        var email = $('#email').val();
-
+        var email = $('#email').val()
         if (!email == "") {
-
             $.ajax({
                 type: 'post',
                 url: '/useremail_check',
                 data: 'email=' + email,
                 success: function (response) {
-
-                    if (response.add_failed == "true") {
+                    if (response.user_add_failed == "true") {
                         $("#email_error").show();
                         $("#email_error").html("Email Already Registered!");
                         $("#email").val("")
@@ -184,7 +187,6 @@
                 }
             })
         }
-
     }
 
 
@@ -219,89 +221,3 @@
 
 
 
-{{!-- Cropping image --}}
-<script>
-    var $modal = $('#modal');
-    var canvas = $("#canvas"),
-        context = canvas.get(0).getContext("2d"),
-        $result = $('#result');
-
-    $('#ven_image').on('change', function () {
-
-        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
-
-        $modal.modal('show');
-        if (this.files && this.files[0]) {
-            if (this.files[0].type.match(/^image\//)) {
-                var reader = new FileReader();
-                reader.onload = function (evt) {
-                    var img = new Image();
-                    img.onload = function () {
-                        context.canvas.height = img.height;
-                        context.canvas.width = img.width;
-                        context.drawImage(img, 0, 0);
-                        var cropper = canvas.cropper({
-                            aspectRatio: 16 / 9
-                        });
-                        $('#btnCrop').click(function () {
-                            $result.empty();
-                            // Get a string base 64 data url
-                            var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
-                            //alert(croppedImageDataURL)
-                            $result.append($('<img>').attr('src', croppedImageDataURL));
-
-                            $("#img_url").val(croppedImageDataURL);
-                            document.getElementById('imgView').src = croppedImageDataURL
-                        });
-                        $('#btnRestore').click(function () {
-                            canvas.cropper('reset');
-                            $result.empty();
-                            $('#img_url').val('0');
-                            document.getElementById('imgView').src = evt.target.result;
-                        });
-                    };
-                    img.src = evt.target.result;
-                };
-                reader.readAsDataURL(this.files[0]);
-            }
-            else {
-                alert("Invalid file type! Please select an image file.");
-            }
-        }
-        else {
-            alert('No file(s) selected.');
-        }
-    });
-</script>
-
-
-
-
-<style>
-    /* Limit image width to avoid overflow the container */
-    img {
-        max-width: 100%;
-        /* This rule is very important, please do not ignore this! */
-        display: block;
-    }
-
-    #canvas {
-        height: 500px;
-        width: 500px;
-        background-color: #ffffff;
-        cursor: default;
-        border: 1px solid black;
-    }
-
-    /* #result img{
-        overflow: hidden;
-        width: 200px;
-        height: 200px;
-        margin: 10px;
-        border: 1px solid red;
-    }*/
-
-    .modal-lg {
-        max-width: 1000px !important;
-    }
-</style>

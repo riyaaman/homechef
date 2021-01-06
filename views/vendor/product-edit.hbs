@@ -1,0 +1,128 @@
+<section id="content">
+    <div class="content-wrap " style="padding: 20px;">
+        <div class="container clearfix">
+            <div class="card mb-0 shadow">
+                <div class="card-header py-3 ">
+                    <h3 class="m-0 font-weight-bold text-theme color ">Edit Product Details</h3>
+                </div>
+                <div class="card-body" style="padding: 40px;">
+                    {{#if details.vendor_message}}
+                    <div class="style-msg successmsg" id="success">
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong>
+                            {{details.vendor_message}}
+                        </div>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    </div>
+                    {{/if}}
+                    <form action="/vendor/product_update" method="post" enctype="multipart/form-data"
+                        id="product-update-form">
+                        <div class="form-group">
+                            <select id="category" name="category" class="form-control category"
+                                placeholder="Product category" required>                              
+                                {{#each categories}}
+                                <option value="{{this._id}}">{{this.cat_name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>                      
+                        <div class="form-group">
+                                <label for="product_name">Name</label>
+                            <input type="text" name="product_name" class="form-control product_name"
+                                placeholder="Product Name" required value="{{product_details.product_name}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="product_description">Description</label>
+                            <textarea class="form-control text-left"  id="product_description" name="product_description" rows="4">
+                                {{product_details.product_description}}
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                              <label for="product_price">Price</label>
+                            <input type="text" name="price" class="form-control price" placeholder="Product Price"
+                                value="{{product_details.price}}" required>
+                        </div>
+                        <div class="form-group">
+                              <label for="product_discount_price">Discount Price</label>
+                            <input type="text" name="discount_price" class="form-control discount_price" placeholder="Discount Price"
+                                value="{{product_details.discount_price}}" >
+                        </div>
+
+
+                        <input type="hidden" name="product_id" class="product_id" value={{product_details._id}}>
+                        <input type="hidden" name="category_id" class="category_id" value={{product_details.category}}>
+                        <div class="form-group">
+                            <img style="width: 50px;height: 50px;" id="pdct_image" name="pdct_image"
+                                src="/images/product-images/{{product_details._id}}.jpg" alt="Snacky Foods" />
+                            <input type="file" class="form-control" name="product_image_update"
+                                id="product_image_update" placeholder="Image">
+                            <span id="upload_error_update" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn bg-color">Update Product</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<script>
+    $(document).ready(function () {
+         cat_id = '{{product_details.category}}'     
+        $('.category').val(cat_id);
+       
+        document.getElementById('pdct_image').src = URL.createObjectURL(event.target.files[0])
+    });
+
+    // Specify validation rules
+    $("#product-update-form").validate({
+        rules: {
+            product_name: "required",
+            price: {
+                required: true,
+                digits: true
+            },   
+            discount_price: {
+                digits: true
+            },        
+        },
+        messages: {
+            product_name: {
+                required: "Please enter product name",
+            },
+            price: {
+                required: "Please enter product price",
+                digits: "Please enter valid price"
+            },
+            discount_price: {
+                digits: "Please enter valid price"
+            },
+         
+        },
+    });
+
+
+    // Checking uploaded image in update section
+    $("#product_image_update").change(function () {
+
+        var file = this.files[0];
+        var fileType = file["type"];
+        var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+        if ($.inArray(fileType, validImageTypes) < 0) {
+            $('#upload_error1').text("Please Select a Valid Image with extension jpg or jpeg or png");
+            $("#product_image_update").val(null);
+            document.getElementById('pdct_image').src = "#"
+            return false;
+        }
+        else {
+            $('#upload_error_update').text("");
+            document.getElementById('pdct_image').src = URL.createObjectURL(event.target.files[0])
+            return true;
+        }
+    });
+
+
+</script>

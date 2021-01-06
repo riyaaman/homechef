@@ -1,25 +1,33 @@
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+    <div class="container clearfix">
+        <h1 class="color">Edit Vendor Details</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a href="/admin/vendor_view">View Vendors </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Vendors</li>
+        </ol>
+    </div>
+</section>
+
 <!-- Content
 ============================================= -->
 <section id="content">
     <div class="content-wrap">
         <div class="container ">
-            <div class="card mb-0 shadow">
-                <div class="card-header py-3 ">
-                    <h3 class="m-0 font-weight-bold text-theme">Edit vendor Details</h3>
-                </div>
-                <div class="card-body" style="padding: 20px;">
-
-                    {{#if admin_details.admin_message}}
+            <div class="card mb-0 shadow">               
+                <div class="card-body" >
+                    {{#if admin_details.adminMessage}}
                     <div class="style-msg successmsg" id="success">
                         <div class="sb-msg">
-                            {{admin_details.admin_message}} </div>
+                            {{admin_details.adminMessage}} </div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
                     {{/if}}
 
                     <form id="vendor" name="vendor" class="row mb-0" action="/admin/vendor_edit/{{vendor._id}}"
                         method="post" enctype="multipart/form-data">
-
                         <div class="col-12 form-group">
                             <label for="ven_name">Name:</label>
                             <input type="text" id="ven_name" name="ven_name" value="{{vendor.ven_name}}"
@@ -30,16 +38,17 @@
                             <input type="text" id="ven_shop_name" name="ven_shop_name" value="{{vendor.ven_shop}}"
                                 class="form-control" required>
                         </div>
-
-
-
                         <div class="col-12 form-group">
                             <label for="ven_phone">Phone:</label>
                             <input type="text" id="ven_phone" name="ven_phone" value="{{vendor.ven_phone}}"
                                 class="form-control" title="Enter a vaild Phone Number(10 digits)"
                                 pattern="[1-9]{1}[0-9]{9}" required>
                         </div>
-
+                          <div class="col-12 form-group">
+                            <label for="ven_email">Email:</label>
+                            <input type="text" id="ven_email" name="ven_email" value="{{vendor.ven_email}}"
+                                class="form-control" required readonly>
+                        </div>
                         <div class="col-12 form-group">
                             <label for="ven_image"></label>
                             <img id="imgView_vendor" class="pt-3" src="/images/vendor-images/{{vendor._id}}.jpg"
@@ -47,22 +56,17 @@
                             <input type="file" class="form-control" name="ven_image" id="ven_image" placeholder="Image"
                                 onchange="viewImage(event)">
                         </div>
-
                         <div class="col-12 form-group mt-2">
                             <button type="submit" class="button button-3d bg-color  m-0" id="ven-submit"
                                 name="ven-submit" value="register">Update Ventor</button>
                         </div>
-
                     </form>
-
                     <div class="float-right"> <a href="javascript:void(0);" id="btn_change_email" class="btn bg-color edit" data-id="{{vendor._id }}"
                     data-ven_email="{{ vendor.ven_email }}" data-target="#EditModal" data-toggle="modal" >Change Email</a></div> 
                      
                 </div>
             </div>
-
         </div>
-
     </div>
 </section>
 
@@ -99,7 +103,6 @@
 </form>
 
 <script>
-
     //view uploaded image
     function viewImage(event) {
         document.getElementById('imgView_vendor').src = URL.createObjectURL(event.target.files[0])

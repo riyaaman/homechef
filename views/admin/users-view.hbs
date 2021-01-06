@@ -1,49 +1,54 @@
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+  <div class="container clearfix">
+    <h1 class="color">User Details</h1>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+      <li class="breadcrumb-item"><a href="/admin/blocked_users_view">View Blocked Users </a></li>
+      <li class="breadcrumb-item active" aria-current="page">View Users</li>
+    </ol>
+  </div>
+</section>
+
+<!--Content
+============================================= -->
 <section id="content">
-  <div class="content-wrap " style="padding: 20px;">
+  <div class="content-wrap " >
     <div class="container clearfix">
-
       <div class="card shadow mb-4">
-        <div class="card-header py-3 mb-4">
-          <h2 class="m-0 font-weight-bold text-theme float-left">User Details</h2>
-
+        <div class="card-header  ">
           <a href="/admin/user_add"><button class="btn bg-color text-white float-right mr-auto">Add
               New User</button></a>
-
         </div>
         <div class="card-body">
-          {{#if admin_details.admin_message}}
+          {{#if admin_details.adminMessage}}
           <div class="style-msg successmsg" id="success">
-            <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{admin_details.admin_message}} {{first_name}}
+            <div class="sb-msg"><i class="icon-thumbs-up"></i> {{admin_details.adminMessage}} {{first_name}}
             </div>
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
           </div>
           {{/if}}
-
           <table class="table table-striped" id="user_table">
             <thead>
               <tr>
-                {{!-- <th>Sl No</th> --}}
                 <th>First Name</th>
                 <th> Last Name</th>
                 <th> Phone</th>
                 <th> Email</th>
                 <th>Action</th>
-
               </tr>
             </thead>
             <tbody>
               {{#each users}}
               <tr>
-
                 <td>{{ this.first_name }}</td>
                 <td>{{ this.last_name }}</td>
                 <td>{{ this.phone }}</td>
                 <td>{{ this.email }}</td>
-
-                <td>
-                  <a href="/admin/edit" class="btn btn-sm bg-color edit">Edit</a>
+                <td >
+                  <a href="/admin/user_edit/{{ this._id }}" class="btn btn-sm bg-color m-1 edit">Edit</a>
                   <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ _id }}">Delete</a>
-                  
                   <a href="javascript:void(0);" class="btn btn-sm btn-secondary block" data-id="{{ _id }}">Block</a>
                 </td>
               </tr>
@@ -73,7 +78,7 @@
         </div>
         <div class="modal-footer">
           <input type="hidden" name="user_id" class="form-control user_id2" required>
-          <button type="button" class="btn btn-default bg-dark text-white" data-dismiss="modal">Close</button>
+          <button type="button" class="btn  bg-dark text-white" data-dismiss="modal">Close</button>
           <button type="submit" class="btn bg-color">Delete</button>
         </div>
       </div>
@@ -83,8 +88,7 @@
 
 <!-- Modal Block User-->
 <form id="add-row-form" action="/admin/user_block" method="post">
-  <div class="modal fade" id="BlockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+  <div class="modal fade" id="BlockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -112,21 +116,16 @@
     // Datatable for user details
     $('#user_table').DataTable();
 
-
     //showing delete record modal
     $('#user_table').on('click', '.delete', function () {
-
       var user_id = $(this).data('id');
-
       $('#DeleteModal').modal('show');
       $('.user_id2').val(user_id);
     });
 
     //showing block record modal
     $('#user_table').on('click', '.block', function () {
-
       var user_id = $(this).data('id');
-
       $('#BlockModal').modal('show');
       $('.user_id2').val(user_id);
     });
@@ -134,5 +133,5 @@
 
   });
 
- 
+
 </script>

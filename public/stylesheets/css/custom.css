@@ -10,6 +10,9 @@
     --themecolor: #7f3535;
 }
 
+html {
+    scroll-behavior: smooth;
+  }
 /*** 
 ====================================================================
      Global 
@@ -49,6 +52,9 @@ label.error {
 }
 .btn {
     color: white;
+}
+.datatable-date {
+    display: none;
 }
 /*** 
 ====================================================================
@@ -91,59 +97,183 @@ label.error {
 
 /*** 
 ====================================================================
+     How We Work
+==================================================================== 
+***/
+
+.products .cart-btn {
+    position: absolute;
+    display: block;
+    opacity: 0;
+    bottom: 7px;
+    left: 0;
+    right: 0;
+    width: calc(100% - 12px);
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 8px 0;
+    height: auto;
+    text-align: center;
+}
+
+.button.button-light {
+    background-color: #EEE;
+    color: #333;
+    text-shadow: none !important;
+}
+
+.products:hover .cart-btn {
+    opacity: 1;
+    z-index: 2;
+}
+
+.card-body:hover .portfolio-image::after {
+    opacity: 1;
+}
+
+
+
+.dark-color {
+    background-color: #101010 !important;
+}
+
+.item-categories .cat-img {
+    position: absolute;
+    top: 50%;
+    right: -35%;
+    height: 70%;
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.item-categories img {
+    height: 100%;
+}
+
+.item-categories .cat-text {
+    position: relative;
+    z-index: 1;
+    max-width: 75%;
+}
+
+/*** 
+====================================================================
      Latest Items
 ==================================================================== 
 ***/
 
-.recipe-itmes .row {
+/* .recipe-itmes .row {
     border-top: 1px solid #eee;
     margin-top: -1px;
     margin-bottom: -1px;
-}
+} */
 
-.recipe-itmes .row [class^="col-"] {
+/* .recipe-itmes .row [class^="col-"] {
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
-}
+} */
 
-.recipe-itmes .card {
-    border: 0;
-    background: transparent;
-    border-radius: 0;
-    padding: 20px 10px;
+.jm-item {
+	padding:2px;
+	display: inline-block;
+	text-align: left;
 }
-
-.recipe-itmes .card-author {
-    font-size: 12px;
-    font-weight: 400;
-    color: #aaa;
-    margin-bottom: 0;
+.jm-item-wrapper {
+	position: relative;
+	padding: 7px;
+	background: #E8D7B6;
 }
-
-.recipe-itmes .card-title {
-    font-size: 18px;
-    line-height: 1.3;
+.jm-item-image {
+	position: relative;
+	overflow: hidden;
 }
-.recipe-itmes .card-author a {
-    color: #999;
+.jm-item-image img {
+	display: block;
+}
+.jm-item-title {
+    position: absolute;
+    left: -10px;
+    bottom: 17px;
+    /*background: #FF6B0E;*/
+    background: var(--themecolor);
+    line-height: 1.5em;
+    font-weight: normal;
+    padding: 7px 9px 6px;
     text-transform: uppercase;
-    margin-left: 2px;
-    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    color: #FFFFFF;
+    font-size: 1.4em;
 }
-
-.recipe-itmes .card-title a {
-    color: #222;
+.jm-item-overlay {
+	background: #000;
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	-webkit-transition: opacity 0.5s ease-in 0s;
+	-moz-transition: opacity 0.5s ease-in 0s;
+	-o-transition: opacity 0.5s ease-in 0s;
+	transition: opacity 0.5s ease-in 0s;
 }
-
-.recipe-itmes .card-date {
-    margin-top: 15px;
-    color: #555;
-    margin-bottom: 0;
-    font-weight: 400;
+.jm-item-wrapper:hover .jm-item-overlay {
+	opacity: 0.3;
 }
-
-.recipe-itmes .card-date i {
-    margin-right: 6px;
+.jm-item-button {
+	height: 50px;
+	width: 50px;
+	text-align: center;
+	position: absolute;
+	left: 50%;
+	margin-left: -25px;
+}
+.jm-item-button a {
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    background: #7f3535;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    color: #FFFFFF;
+    font-size: .8em;
+    line-height: 50px;
+    -webkit-transition: all 0.2s ease-in 0s;
+    -moz-transition: all 0.2s ease-in 0s;
+    -o-transition: all 0.2s ease-in 0s;
+    transition: all 0.2s ease-in 0s;
+    text-decoration: none !important;
+    display: block;
+}
+.jm-item-button a:hover {
+	background: #3b3b3b;	
+}
+.second .jm-item-wrapper .jm-item-title {
+	-webkit-transition: all 0.2s ease-in 0s;
+	-moz-transition: all 0.2s ease-in 0s;
+	-o-transition: all 0.2s ease-in 0s;
+	transition: all 0.2s ease-in 0s;
+}
+.second .jm-item-wrapper:hover .jm-item-title {
+	left: -100%;
+}
+.second .jm-item-description {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;	
+	background: rgba(0,0,0,0.4);
+	color: #fff;
+	top: 100%;
+	-webkit-transition: all 0.5s ease-in 0s;
+	-moz-transition: all 0.5s ease-in 0s;
+	-o-transition: all 0.5s ease-in 0s;
+	transition: all 0.5s ease-in 0s;
+}
+.second .jm-item-wrapper:hover .jm-item-description {
+	top: 0;
 }
 
 /*** 
@@ -296,9 +426,8 @@ label.error {
     color: white;
 }
 
-.hub-btn,
-.btn-primary,
-.btn-default {
+.hub-btn
+ {
     cursor: pointer;
     color: #053919;
     display: inline-block;
@@ -437,4 +566,40 @@ label.error {
     left: 50%;
     transform: translate( -50%, -50%);
    
+}
+
+
+/*** 
+====================================================================
+    Heading (Dashboard) & chart
+==================================================================== 
+***/
+
+.tile-heading {
+    padding: 5px 8px;
+    text-transform: uppercase;
+    color: #FFF;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.4);
+   background-color: rgb(47 43 43 / 22%);
+}
+
+
+.chart-samples ul {
+    list-style: none;
+}
+
+.chart-samples h4 {
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+.chart-samples li {
+    font-size: 16px;
+    line-height: 2.2;
+    font-weight: 600;
+}
+
+.chart-samples li a:not(:hover) {
+    color: #AAA;
 }

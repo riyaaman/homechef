@@ -1,57 +1,68 @@
 <section id="content">
-    <div class="content-wrap " style="padding: 20px;">
-        <div class="container clearfix">
-            <div class="card mx-auto rounded-0 border mt-4 shadow ">
-                <div class="card-header ">
-                    <h2 class="color">Customer Orders</h2>
+    <div class="content-wrap p-0">
+        <div class="container clearfix p-1">
+            <div class="card mx-auto rounded-0 border  shadow ">
+                <div class="card-header  ">
+                    <h3 class="m-0 font-weight-bold text-theme color ">Customer Orders </h3>
                 </div>
                 <div class="card-body">
-                    <table class="table mt-5" id="order_table">
+                    <table class="table" id="order_table">
                         <thead>
                             <tr>
-                                <th scope="col">Address</th>
+                                <th scope="col">Date</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Pincode</th>
                                 <th scope="col">Payment</th>
+                                <th scope="col">Gross </th>
+                                <th scope="col">Total</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Date</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {{#each orders}}
                             <tr>
-                                <td>{{this.deliveryDetails.billing_address}} </td>
+                                <td><span
+                                        class="datatable-date">{{this.created_date_string}}</span>{{this.created_date}}
+                                </td>
                                 <td>{{this.deliveryDetails.billing_city}} </td>
-                                <td>{{this.deliveryDetails.billing_pincode}} </td>                            
+                                <td>{{this.deliveryDetails.billing_pincode}} </td>
                                 <td>{{this.paymentMethod}}</td>
+                                <td>{{this.gross_amount}}</td>
+                                <td>{{this.total}}</td>
                                 <td>{{this.order_status}}</td>
-                                <td>{{this.created_date}}</td>
                                 <td>
-                                    <a class="btn bg-color" href="/vendor/view_order_products_byvendor/{{this._id}}">View
-                                        Products</a>
+                                    <a class="btn bg-color"
+                                        href="/vendor/view_order_products_byvendor/{{this._id}}">View
+                                    </a>
                                 </td>
                             </tr>
                             {{/each}}
                         </tbody>
                     </table>
-
-
                 </div>
-
             </div>
-          
             <hr>
-
         </div>
     </div>
-
 </section>
 
-<script>
-      $(document).ready(function () { 
 
-      $('#order_table').DataTable();
-     })
-    
+<script>
+    $(document).ready(function () {
+      
+    var table=   $('#order_table').dataTable({   
+        "order": [[0, "desc" ]],         
+            "aoColumns": [
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            ]
+        });
+    });
 </script>

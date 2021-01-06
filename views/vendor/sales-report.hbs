@@ -1,10 +1,9 @@
 <section id="content">
-    <div class="content-wrap " style="padding: 20px;">
-        <div class="container clearfix">
-
-            <div class="card shadow mb-4">
-                <div class="card-header">
-                    <h2 class="m-0 font-weight-bold color float-left">Sales Report</h2>
+    <div class="content-wrap p-0" >
+        <div class="container clearfix p-1">
+            <div class="card shadow">
+               <div class="card-header ">
+                    <h3 class="m-0 font-weight-bold text-theme color ">Sales Report</h3>
                 </div>
                 <div class="card-body">
                     {{#if admin_message}}
@@ -43,7 +42,8 @@
 
                                 </div>
                                 <div class="col-md-1">
-                                       <button class="button button-3d  mt-4 ">Filter</button>
+                                    <label></label>
+                                       <button class="btn button button-3d ">Filter</button>
 
                                 </div>
                             </div>
@@ -70,6 +70,7 @@
                                         <tr>
                                             <th style="background-color: #928989; color; white;">Product</th>
                                             <th style="background-color: #928989; color; white;">Price</th>
+                                            <th style="background-color: #928989; color; white;">Dis_Price</th>
                                             <th style="background-color: #928989; color; white;">Quantity</th>
                                             <th style="background-color: #928989; color; white;"> Total </th>
                                             <th style="background-color: #928989; color; white;"> Order_status</th>
@@ -81,6 +82,7 @@
                                         <tr>
                                             <td>{{ this.product.product_name }}</td>
                                             <td>{{ this.product.price }}</td>
+                                            <td>{{ this.product.discount_price }}</td>
                                             <td>{{ this.quantity }}</td>
                                             <td>{{ this.totalAmount }}</td>
                                             <td>{{ this.order_status }}</td>
@@ -98,13 +100,6 @@
 </section>
 
 <script src="/javascripts/components/datepicker.js"></script>
-{{!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.2.61/jspdf.min.js"></script>--}}
-{{!--
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script> --}}
-
-
-
 
 
 
@@ -126,10 +121,7 @@
          
         $("#form-date").validate({
         });
-        // $('#order_table').DataTable();
-        /*  $('#order_table').dataTable( {
-           "pageLength": 50
-           } );*/
+     
         if ('{{value}}')
             document.getElementById("report").value = '{{value}}';
 
@@ -163,18 +155,7 @@
         });
     });
 
-    //Sales Report Download as Image
-    function downloadimage() {
-        var container = document.getElementById("htmltoimage");; // full page 
-        html2canvas(container, { allowTaint: true }).then(function (canvas) {
-            var link = document.createElement("a");
-            document.body.appendChild(link);
-            link.download = "sales_report.jpg";
-            link.href = canvas.toDataURL();
-            link.target = '_blank';
-            link.click();
-        });
-    }
+   
 
 </script>
 

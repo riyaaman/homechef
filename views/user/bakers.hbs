@@ -1,44 +1,30 @@
-<!-- Page Title
+
+<!--Subtitle
 ============================================= -->
-{{!-- <section id="page-title" class="page-title-parallax page-title-center border-bottom "
-	style="background-image: url('/images/sections/6.jpg'); background-size: 100% auto;"
-	data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
+{{!-- <section id="page-title" class="page-title-parallax page-title-dark "
+	style="background-image: url('images/common/bg.jpg'); background-size: cover; padding: 100px 0" ;>
 
-	<div class="container clearfix">
-		<span class="font-primary ls1 mb-2 color" style="font-size: 14px;">Top Services</span>
-		<h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">Our Bakers</h1>
-	</div>
-
-</section> --}}
-<!-- #page-title end -->
-{{!-- <section id="page-title" class="page-title-mini">
-
-	<div class="container clearfix">
-		<span>A Short Page Title Tagline</span>
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="#">Home</a></li>
-			<li class="breadcrumb-item"><a href="#">Bakers</a></li>
-		</ol>
-	</div>
-
-</section> --}}
-
-
-<section id="page-title" class="page-title-parallax page-title-dark " 
-	style="background-image: url('images/common/bg.jpg'); background-size: cover; padding: 100px 0";
-	 >
-
-	<div class="container clearfix">
-		{{!-- <h2 class="color">Bakers</h2> --}}
-		
+	<div class="container clearfix">	
 		<ol class="breadcrumb" style="right: 0;">
 			<li class="breadcrumb-item color"><a href="/">Home</a></li>
-			{{!-- <li class="breadcrumb-item"><a href="#">Shortcodes</a></li> --}}
 			<li class="breadcrumb-item active" aria-current="page">Bakers</li>
 		</ol></span>
 	</div>
+</section> --}}
+
+<!-- Page Title
+============================================= -->
+<section id="page-title" class="page-title-parallax page-title-center border-bottom "
+	style="background-image: url('images/common/bg.jpg'); background-size: 100% auto; background-size: cover; padding: 50px 0" 
+	>
+
+	<div class="container clearfix">
+		<span class="font-primary ls1 mb-2 text-white" style="font-size: 14px;">Bakers</span>
+		<h1 class="font-secondary text-capitalize ls0  text-white" style="font-size: 62px;">Our Bakers</h1>
+	</div>
 
 </section>
+<!-- #page-title end -->
 
 <!-- Content
 ============================================= -->
@@ -57,32 +43,10 @@
 						</div>
 					</div>
 				</div>
-				{{!-- <div class="col-lg-3 col-sm-6">
-					<div class="entry">
-						<div class="entry-image vendor-image">
-							<a href="/get_products_bybaker/{{this._id}}">
-								<img src="../images/vendor-images/{{this._id}}.jpg" alt="{{this.ven_shop}}" /></a>
-
-						</div>
-						<div class="entry-title mt-0 p-2 title-xs nott" style="background-color: #7f3535 ;">
-							<div class="entry-meta mt-0 mb-2">
-
-							</div>
-
-							<h2 class="mb-0 text-center"><a class="text-white text-center"
-									href="/get_products_bybaker/{{this._id}}">{{this.ven_shop}}</a></h2>
-						</div>
-					</div>
-				</div> --}}
 				{{/each}}
-
 			</div>
 		</div>
-
-
-
 	</div>
-
 	<div
 		style="position: absolute; bottom: 0; left: 0; width: 100%; z-index: 3; background: url('images/sketch-header.png') repeat center bottom; background-size: auto 100%; height: 40px; margin-bottom: -10px;">
 	</div>
@@ -149,6 +113,7 @@
 		transition: all .2s ease-in-out;
 		margin: 50px 0 0;
 		padding: 7px 14px;
+		font-size: 12px;
 	}
 
 	.hovereffect a.info:hover {

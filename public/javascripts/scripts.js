@@ -1,144 +1,58 @@
 
-   
-    /*hart For Sales Report Chart
-    ============================================= */
-    var ctx = document.getElementById("myPieChart");
-    var myPieChart = new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: ["This Month", "Last Month"],
-        datasets: [{
-          data: [12.21, 15.58],
-          backgroundColor: ['#007bff', '#dc3545'],
-        }],
-      },
-    });
-    
-    /*var ctx_do = document.getElementById("chart-0");
-    var myDoughnutChart = new Chart(ctx_do, {
-        type: 'doughnut',
-        data: data,
-        options: options
-    });*/
- 
+	
+	function razorpayPayment(order) {
 
-     /*Chart For Total Sales In Last One Month
-    ============================================= */
+		var options = {
 
-    var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
-    };
+			"key": "rzp_test_P1qJn93ykpKDDb", // Enter the Key ID generated from the Dashboard
+			"amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			"currency": "INR",
+			"name": "Crossroads",
+			"description": "Test Transaction",
+			"image": "https://example.com/your_logo",
+			"order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+			"handler": function (response) {
 
-    var config = {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: [
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    randomScalingFactor(),
-                    
-                ],
-                backgroundColor: [
-                    window.chartColors.red,
-                    window.chartColors.orange,
-                    window.chartColors.yellow,
-                    window.chartColors.green,
-                    
-                ],
-                label: 'Dataset 1'
-            }],
-            labels: [
-                "Red",
-                "Orange",
-                "Yellow",
-                "Green",
-                
-            ]
-        },
-        options: {
-            responsive: true,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Doughnut Chart'
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            }
-        }
-    };
+				//alert(response.razorpay_payment_id);alert(response.razorpay_order_id);alert(response.razorpay_signature);         
+				verifyPayment(response, order)
+			},
+			"prefill": {
+				"name": "Demo",
+				"email": "demo@example.com",
+				"contact": "9999999999"
+			},
+			"notes": {
+				"address": "Razorpay Corporate Office"
+			},
+			"theme": {
+				"color": "#3399cc"
+			}
+		};
+		var rzp1 = new Razorpay(options);
+		
+		rzp1.open();
+	}
+	function verifyPayment(payment, order) {
 
-    window.onload = function() {
-        var ctx = document.getElementById("chart-0").getContext("2d");
-    
-        window.myDoughnut = new Chart(ctx, config);
-        
-    };
+		$.ajax({
+			url: 'verify_payment',
+			data: {
+				payment,
+				order
+			},
+			method: 'post',
+			success: (response) => {
+				alert(response.status)
+				if (response.status) {
+					location.href = '/order_success'
+				}
+				else {				
+					alert("Payment Failed")
+					location.href = '/order_paypal_cancel'
+					
+				}
+			}
+		})
+	}
 
-    /*document.getElementById('randomizeData').addEventListener('click', function() {
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data = dataset.data.map(function() {
-                return randomScalingFactor();
-            });
-        });
-
-        window.myDoughnut.update();
-    });
-
-    var colorNames = Object.keys(window.chartColors);
-    document.getElementById('addDataset').addEventListener('click', function() {
-        var newDataset = {
-            backgroundColor: [],
-            data: [],
-            label: 'New dataset ' + config.data.datasets.length,
-        };
-
-        for (var index = 0; index < config.data.labels.length; ++index) {
-            newDataset.data.push(randomScalingFactor());
-
-            var colorName = colorNames[index % colorNames.length];;
-            var newColor = window.chartColors[colorName];
-            newDataset.backgroundColor.push(newColor);
-        }
-
-        config.data.datasets.push(newDataset);
-        window.myDoughnut.update();
-    });
-
-    document.getElementById('addData').addEventListener('click', function() {
-        if (config.data.datasets.length > 0) {
-            config.data.labels.push('data #' + config.data.labels.length);
-
-            var colorName = colorNames[config.data.datasets[0].data.length % colorNames.length];;
-            var newColor = window.chartColors[colorName];
-
-            config.data.datasets.forEach(function(dataset) {
-                dataset.data.push(randomScalingFactor());
-                dataset.backgroundColor.push(newColor);
-            });
-
-            window.myDoughnut.update();
-        }
-    });
-
-    document.getElementById('removeDataset').addEventListener('click', function() {
-        config.data.datasets.splice(0, 1);
-        window.myDoughnut.update();
-    });
-
-    document.getElementById('removeData').addEventListener('click', function() {
-        config.data.labels.splice(-1, 1); // remove the label first
-
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data.pop();
-            dataset.backgroundColor.pop();
-        });
-
-        window.myDoughnut.update();
-    });*/
 

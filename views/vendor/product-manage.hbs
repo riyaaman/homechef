@@ -1,114 +1,59 @@
 <section id="content">
-  <div class="content-wrap " style="padding: 20px;">
-    <div class="container clearfix">
-
+  <div class="content-wrap p-0">
+    <div class="container clearfix p-1">
       <div class="card shadow mb-4">
-        <div class="card-header py-3 mb-4">
+        <div class="card-header ">
           <h2 class="m-0 font-weight-bold color float-left">Product Details</h2>
 
-          <a href="product_add"><button class="btn bg-color text-white float-right mr-auto" data-toggle="modal" data-target="#myModalAdd">Add
-            New Product</button></a>
-      
+          <a href="product_add"><button class="btn bg-color text-white float-right mr-auto" data-toggle="modal"
+              data-target="#myModalAdd">Add
+              New Product</button></a>
+
         </div>
         <div class="card-body">
-          {{#if message}}
-            <div class="style-msg successmsg" id="success">
-              <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done ! </strong>{{message}}</div>
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            </div>
+          {{#if details.vendor_message}}
+          <div class="style-msg errormsg" >
+            <div class="sb-msg"><i class="icon-thumbs-up"></i>{{details.vendor_message}}</div>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          </div>
           {{/if}}
 
-        <table class="table table-striped" id="product_table">
-          <thead>
-            <tr>
-              {{!-- <th>Sl No</th> --}}
-              <th>Product Name</th>
-              <th> Price</th>
-              <th> Category</th>
-              <th> Image</th>
-
-              <th>Action</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            {{#each products}}
-            <tr>
-
-              <td>{{ this.product_name }}</td>
-              <td>{{ this.price }}</td>
-              <td>{{ this.cat_name }}</td>
-              <td><img style="width: 50px;height: 50px;"
-                  src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}" /> </td>                                   
-              <td>
-                <a href="javascript:void(0);" class="btn btn-sm bg-color edit" data-id="{{ _id }}"
-                  data-product_name="{{ this.product_name }}" data-product_price="{{ this.price }}"
-                  data-product_category="{{ this.cat_id }}">Edit</a>
-                <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ _id }}">Delete</a>
-              </td>
-            </tr>
-            {{/each}}
-          </tbody>
-        </table>
+          <table class="table table-striped" id="product_table">
+            <thead>
+              <tr>
+                {{!-- <th>Sl No</th> --}}
+                <th>Product Name</th>
+                <th> Price</th>
+                <th> Category</th>
+                <th> Image</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each products}}
+              <tr>
+                <td>{{ this.product_name }}</td>
+                <td>{{ this.price }}</td>
+                <td>{{ this.cat_name }}</td>
+                <td><img style="width: 50px;height: 50px;" src="../images/product-images/{{this._id}}.jpg"
+                    alt="{{this.product_name}}" /> </td>
+                <td>               
+                  <a href="/vendor/product_edit/{{this._id}}" class="btn bg-color text-white">Edit</a>
+                  <a href="javascript:void(0);" class="btn  btn-danger delete" data-id="{{ _id }}">Delete</a>
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
 </section>
 
 
 
-
-{{!-- 
-<!-- Modal Add Product-->
-<form action="/vendor/product_add" id="product_AddForm" method="post" enctype="multipart/form-data">
-  <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add New Product</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" name="product_name" class="form-control" placeholder="Product Name" >
-          </div>
-          <div class="form-group">
-            <input type="text" name="price" class="form-control" placeholder="Product Price" >
-          </div>
-        
-          <div class="form-group">
-            <select id="category" name="category" class="form-control" placeholder="Product category"  required >
-               {{!-- <option value="0">--Please Select Category --</option> --}}
-                 {{#each categories}}
-              <option value="{{this._id}}">{{this.cat_name}}</option>
-              {{/each}}
-            </select>
-          </div>
-          
-          <div class="form-group">
-            
-            <img style="width: 50px;height:auto;" id="view_image"
-                  src="" alt="" /><br>
-            <input type="file" class="form-control" name="product_image" id="product_image"  accept="image/*" placeholder="Image" required>
-               
-               <span id="upload_error" class="text-danger"></span>
-              <input type="hidden" name="img_url" id="img_url" value=""/>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn bg-color">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</form> --}}
-
 <!-- Modal Update Product-->
-<form action="/vendor/product_update" method="post"  enctype="multipart/form-data" id="product-update-form">
+<form action="/vendor/product_update" method="post" enctype="multipart/form-data" id="product-update-form">
   <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -119,31 +64,31 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <input type="text" name="product_name" class="form-control product_name" placeholder="Product Name" required>
-            </div>
-            <div class="form-group">
-              <input type="text" name="price" class="form-control price" placeholder="Product Price" required>
-             
-            </div>
-          
-            <div class="form-group">
-              <select id="category" name="category"  class="form-control category" placeholder="Product category" required>
-                <option value="0">--Please Select Category --</option>
-                  {{#each categories}}
-                <option value="{{this._id}}">{{this.cat_name}}</option>
-                {{/each}}
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <img style="width: 50px;height: 50px;" id="pdct_image"
-                  src="" alt="Snacky Foods" />
-              <input type="file" class="form-control" name="product_image" id="product_image_update" placeholder="Image">
-                <span id="upload_error_update" class="text-danger"></span>
-            </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input type="text" name="product_name" class="form-control product_name" placeholder="Product Name"
+              required>
           </div>
+          <div class="form-group">
+            <input type="text" name="price" class="form-control price" placeholder="Product Price" required>
+
+          </div>
+
+          <div class="form-group">
+            <select id="category" name="category" class="form-control category" placeholder="Product category" required>
+              <option value="0">--Please Select Category --</option>
+              {{#each categories}}
+              <option value="{{this._id}}">{{this.cat_name}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <img style="width: 50px;height: 50px;" id="pdct_image" src="" alt="Snacky Foods" />
+            <input type="file" class="form-control" name="product_image" id="product_image_update" placeholder="Image">
+            <span id="upload_error_update" class="text-danger"></span>
+          </div>
+        </div>
         <div class="modal-footer">
           <input type="hidden" name="product_id" class="product_id">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -179,146 +124,104 @@
 </form>
 
 <script>
-    
-   $(document).ready(function () { 
 
-      // Datatable for vendor details
-      $('#product_table').DataTable();
+  $(document).ready(function () {
 
-     	
-       // Product add from validation
-     /* $("#product_AddForm").validate({
-			// Specify validation rules
-			rules: {
-				product_name: "required",
-				price: {
-					required: true,
-					digits: true
-				},
-				category: {
-					required: true				
-				},	
-        product_image: {
-					required: true
-         				
-				},				
-			
-			},
-			messages: {
-				product_name: {
-					required: "Please enter product name",
-				},
-				price: {
-					required: "Please enter product price",
-					digits: "Please enter valid price"				
-				},			
-				category: {
-					required: "Please select category ",				
-				},
-         product_image: {
-					required: "Please upload image "
-         			
-				},			
-			},
-		}); */
+    // Datatable for product details
+    $('#product_table').DataTable();
+    // Product edit from validation
+    $("#product-update-form").validate({
+      // Specify validation rules
+      rules: {
+        product_name: "required",
+        price: {
+          required: true,
+          digits: true
+        },
+        category: {
+          required: true
+        },
 
+      },
+      messages: {
+        product_name: {
+          required: "Please enter product name",
+        },
+        price: {
+          required: "Please enter product price",
+          digits: "Please enter valid price"
+        },
+        category: {
+          required: "Please select category ",
+        },
 
-        // Product edit from validation
-    	$("#product-update-form").validate({
-			// Specify validation rules
-			rules: {
-				product_name: "required",
-				price: {
-					required: true,
-					digits: true
-				},
-				category: {
-					required: true				
-				},	
-       
-			},
-			messages: {
-				product_name: {
-					required: "Please enter product name",
-				},
-				price: {
-					required: "Please enter product price",
-					digits: "Please enter valid price"				
-				},			
-				category: {
-					required: "Please select category ",				
-				},
-       			
-			},
-		});    
-
-      
-      //showing data to edit modal     
-      $('#product_table').on('click', '.edit', function () {
-    
-        var product_id      =   $(this).data('id');
-        var product_name    =   $(this).data('product_name');
-        var price           =   $(this).data('product_price');
-        var cat_id          =   $(this).data('product_category');
-    
-        $('#EditModal').modal('show');
-        
-        $('.product_name').val(product_name);
-        $('.price').val(price);
-        $('.category').val(cat_id);   
-        $('.product_id').val(product_id);
-        document.getElementById("pdct_image").src = "../images/product-images/"+product_id+".jpg";
-      });
-      
-      //showing delete record modal
-      $('#product_table').on('click', '.delete', function () {
-
-        var product_id = $(this).data('id');
-
-        $('#DeleteModal').modal('show');
-        $('.product_id2').val(product_id);
-      });
-      
+      },
     });
 
-    // Checking uploaded image add section
-    $("#product_image").change(function () {
-          
-      var file = this.files[0];
-      var fileType = file["type"];
-      var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
-      if ($.inArray(fileType, validImageTypes) < 0) {        
-        $('#upload_error').text("Please Select a Valid Image with extension jpg or jpeg or png");
-        $("#product_image").val(null);  
-         document.getElementById('view_image').src = "#"
-      }
-      else{
-          document.getElementById('view_image').src = URL.createObjectURL(event.target.files[0])
-         $('#upload_error').text("");
-      }
+
+    //showing data to edit modal     
+    $('#product_table').on('click', '.edit', function () {
+
+      var product_id = $(this).data('id');
+      var product_name = $(this).data('product_name');
+      var price = $(this).data('product_price');
+      var cat_id = $(this).data('product_category');
+
+      $('#EditModal').modal('show');
+
+      $('.product_name').val(product_name);
+      $('.price').val(price);
+      $('.category').val(cat_id);
+      $('.product_id').val(product_id);
+      document.getElementById("pdct_image").src = "../images/product-images/" + product_id + ".jpg";
     });
-    
-    
-    // Checking uploaded image in update section
-    $("#product_image_update").change(function () {
-          
-      var file = this.files[0];
-      var fileType = file["type"];
-      var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
-      if ($.inArray(fileType, validImageTypes) < 0) {        
-        $('#upload_error1').text("Please Select a Valid Image with extension jpg or jpeg or png");
-        $("#product_image_update").val(null);  
-          document.getElementById('pdct_image').src = "#"
-        return false;
-      }
-      else{
-         $('#upload_error_update').text("");
-           document.getElementById('pdct_image').src = URL.createObjectURL(event.target.files[0])  
-         return true;
-      }
+
+    //showing delete record modal
+    $('#product_table').on('click', '.delete', function () {
+
+      var product_id = $(this).data('id');
+
+      $('#DeleteModal').modal('show');
+      $('.product_id2').val(product_id);
     });
-  
+
+  });
+
+  // Checking uploaded image add section
+  $("#product_image").change(function () {
+
+    var file = this.files[0];
+    var fileType = file["type"];
+    var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+    if ($.inArray(fileType, validImageTypes) < 0) {
+      $('#upload_error').text("Please Select a Valid Image with extension jpg or jpeg or png");
+      $("#product_image").val(null);
+      document.getElementById('view_image').src = "#"
+    }
+    else {
+      document.getElementById('view_image').src = URL.createObjectURL(event.target.files[0])
+      $('#upload_error').text("");
+    }
+  });
+
+
+  // Checking uploaded image in update section
+  $("#product_image_update").change(function () {
+
+    var file = this.files[0];
+    var fileType = file["type"];
+    var validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
+    if ($.inArray(fileType, validImageTypes) < 0) {
+      $('#upload_error1').text("Please Select a Valid Image with extension jpg or jpeg or png");
+      $("#product_image_update").val(null);
+      document.getElementById('pdct_image').src = "#"
+      return false;
+    }
+    else {
+      $('#upload_error_update').text("");
+      document.getElementById('pdct_image').src = URL.createObjectURL(event.target.files[0])
+      return true;
+    }
+  });
+
 </script>
-
-
-

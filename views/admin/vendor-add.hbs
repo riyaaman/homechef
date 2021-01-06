@@ -1,95 +1,83 @@
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+			<div class="container clearfix">
+				<h1 class="color">Add Vendor Details</h1>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+					<li class="breadcrumb-item"><a href="/admin/vendor_view">View Vendors </a></li>
+					<li class="breadcrumb-item active" aria-current="page">Add Vendor</li>
+				</ol>
+			</div>
+</section>
+
 <!-- Content
 ============================================= -->
 <section id="content">
     <div class="content-wrap">
         <div class="container">
             <div class="card mb-0 shadow">
-                <div class="card-header py-3 ">
-                    <h3 class="m-0 font-weight-bold text-theme ">Add vendor Details</h3>
-                </div>
                 <div class="card-body" style="padding: 40px;">
-
-                    {{#if admin_details.admin_message}}
+                    {{#if admin_details.adminMessage}}
                     <div class="style-msg successmsg" id="success">
-                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> {{this.admin_details.admin_message}}
+                        <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong>
+                            {{this.admin_details.adminMessage}}
                         </div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
-
                     {{/if}}
-
                     <form id="vendor" name="vendor" class="row mb-0" action="/admin/vendor_add" method="post"
                         enctype="multipart/form-data">
-
                         <div class="col-12 form-group">
                             <label for="ven_name">Name:</label>
                             <input type="text" id="ven_name" name="ven_name" value="{{vendor.ven_name}}"
                                 class="form-control" required>
-
                         </div>
                         <div class="col-12 form-group">
                             <label for="ven_shop_name">Shop Name:</label>
                             <input type="text" id="ven_shop_name" name="ven_shop_name" value="" class="form-control"
                                 required>
-
                         </div>
-
-
-
                         <div class="col-12 form-group">
                             <label for="ven_phone">Phone:</label>
                             <input type="text" title="Enter a vaild Phone Number" id="ven_phone" name="ven_phone"
                                 value="" class="form-control" required>
-
                         </div>
-
                         <div class="col-12 form-group">
                             <label for="ven_email">Email Address:</label>
                             <input type="text" id="ven_email" name="ven_email" value="" class="form-control" required>
                             <div id="email_error" style="color:red;display:none">
                                 <p>Email Already Registered</p>
                             </div>
-
                             <div id="email_success" style="color:red;display:none">Email Available</div>
                         </div>
-
                         <div class="col-12 form-group">
                             <label for="ven_password">Choose a Password:</label>
                             <input type="password" name="ven_password" id="ven_password"
                                 class="form-control  demoInputBox" onKeyUp="checkPasswordStrength();" required />
                             <div id="password-strength-status" class="text-warning"></div>
-
                         </div>
-
                         <div class="col-12 form-group">
                             <label for="confirm_password">Re-enter Password:</label>
                             <input type="password" id="confirm_password" name="confirm_password" value=""
                                 class="form-control">
-
                         </div>
-
                         <div class="col-12 form-group">
                             <label for="ven_image">Image</label>
-                            <img id="imgView" class="pt-3" src="" alt="" style="width:100px;height:auto" /><br>
+                            <img id="vendor_imgView" class="pt-3" src="" alt="" style="width:100px;height:auto" /><br>
                             <input type="file" class="" name="ven_image" id="ven_image" placeholder="Image" required
                                 accept="image/*"><br>
-
                             <span id="add_error" class="text-danger"></span>
-
-                            <input type="hidden" name="img_url" id="img_url" value=""/>
+                            <input type="hidden" name="img_url" id="img_url" value="" />
                         </div>
-
                         <div class="col-12 form-group mt-2">
                             <button type="submit" class="button button-3d bg-color  m-0" id="ven-submit"
                                 name="ven-submit" value="register">Add Vendor</button>
                         </div>
-
                     </form>
                 </div>
             </div>
-
         </div>
-
     </div>
 </section>
 
@@ -99,8 +87,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Crop Image
-                </h5>
+                <h5 class="modal-title" id="modalLabel">Crop Image</h5>                
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -112,13 +99,11 @@
                             <canvas id="canvas">
                                 Your browser does not support the HTML5 canvas element.
                             </canvas>
-                            {{!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749"> --}}
                         </div>
                         <div class="col-md-4">
                             <div id="result" class="align-center">
                                 <img src="" alt="" id="viewImage" name="viewImage">
                             </div>
-                            {{!-- <div class="preview"></div> --}}
                         </div>
                     </div>
                 </div>
@@ -127,8 +112,6 @@
                 <button type="button" class="btn bg-success" data-dismiss="modal">Upload</button>
                 <input type="button" id="btnCrop" value="Crop" />
                 <input type="button" id="btnRestore" value="Restore" />
-                {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="crop">Crop</button> --}}
             </div>
         </div>
     </div>
@@ -136,20 +119,15 @@
 
 
 
-
-
-{{!--  validation --}}
 <script>
-
     // Checking email exist or not
     $("#ven_email").keyup(function () {
         var email = $('#ven_email').val();
         if (!email == "") {
             $.ajax({
                 type: 'post',
-                url: '/admin/vendor_email_check?action=check',
+                url: '/admin/vendor_email_check',
                 data: 'ven_email=' + email,
-
                 success: function (response) {
                     if (response.add_failed == "true") {
                         document.getElementById('email_error').style.display = "block";
@@ -190,13 +168,10 @@
 
 
 
-
-    
-
-    $(document).ready(function () {
-        // Specify validation rules for vendor 
+     // Form Validation
+    $(document).ready(function () {        
+         
         $("#vendor").validate({
-
             rules: {
                 ven_phone: {
                     digits: true,
@@ -219,7 +194,7 @@
             },
             messages: {
                 ven_name: {
-                    required: "Please enter your name",
+                    required: "Please enter Vendor name",
                 },
                 ven_shop_name: {
                     required: "Please enter shop name",
@@ -234,7 +209,7 @@
                 },
                 ven_password: {
                     required: "Please enter password ",
-                    minlength: "Please enter password with minimum 5 characters"
+                    minlength: "Please enter password with minimum 6 characters"
 
                 },
                 ven_image: {
@@ -256,20 +231,15 @@
 </script>
 
 
-
-
-
 {{!-- Cropping image --}}
 <script>
-    var $modal = $('#modal');
-    var canvas = $("#canvas"),
-        context = canvas.get(0).getContext("2d"),
-        $result = $('#result');
+    var $modal  =   $('#modal');
+    var canvas  =   $("#canvas"),
+        context =   canvas.get(0).getContext("2d"),
+        $result =   $('#result');
 
     $('#ven_image').on('change', function () {
-
-        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
-
+        document.getElementById('vendor_imgView').src = URL.createObjectURL(event.target.files[0])
         $modal.modal('show');
         if (this.files && this.files[0]) {
             if (this.files[0].type.match(/^image\//)) {
@@ -284,20 +254,19 @@
                             aspectRatio: 16 / 9
                         });
                         $('#btnCrop').click(function () {
-                             $result.empty();
+                            $result.empty();
                             // Get a string base 64 data url
                             var croppedImageDataURL = canvas.cropper('getCroppedCanvas').toDataURL("image/png");
                             //alert(croppedImageDataURL)
-                           $result.append($('<img>').attr('src', croppedImageDataURL));
-
-                           $("#img_url").val(croppedImageDataURL);
-                            document.getElementById('imgView').src = croppedImageDataURL                        
+                            $result.append($('<img>').attr('src', croppedImageDataURL));
+                            $("#img_url").val(croppedImageDataURL);
+                            document.getElementById('vendor_imgView').src = croppedImageDataURL
                         });
                         $('#btnRestore').click(function () {
                             canvas.cropper('reset');
                             $result.empty();
-                             $('#img_url').val('0');
-                       document.getElementById('imgView').src = evt.target.result;
+                            $('#img_url').val('0');
+                            document.getElementById('vendor_imgView').src = evt.target.result;
                         });
                     };
                     img.src = evt.target.result;
@@ -315,8 +284,6 @@
 </script>
 
 
-
-
 <style>
     /* Limit image width to avoid overflow the container */
     img {
@@ -324,7 +291,6 @@
         /* This rule is very important, please do not ignore this! */
         display: block;
     }
-
     #canvas {
         height: 500px;
         width: 500px;
@@ -332,15 +298,6 @@
         cursor: default;
         border: 1px solid black;
     }
-
-   /* #result img{
-        overflow: hidden;
-        width: 200px;
-        height: 200px;
-        margin: 10px;
-        border: 1px solid red;
-    }*/
-
     .modal-lg {
         max-width: 1000px !important;
     }

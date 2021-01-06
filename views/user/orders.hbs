@@ -17,37 +17,34 @@
         <div class="card mx-auto rounded-0 border mt-4 shadow ">
              {{#if orders}}
                 <div class="card-header">
-                    <h2>Order History</h2>               
+                    <h3 class="p-0 m-0">View Your Orders</h3>               
                 </div>
-                <div class="card-body">
-                
-                    <table class="table mt-5">
+                <div class="card-body">                
+                    <table class="table ">
                         <thead>
                             <tr>
-                                {{!-- <th scope="col">Date</th> --}}
+                                <th scope="col">Date</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">City</th>
                                 <th scope="col">Pincode</th>
                                 <th scope="col">State</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Payment</th>
-                                <th scope="col">Status</th>
+                                {{!-- <th scope="col">Status</th> --}}
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             {{#each orders}}
                             <tr>
-                                {{!-- <td>{{this.date}}</td> --}}
+                                <td>{{this.created_date}}</td>
                                 <td>{{this.deliveryDetails.billing_address}} </td>
                                 <td>{{this.deliveryDetails.billing_city}} </td>
                                 <td>{{this.deliveryDetails.billing_pincode}} </td>
                                 <td>{{this.deliveryDetails.billing_state}} </td>
                                 <td>{{this.totalAmount}}</td>
                                 <td>{{this.paymentMethod}}</td>
-                                <td>{{this.status}}</td>
-
-
+                                {{!-- <td>{{this.status}}</td> --}}
                                 <td>
                                     <a class="btn btn-success" href="/view-order-products/{{this._id}}">View Products</a>
                                 </td>

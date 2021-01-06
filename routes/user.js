@@ -1,33 +1,21 @@
 var express = require("express");
 var router = express.Router();
-
-var userHelpers = require("../helpers/user-helpers");
-var productHelpers = require("../helpers/product-helpers");
-
-// const session = require("express-session");
-// const { response } = require("express");
-
+var UserHelpers = require("../helpers/user-helpers");
+var ProductHelpers = require("../helpers/product-helpers");
 var messagebird = require("messagebird")("NXdZZmOVZ5XRJJJD3SH1ugXJM");
-
-
 
 /* Verify Is User Logged in
 ============================================= */
 const verifyUserLogin = (req, res, next) => {
     if (req.session.userLoggedIn) {
-        userData = {
-            email: req.session.user.email,
-            password: req.session.user.password,
-        };
-        userHelpers.doLogin_User(userData).then((response) => {
-           
-            if (response.loginStatus == "blocked") {
-                req.session.user_message = "Your Account is Blocked By Admin";
+        UserHelpers.checkBlockStatus(req.session.user._id).then((response) => {
+            if (response.blockStatus) {
+                req.session.userMessage = "Your Account is Blocked By Admin";
                 req.session.user = null;
                 req.session.userLoggedIn = false;
                 res.redirect("/user_login");
             } else {
-                req.session.user.user_message = req.session.user_message;
+                req.session.user.userMessage = req.session.userMessage;
                 next();
             }
         });
@@ -39,15 +27,15 @@ const verifyUserLogin = (req, res, next) => {
 /* Get Product List
 ============================================= */
 router.get("/", async (req, res, next) => {
-    let products = await productHelpers.get_Allproducts();
+    let products = await ProductHelpers.getAllProducts();
     let latest_products = products.slice(0, 12);
-    let user_details = null;   
+    let user_details = null;
     let cart_count = null;
-    user = req.session.user;
-
+    let user = req.session.user;
     if (user) {
         user_details = req.session.user;
-        cart_count = await userHelpers.get_CartCount(user._id);
+        //cart_count      =   await UserHelpers.get_CartCount(user._id);
+        cart_count = await UserHelpers.getCartCount(user._id);
         req.session.cart_count = cart_count;
     }
     res.render("user/index", { user_status: true, user_details, latest_products, cart_count });
@@ -56,12 +44,11 @@ router.get("/", async (req, res, next) => {
 /* Check  User Email Exist or not
 ============================================= */
 router.post("/useremail_check", (req, res) => {
-    let user_email = req.body.email;
-    userHelpers.check_Useremail_Exist(user_email).then((response) => {
+    UserHelpers.checkUseremailExist(req.body.email).then((response) => {
         if (response.signup_status == false) {
-            res.json({ add_failed: "true" });
+            res.json({ user_add_failed: "true" });
         } else {
-            res.json({ add_failed: "false" });
+            res.json({ user_add_failed: "false" });
         }
     });
 });
@@ -69,8 +56,7 @@ router.post("/useremail_check", (req, res) => {
 /* Check  User Phone Exist or not
 ============================================= */
 router.post("/phone_check", function (req, res) {
-    let user_phone = req.body.phone;
-    userHelpers.check_Userphone_Exist(user_phone).then((response) => {
+    UserHelpers.checkUserphoneExist(req.body.phone).then((response) => {
         if (response.signup_status == false) {
             res.json({ add_failed: "true" });
         } else {
@@ -82,25 +68,18 @@ router.post("/phone_check", function (req, res) {
 /* User Signup
 ============================================= */
 router.get("/signup", (req, res) => {
-    if (req.session.user_message) {
-        res.render("user/signup", { user_message: req.session.user_message });
-        req.session.user_message = false;
-    } else {
-        res.render("user/signup");
-    }
+    res.render("user/signup", { userMessage: req.session.userMessage });
+    req.session.userMessage = false;
 });
 
 router.post("/signup", (req, res) => {
-    let user_details = req.body;
-    first_name = user_details.first_name;
-
-    userHelpers.doSignup_User(req.body).then((response) => {
+    UserHelpers.doSignupUser(req.body).then((response) => {
         if (response.signup_status == false) {
-            req.session.user_message = " Email or Phone Number Already Registered. Please Select Another One";
+            req.session.userMessage = " Email or Phone Number Already Registered. Please Select Another One";
             res.redirect("signup");
         } else {
             req.session.userLoggedIn = true;
-            req.session.user = { first_name: first_name };
+            req.session.user = response;
             res.redirect("/");
         }
     });
@@ -112,38 +91,35 @@ router.get("/user_login", (req, res) => {
     if (req.session.user) {
         res.redirect("/");
     } else {
-        res.render("user/login", { user_message: req.session.user_message });
-        req.session.user_message = false;
+        res.render("user/login", { userMessage: req.session.userMessage });
+        req.session.userMessage = false;
     }
 });
 
 router.post("/user_login", (req, res) => {
-    userHelpers.doLogin_User(req.body).then((response) => {
-        console.log("status:", response.loginStatus);
+    UserHelpers.doLoginUser(req.body).then((response) => {
         if (response.loginStatus == true) {
             req.session.user = response.user;
             req.session.userLoggedIn = true;
-            req.session.user_message = false;
-            req.session.user.password = req.body.password;
+            req.session.userMessage = false;
             res.redirect("/");
         } else if (response.loginStatus == "blocked") {
-            req.session.user_message = "Your Account is Blocked";
+            req.session.userMessage = "Your Account is Blocked By Admin";
             res.redirect("/user_login");
         } else {
-            req.session.user_message = "Invalid Password or Username";
+            req.session.userMessage = "Invalid Password or Username";
             res.redirect("/user_login");
         }
     });
 });
 
-/* User  Logout
+/* User Logout
 ============================================= */
 router.get("/user_logout", (req, res) => {
     req.session.user = null;
     req.session.userLoggedIn = false;
     req.session.cart_count = null;
-    req.session.user_message = false;
-
+    req.session.userMessage = false;
     res.redirect("/");
 });
 
@@ -191,7 +167,7 @@ router.post("/step3", function (req, res) {
                 let userData = {};
                 phone = req.session.phone;
 
-                userHelpers.doLogin_UserbyPhone(phone).then((response) => {
+                UserHelpers.doLogin_UserbyPhone(phone).then((response) => {
                     if (response.loginStatus) {
                         req.session.user = response.user;
                         req.session.userLoggedIn = true;
@@ -205,48 +181,52 @@ router.post("/step3", function (req, res) {
 
 /* User Profile Add/Update 
 ============================================= */
-router.post("/profile_add", verifyUserLogin, (req, res) => {    
+router.post("/profile_add", verifyUserLogin, (req, res) => {
     user_id = req.session.user._id;
-    userHelpers.add_User_Profile(req.body, user_id).then((response) => {
-        req.session.user_message = " Profile Updated Successfully";
-        res.redirect("/profile/" + user_id);
+    UserHelpers.addUserProfile(req.body, user_id).then((response) => {
+        req.session.userMessage = " Profile Updated Successfully";
+        res.redirect("/profile");
     });
 });
 
 /*Get User Profile Details
 ============================================= */
-router.get("/profile/:id", verifyUserLogin, async (req, res) => {
-    user_id = req.params.id;
+router.get("/profile", verifyUserLogin, async (req, res) => {
+    let user_id = req.session.user._id;
     let cart_count = null;
-    let user = await userHelpers.get_UserDetails(user_id);
-    user_details = req.session.user;
+    let user = await UserHelpers.getUserDetails(user_id);
+    let user_details = req.session.user;
     cart_count = req.session.cart_count;
+    user_details.userMessage = req.session.userMessage;
     res.render("user/profile", { user_status: true, user, user_details, cart_count });
-    req.session.user_message = false;
+    req.session.userMessage = false;
 });
 
 /* change Password  of user get
 ============================================= */
-router.get("/user_settings/:id", verifyUserLogin, (req, res) => {
-    user_details = req.session.user;
-    res.render("user/user-settings", { user_details, user_status: true });
-    req.session.user_message = false;
+router.get("/user_settings", verifyUserLogin, (req, res) => {
+    let user_details = {
+        first_name: req.session.user.first_name,
+        userMessage: req.session.userMessage,
+    };
+    cart_count = req.session.cart_count;
+    res.render("user/user-settings", { user_details, user_status: true, cart_count });
+    req.session.userMessage = false;
 });
 
 /* Change Password of a user post 
 ============================================= */
 router.post("/change_password", verifyUserLogin, (req, res) => {
-    user_id = req.body.user_id;
-    userHelpers.change_Password_User(req.body).then((response) => {
+    req.body.userId = req.session.user._id;
+    UserHelpers.changePasswordUser(req.body).then((response) => {
         if (response.resetStatus == true) {
-            req.session.user_message = "Password Updated Successfully";
+            req.session.userMessage = "Password Updated Successfully";
         } else if (response.resetStatus == false) {
-            req.session.user_message = "Old Password incorrect";
+            req.session.userMessage = "Old Password incorrect";
         } else {
-            req.session.user_message = "User Not Exist";
+            req.session.userMessage = "User Doesn't Exist";
         }
-
-        res.redirect("/user_settings/id=" + user_id);
+        res.redirect("/user_settings");
     });
 });
 
@@ -255,11 +235,9 @@ router.post("/change_password", verifyUserLogin, (req, res) => {
 router.post("/change_profile_image", verifyUserLogin, (req, res) => {
     let image = req.files.profile_image_upload;
     let id = req.session.user._id;
-
     image.mv("./public/images/profile-images/" + id + ".jpg", (err, done) => {
         if (!err) {
-            // req.session.user_message = "Well Done ! You Successfully Added the Image";
-            res.redirect("profile/" + id);
+            res.redirect("profile");
         } else {
             console.log(err);
         }
@@ -269,24 +247,22 @@ router.post("/change_profile_image", verifyUserLogin, (req, res) => {
 /*Forget Password of user 
 ============================================= */
 router.get("/forget_password", (req, res) => {
-    user_message = req.session.user_message;
-    res.render("user/forget-password", { user_message });
-    req.session.user_message = false;
+    let userMessage = req.session.userMessage;
+    res.render("user/forget-password", { userMessage });
+    req.session.userMessage = false;
 });
 
 /*Forget Password of user (post method)
 ============================================= */
 router.post("/forget_password", async (req, res) => {
-    email = req.body.email;
-    await userHelpers
-        .forget_Password(req.body)
+    let email = req.body.email;
+    await UserHelpers.forgetPassword(req.body)
         .then((response) => {
             if (response.status == 0) {
-                req.session.user_message = "No account with that email address exists.";
+                req.session.userMessage = "No account with that email address exists.";
                 res.redirect("forget_password");
             } else {
-                console.log("error");
-                req.session.user_message = "An e-mail has been sent to " + email + " with further instructions.";
+                req.session.userMessage = "An e-mail has been sent to " + email + " with further instructions.";
                 res.redirect("forget_password");
             }
         })
@@ -298,13 +274,12 @@ router.post("/forget_password", async (req, res) => {
 /*Reset Password of user 
 ============================================= */
 router.get("/reset/:token", async (req, res) => {
-    token = req.params.token;
-    userHelpers
-        .resetpassword_Response(req.params.token)
+    let token = req.params.token;
+    UserHelpers.resetPasswordResponse(req.params.token)
         .then((response) => {
             if (response.status == 0) {
-                req.session.user_message = "Password reset token is invalid or has expired.Please Try again";
-                res.redirect("/forget");
+                req.session.userMessage = "Password reset token is invalid or has expired.Please Try again";
+                res.redirect("/forget_password");
             } else {
                 res.render("user/reset-password", { token });
             }
@@ -312,20 +287,18 @@ router.get("/reset/:token", async (req, res) => {
         .catch((err) => {
             console.log(err);
         });
-
-    //    res.render("user/reset")
 });
 
 /* Reser Password of a user (post) 
 ============================================= */
 router.post("/reset_password", (req, res) => {
-    userHelpers.reset_Password_User(req.body).then((response) => {
+    UserHelpers.resetPasswordUser(req.body).then((response) => {
         if (response.resetStatus == true) {
-            req.session.user_message = "Password Updated Successfully. You Can Login Here";
+            req.session.userMessage = "Password Updated Successfully. You Can Login Here";
             res.redirect("/user_login");
         } else {
-            req.session.user_message = "Password reset token is invalid or has expired.Please Try again";
-            res.redirect("/forget");
+            req.session.userMessage = "Password reset token is invalid or has expired.Please Try again";
+            res.redirect("/forget_password");
         }
     });
 });
@@ -335,13 +308,13 @@ router.post("/reset_password", (req, res) => {
 /* Bakers Listing
 ============================================= */
 router.get("/get_bakers", (req, res) => {
-    user_details = null;
-    cart_count = null;
+    let user_details = null;
+    let cart_count = null;
     if (req.session.user) {
         user_details = req.session.user;
         cart_count = req.session.cart_count;
     }
-    userHelpers.get_AllVendors().then((vendors) => {
+    UserHelpers.getAllVendors().then((vendors) => {
         res.render("user/bakers", { user_status: true, vendors, user_details, cart_count });
     });
 });
@@ -350,22 +323,20 @@ router.get("/get_bakers", (req, res) => {
 ============================================= */
 router.get("/get_products_bybaker/:id", async (req, res) => {
     vendor_id = req.params.id;
-    let products = {};
-    let latest_products = {};
-    let categories = {};
-    products = await productHelpers.get_ProductsByVendorId(vendor_id);
+    let products = null;
+    let latest_products = null;
+    let categories = null;
+    products = await ProductHelpers.getProductsByVendorId(vendor_id);
     if (products.length > 0) {
-        categories = await productHelpers.get_Allcategories();
+        categories = await ProductHelpers.getAllcategories();
         latest_products = products.slice(0, 3);
     }
-
-    user_details = null;
-    cart_count = null;
+    let user_details = null;
+    let cart_count = null;
     if (req.session.user) {
         user_details = req.session.user;
         cart_count = req.session.cart_count;
     }
-
     res.render("user/products", {
         user_status: true,
         categories,
@@ -377,24 +348,19 @@ router.get("/get_products_bybaker/:id", async (req, res) => {
     });
 });
 
+/*  =============================================      Cart          ============================================= */
+
 /*Buy Now
 ============================================= */
-router.get("/buynow", verifyUserLogin, (req, res) => {
-    user_details = null;
-    cart_count = null;
-    if (req.session.user) {
-        user_details = req.session.user;
-        cart_count = req.session.cart_count;
-    }
+router.get("/buynow", verifyUserLogin, (req, res) => {   
     res.redirect("/cart");
 });
 
 /* Items Add to Cart
 ============================================= */
-router.post("/add_to_cart", verifyUserLogin, (req, res) => {
-    value = req.body.value;
-    userHelpers.add_ToCart(req.body, req.session.user._id).then(async () => {
-        // cart_count = await userHelpers.get_CartCount(user._id);
+router.post("/add_to_cart", verifyUserLogin, async (req, res) => {
+    let value = req.body.value;
+    await UserHelpers.addToCart(req.body, req.session.user._id).then(async () => {
         if (req.session.cart_count) {
             cart_count = req.session.cart_count;
             req.session.cart_count = cart_count + 1;
@@ -409,16 +375,16 @@ router.post("/add_to_cart", verifyUserLogin, (req, res) => {
 ============================================= */
 router.get("/cart", verifyUserLogin, async (req, res) => {
     let totalValue = 0;
-    let products = await userHelpers.get_CartProducts(req.session.user._id);
-    user_details = null;
-    cart_count = null;
+    let products = await UserHelpers.getCartProducts(req.session.user._id);
+    let user_details = null;
+    let cart_count = null;
     if (req.session.user) {
         user_details = req.session.user;
-        cart_count   = req.session.cart_count;
+        cart_count = req.session.cart_count;
     }
     let user = req.session.user._id;
     if (products.length > 0) {
-        totalValue = await userHelpers.get_TotalAmount(req.session.user._id);
+        totalValue = await UserHelpers.getTotalAmount(req.session.user._id);
         res.render("user/cart", { user_status: true, products, user, totalValue, user_details, cart_count });
     } else {
         res.render("user/cart", { user_status: true, user_details });
@@ -428,10 +394,14 @@ router.get("/cart", verifyUserLogin, async (req, res) => {
 /* Change product quantity
 ============================================= */
 router.post("/change_product_quantity", (req, res, next) => {
-    userHelpers.change_ProductQuantity(req.body).then(async (response) => {
-        response.total = await userHelpers.get_TotalAmount(req.body.user);
-        cart_count = await userHelpers.get_CartCount(user._id);
-
+    UserHelpers.changeProductQuantity(req.body).then(async (response) => {
+        if (!response.removeCart) {
+            let total = await UserHelpers.getTotalAmount(req.body.user);
+            response.total = total[0].total;
+            response.total_org = total[0].total_org;
+            response.discount = total[0].discount;
+        }
+        cart_count = await UserHelpers.getCartCount(req.session.user._id);
         response.cart_count = cart_count;
         if (req.session.cart_count) {
             req.session.cart_count = cart_count;
@@ -444,9 +414,8 @@ router.post("/change_product_quantity", (req, res, next) => {
 ============================================= */
 router.post("/remove_from_cart", async (req, res, next) => {
     let cart_count = null;
-    userHelpers.remove_CartItem(req.body).then(async (response) => {
-        cart_count = await userHelpers.get_CartCount(req.session.user._id);
-        console.log(cart_count);
+    UserHelpers.removeCartItem(req.body).then(async (response) => {
+        cart_count = await UserHelpers.getCartCount(req.session.user._id);
         if (req.session.cart_count) {
             req.session.cart_count = cart_count;
         }
@@ -457,23 +426,22 @@ router.post("/remove_from_cart", async (req, res, next) => {
 /*Proceed to place order
 ============================================= */
 router.get("/place_order", verifyUserLogin, async (req, res) => {
-    let user_address = null
+    let user_address = null;
     let user_details = req.session.user;
-    let total = await userHelpers.get_TotalAmount(req.session.user._id);
-    user_address = await userHelpers.get_UserDetails(req.session.user._id);
-
+    let total = await UserHelpers.getTotalAmount(req.session.user._id);
+    user_address = await UserHelpers.getUserDetails(req.session.user._id);
     res.render("user/place-order", { user_status: true, total, user: req.session.user, user_details, user_address });
 });
 
 router.post("/place-order", async (req, res) => {
-    let product = await userHelpers.get_CartProduct_List(req.body.userId);
-    let total = await userHelpers.get_TotalAmount(req.body.userId);
-
-    userHelpers.place_Order(req.body, product, total).then((orderId) => {
+    req.session.cart_count = 0;
+    let product = await UserHelpers.getCartProductList(req.body.userId);
+    let total = req.body.cart_total;
+    UserHelpers.place_Order(req.body, product, total).then((orderId) => {
         if (req.body["payment-method"] === "COD") {
             res.json({ cod_success: true });
-        } else if (req.body["payment-method"] === "ONLINE") {
-            userHelpers.generate_RazorPay(orderId, total).then((response) => {
+        } else if (req.body["payment-method"] === "RAZORPAY") {
+            UserHelpers.generateRazorPay(orderId, total).then((response) => {
                 res.json(response);
             });
         } else {
@@ -497,34 +465,36 @@ router.get("/order_success", (req, res) => {
 /*Get Orders By User Id
 ============================================= */
 router.get("/orders", verifyUserLogin, async (req, res) => {
-    user_details = req.session.user;
+    let user_details = req.session.user;
     let orders = null;
-    orders = await userHelpers.get_UserOrders_ByuserId(req.session.user._id);
+    orders = await UserHelpers.getUserOrdersByuserId(req.session.user._id);
     cart_count = req.session.cart_count;
-    res.render("user/orders", { user: req.session.user, orders, user_status: true, user_details, cart_count });
+    res.render("user/orders", { orders, user_status: true, user_details, cart_count });
 });
 
 /*View Order Products By User Id
 ============================================= */
-router.get("/view-order-products/:id", async (req, res) => {
-    let products = await userHelpers.get_OrderProducts(req.params.id);
-    user_details = req.session.user;
-    res.render("user/view-order-products", { user: req.session.user, products, user_status: true, user_details });
+router.get("/view-order-products/:id", verifyUserLogin, async (req, res) => {
+    let products = await UserHelpers.getOrderProductsByOrderId(req.params.id);
+    let user_details = null;
+    user_details = { first_name: req.session.user.first_name };
+    res.render("user/view-order-products", { products, user_status: true, user_details });
+    // res.render("user/view-order-products", { user: req.session.user, products, user_status: true, user_details });
 });
+
 
 /*Verify Payment & Change Status
 ============================================= */
 router.post("/verify_payment", (req, res) => {
-    
-    userHelpers.verify_Payment(req.body)
-    .then(() => {
-        userHelpers.change_PaymentStatus(req.body["order[receipt]"]).then(() => {
-            res.json({ status: true });
+    UserHelpers.verify_Payment(req.body)
+        .then(() => {
+            UserHelpers.changePaymentStatus(req.body["order[receipt]"]).then(() => {
+                res.json({ status: true });
+            });
+        })
+        .catch((err) => {
+            res.json({ status: false, errMsg: "" });
         });
-    })
-    .catch((err) => {
-        res.json({ status: false, errMsg: "" });
-    });
 });
 
 /*Shows Payment  Failed message For Paypal
@@ -538,16 +508,33 @@ router.get("/order_paypal_cancel", (req, res) => {
 ============================================= */
 router.get("/order_paypal_success/:order_id", verifyUserLogin, async (req, res) => {
     var order_id = req.params.order_id;
-    userHelpers.change_PaymentStatus(order_id).then(() => {
+    UserHelpers.changePaymentStatus(order_id).then(() => {
         res.render("user/order-success");
     });
     req.session.cart_count = false;
 });
 
-/*Get paytm test
+/* Apply Coupon Code To Cart
 ============================================= */
-router.get("/paytm_test", async (req, res) => {
-    res.render("user/paytm_test");
+router.post("/apply_coupon_code", async (req, res, next) => {
+    let coupon_code = req.body.coupon_code;
+    let subtotal = req.body.subtotal;
+    let user_id = req.session.user._id;
+    await UserHelpers.checkCouponCode(coupon_code, subtotal, user_id).then(async (response) => {
+        if (response.status == false) {
+            res.json({ status: false });
+        } else if (response.status == "less") {
+            const response_details = {
+                status: "less",
+                minimum_amount: response.minimum_amount,
+            };
+            res.json(response_details);
+        } else if (response.status == "used") {
+            res.json({ status: "used" });
+        } else {
+            res.json(response);
+        }
+    });
 });
 
 /*  =============================================      Menu          ============================================= */
@@ -555,28 +542,42 @@ router.get("/paytm_test", async (req, res) => {
 /*Contact
 ============================================= */
 router.get("/contact", (req, res) => {
-    user_details = null;
-    cart_count = null;
+    let user_details = null;
+    let cart_count = null;
     if (req.session.user) {
-        user_details = req.session.user;
+        user_details = { first_name: req.session.user.first_name };
         cart_count = req.session.cart_count;
     }
-    res.render("user/contact", { user_status: true, user_details, cart_count });
+    let userMessage = req.session.userMessage;
+    res.render("user/contact", { user_status: true, user_details, cart_count, userMessage });
+    req.session.userMessage = false;
+});
+
+/*Send Message to Admin From Customer
+============================================= */
+router.post("/contact", async (req, res) => {
+    await UserHelpers.contact(req.body).then((response) => {
+        if (response.status == true) {
+            req.session.userMessage = "Message Sent. We Will Contact You Soon";
+        } else {
+            req.session.userMessage = "Message Not sent,Please Try Again";
+        }
+        res.redirect("/contact");
+    });
 });
 
 /*About
 ============================================= */
 router.get("/about", (req, res) => {
-    user_details = null;
-    cart_count = null;
+    let user_details = null;
+    let cart_count = null;
     if (req.session.user) {
         user_details = req.session.user;
         cart_count = req.session.cart_count;
     }
-    userHelpers.get_AllVendors().then((vendors) => {
+    UserHelpers.getAllVendors().then((vendors) => {
         res.render("user/about", { user_status: true, vendors, user_details, cart_count });
-    })
-    
+    });
 });
 
 module.exports = router;

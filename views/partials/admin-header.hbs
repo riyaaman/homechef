@@ -1,128 +1,158 @@
 <style>
-#vertical-nav {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 240px;
-	z-index: 99;
-	background: #212529;
-	border-right: 1px solid #EEE;
-	height: 100%;
-	overflow: auto;
-	padding: 120px 0 20px;
-	-webkit-transition: padding .4s ease;
-	-o-transition: padding .4s ease;
-	transition: padding .4s ease;
-}
+    #vertical-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 240px;
+        z-index: 99;
+        background: #212529;
+        border-right: 1px solid #EEE;
+        height: 100%;
+        overflow: auto;
+        padding: 120px 0 20px;
+        -webkit-transition: padding .4s ease;
+        -o-transition: padding .4s ease;
+        transition: padding .4s ease;
+    }
 
-.sticky-header + #vertical-nav { padding-top: 100px; }
+    .sticky-header+#vertical-nav {
+        padding-top: 100px;
+    }
 
-#vertical-nav nav ul {
-	margin-bottom: 0;
-	list-style: none;
-}
+    #vertical-nav nav ul {
+        margin-bottom: 0;
+        list-style: none;
+    }
 
-#vertical-nav nav li a {
-	display: block;
-	padding: 10px 30px;
-	color: #fff;
-	text-transform: uppercase;
-	font-size: 13px;
-	font-weight: 700;
-	letter-spacing: 2px;
-	font-family: 'Poppins', sans-serif;
-	line-height: 2rem;
-}
+    #vertical-nav nav li a {
+        display: block;
+        padding: 10px 30px;
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        font-family: 'Poppins', sans-serif;
+        line-height: 2rem;
+    }
 
-#vertical-nav nav li i {
-	font-size: 14px;
-	width: 16px;
-	text-align: center;
-}
+    #vertical-nav nav li i {
+        font-size: 14px;
+        width: 16px;
+        text-align: center;
+    }
 
-#vertical-nav nav li i:not(.icon-angle-down) {
-	margin-right: 8px;
-	position: relative;
-	top: 1px;
-}
+    #vertical-nav nav li i:not(.icon-angle-down) {
+        margin-right: 8px;
+        position: relative;
+        top: 1px;
+    }
 
-#vertical-nav nav li a i.icon-angle-down {
-	width: auto;
-	margin-left: 5px;
-}
+    #vertical-nav nav li a i.icon-angle-down {
+        width: auto;
+        margin-left: 5px;
+    }
 
-#vertical-nav nav li:hover > a,
-#vertical-nav nav li.current > a,
-#vertical-nav nav li.active > a {
-	background-color: #FFF;
-	color: #1ABC9C;
-}
+    #vertical-nav nav li:hover>a,
+    #vertical-nav nav li.current>a,
+    #vertical-nav nav li.active>a {
+        background-color: #FFF;
+        color: #1ABC9C;
+    }
 
-#vertical-nav nav ul ul { display: none; }
+    #vertical-nav nav ul ul {
+        display: none;
+    }
 
-#vertical-nav nav ul ul a {
-	font-size: 12px;
-	letter-spacing: 1px;
-	padding-left: 45px;
-	font-family: 'Lato', sans-serif;
-}
+    #vertical-nav nav ul ul a {
+        font-size: 12px;
+        letter-spacing: 1px;
+        padding-left: 45px;
+        font-family: 'Lato', sans-serif;
+    }
 
-#vertical-nav nav ul ul a i.icon-angle-down { font-size: 12px; }
+    #vertical-nav nav ul ul a i.icon-angle-down {
+        font-size: 12px;
+    }
 
-#vertical-nav nav ul ul ul a { padding-left: 60px; }
-#vertical-nav nav ul ul ul ul a { padding-left: 75px; }
+    #vertical-nav nav ul ul ul a {
+        padding-left: 60px;
+    }
 
-@media (min-width: 992px) {
+    #vertical-nav nav ul ul ul ul a {
+        padding-left: 75px;
+    }
 
-	#header { z-index: 199; }
+    @media (min-width: 992px) {
 
-	#page-title,
-	#content,
-	#footer { margin-left: 240px; }
+        #header {
+            z-index: 199;
+        }
 
-	#page-title .container,
-	#content .container,
-	#footer .container {
-		width: auto;
-		padding: 0 60px;
-	}
+        #page-title,
+        #content,
+        #footer {
+            margin-left: 240px;
+        }
 
-	#vertical-nav .container {
-		width: 100%;
-		padding: 0;
-	}
+        #page-title .container,
+        #content .container,
+        #footer .container {
+            width: auto;
+            padding: 0 60px;
+        }
 
-	#page-title .breadcrumb { right: 60px !important; }
+        #vertical-nav .container {
+            width: 100%;
+            padding: 0;
+        }
 
-}
+        #page-title .breadcrumb {
+            right: 60px !important;
+        }
+
+    }
 
 
-@media (max-width: 991px) {
+    @media (max-width: 991px) {
 
-	#vertical-nav {
-		position: relative;
-		width: 100%;
-		z-index: auto;
-		border: none;
-		border-bottom: 1px solid #EEE;
-		height: auto;
-		padding: 0;
-	}
+        #vertical-nav {
+            position: relative;
+            width: 100%;
+            z-index: auto;
+            border: none;
+            border-bottom: 1px solid #EEE;
+            height: auto;
+            padding: 0;
+        }
 
-	#vertical-nav .container { padding: 10px 20px; }
+        #vertical-nav .container {
+            padding: 10px 20px;
+        }
 
-	#vertical-nav nav li a { padding: 10px 0; }
+        #vertical-nav nav li a {
+            padding: 10px 0;
+        }
 
-	#vertical-nav nav li:hover > a,
-	#vertical-nav nav li.current > a,
-	#vertical-nav nav li.active > a { background-color: transparent; }
+        #vertical-nav nav li:hover>a,
+        #vertical-nav nav li.current>a,
+        #vertical-nav nav li.active>a {
+            background-color: transparent;
+        }
 
-	#vertical-nav nav ul ul a { padding-left: 15px; }
-	#vertical-nav nav ul ul ul a { padding-left: 30px; }
-	#vertical-nav nav ul ul ul ul a { padding-left: 45px; }
+        #vertical-nav nav ul ul a {
+            padding-left: 15px;
+        }
 
-}
+        #vertical-nav nav ul ul ul a {
+            padding-left: 30px;
+        }
 
+        #vertical-nav nav ul ul ul ul a {
+            padding-left: 45px;
+        }
+
+    }
 </style>
 
 <!-- Header
@@ -143,32 +173,16 @@
 
                 <div class="header-misc">
 
-                    <!-- Top Search
-					============================================= -->
-                    {{!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                        <div class="input-group">
-                            
-                            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
-                                aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn bg-color" type="button">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form> --}}
-
-
                     <!-- Primary Navigation
                     ============================================= -->
                     <nav class="primary-menu">
                         <ul class="menu-container">
                             <li class="menu-item sub-menu">
-                               
+
                                 <a class="menu-link" style="padding-top: 27px; padding-bottom: 27px;">
-                                     <div class="float-left">  <img id="imgView" class="rounded-circle " width="30px"
-                                    src="/images/profile-images/{{this.admin_details.admin_id}}.jpg"></div>
-                                    <div  class="float-right mt-1"><i></i> Admin<i class="icon-angle-down"></i></div>
+                                    <div class="float-left"> <img id="imgView" class="rounded-circle " width="30px"
+                                            src="/images/profile-images/{{this.admin_details.admin_id}}.jpg"></div>
+                                    <div class="float-right mt-1"><i></i> Admin<i class="icon-angle-down"></i></div>
                                 </a>
                                 <ul class="sub-menu-container" style="">
                                     <li class="menu-item" style=""> <a class="menu-link" href="/admin/settings">
@@ -208,34 +222,28 @@
 
         <nav>
             <ul>
-                {{!-- <li class="ml-2">
-                     <img id="imgView" class="rounded-circle mt-5" width="50px"
-                                    src="/images/profile-images/{{this.admin_id}}.jpg">
-                </li> --}}
+
                 <li><a href="/admin"><i class="icon-dashboard"></i>Dashboard</a>
-                    {{!-- <ul>
-                        <li><a href="#"></a></li>
-                    </ul> --}}
                 </li>
                 <li><a href=""><i class="icon-industry"></i>Vendors</a>
                     <ul>
                         <li><a href="/admin/vendor_view">View Vendors</a></li>
                         <li><a href="/admin/vendor_add">Add Vendors</a></li>
-
                     </ul>
                 </li>
                 <li><a href="/admin/category_manage"><i class="icon-list-alt"></i>Categories</a>
-                    {{!-- <ul>
-                        <li><a href="#"></a></li>
-                    </ul> --}}
                 </li>
-                <li><a ><i class="icon-first-order"></i>Orders </a>
+                <li><a><i class="icon-first-order"></i>Orders </a>
                     <ul>
-                         <li><a href="/admin/get_all_orders">Orders</a></li>
+                        <li><a href="/admin/get_all_orders">Orders</a></li>
+                        <li><a href="/admin/get_all_orders_by_coupon">Orders
+                                <span style="text-decoration: overline;">c</span> Coupon</a></li>
                         <li><a href="/admin/get_all_order_history">Order History</a></li>
-                        <li><a href="/admin/get_all_sales_report">Sales Report</a></li>
+
                     </ul>
                 </li>
+                <li><a href="/admin/get_all_sales_report"><i class="icon-line-book"></i>Sales Report</a></li>
+
                 <li><a href=""><i class="icon-users"></i>Users </a>
                     <ul>
                         <li><a href="/admin/users_view"> Users</a></li>
@@ -243,6 +251,8 @@
                     <ul>
                         <li><a href="/admin/blocked_users_view">Bocked Users</a></li>
                     </ul>
+                </li>
+                <li><a href="/admin/get_coupon"><i class="icon-gift"></i>Coupon</a>
                 </li>
             </ul>
         </nav>
@@ -271,21 +281,21 @@
 </div>
 
 
-	<script>
-		jQuery(document).ready(function($){
-			$( '#vertical-nav nav ul li:has(ul)' ).addClass('sub-menu');
-			$( '#vertical-nav nav ul li:has(ul) > a' ).append( ' <i class="icon-angle-down"></i>' );
+<script>
+    jQuery(document).ready(function ($) {
+        $('#vertical-nav nav ul li:has(ul)').addClass('sub-menu');
+        $('#vertical-nav nav ul li:has(ul) > a').append(' <i class="icon-angle-down"></i>');
 
-			$( '#vertical-nav nav ul li:has(ul) > a' ).click( function(e){
-				var element = $(this);
-				$( '#vertical-nav nav ul li' ).not(element.parents()).removeClass('active');
-				element.parent().children('ul').slideToggle( function(){
-					$(this).find('ul').hide();
-					$(this).find('li.active').removeClass('active');
-				});
-				$( '#vertical-nav nav ul li > ul' ).not(element.parent().children('ul')).not(element.parents('ul')).slideUp();
-				element.parent('li:has(ul)').toggleClass('active');
-				e.preventDefault();
-			});
-		});
-	</script>
+        $('#vertical-nav nav ul li:has(ul) > a').click(function (e) {
+            var element = $(this);
+            $('#vertical-nav nav ul li').not(element.parents()).removeClass('active');
+            element.parent().children('ul').slideToggle(function () {
+                $(this).find('ul').hide();
+                $(this).find('li.active').removeClass('active');
+            });
+            $('#vertical-nav nav ul li > ul').not(element.parent().children('ul')).not(element.parents('ul')).slideUp();
+            element.parent('li:has(ul)').toggleClass('active');
+            e.preventDefault();
+        });
+    });
+</script>

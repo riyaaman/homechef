@@ -1,0 +1,67 @@
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+    <div class="container clearfix">
+        <h1 class="color">Customer Orders With Coupon</h1>        
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Coupon Orders</li>
+        </ol>
+    </div>
+</section>
+
+
+
+<!-- Content
+============================================= -->
+<section id="content">
+    <div class="content-wrap ">
+        <div class="container clearfix p-0">
+            <div class="card mx-auto rounded-0 border shadow ">
+                {{!-- <div class="card-header ">
+                    <h2 class="color">Customer Orders With Coupon</h2>
+                </div> --}}
+                <div class="card-body">
+                    <table class="table mt-5 table-bordered table-striped" id="order_table">
+                        <thead class="bg-color text-white">
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Gross Amount</th>                             
+                                <th scope="col">Coupon(%)</th>
+                                <th scope="col">Net Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                            <tr>
+                                <td><span class="datatable-date">{{this.created_date_string}}</span>{{this.created_date}}</td>
+                                <td>{{this.user_name}} </td>
+                                <td>{{this.gross}}</td>                             
+                                <td>{{this.coupon_percent}}</td>
+                                <td>{{this.totalAmount}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready( function () {
+	 $('#order_table').dataTable( {
+        "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+            null           
+        ]
+    });
+    
+} );
+</script>

@@ -1,10 +1,27 @@
+
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+    <div class="container clearfix">
+        <h1 class="color">Customer Order History</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a href="/admin/get_all_orders">View Orders </a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order history</li>
+        </ol>
+    </div>
+</section>
+
+
+<!-- Content
+============================================= -->
 <section id="content">
     <div class="content-wrap ">
         <div class="container clearfix p-0">
-            <div class="card mx-auto rounded-0 border mt-4 shadow ">
-                <div class="card-header ">
-                    <h2 class="color">Customer Orders</h2>
-                </div>
+            <div class="card mx-auto rounded-0 border shadow ">
+                {{!-- <div class="card-header ">
+                    <h2 class="color">Customer Order History</h2>
+                </div> --}}
                 <div class="card-body">
                     <table class="table mt-5 table-bordered table-striped" id="order_table">
                         <thead class="bg-color text-white">
@@ -15,7 +32,8 @@
                                 <th scope="col">Customer</th>
                                 <th scope="col">Payment</th>
                                 <th scope="col">Status</th>
-                                 <th scope="col">Total</th>
+                                 <th scope="col">Gross</th>
+                                <th scope="col">Total</th>
                                 <th scope="col">Date</th>
                             </tr>
                         </thead>
@@ -28,13 +46,9 @@
                                 <td>{{this.user_name}} </td>
                                 <td>{{this.paymentMethod}}</td>
                                 <td>{{this.order_status}}</td>
-                                  <td>{{this.totalAmount}}</td>
-                                <td>{{this.created_date}}</td>
-                                {{!-- <td>
-                                    <a class="btn bg-color"
-                                        href="/vendor/view_order_products_byvendor/{{this._id}}">View
-                                        Products</a>
-                                </td> --}}
+                                <td>{{this.grossAmount}}</td>
+                                <td>{{this.totalAmount}}</td>
+                                <td><span class="datatable-date">{{this.created_date_string}}</span>{{this.created_date}}</td>                           
                             </tr>
                             {{/each}}
                         </tbody>
@@ -49,11 +63,10 @@
 
 <script>
     $(document).ready(function () {
-        var table = $('#order_table').DataTable({
+        var table = $('#order_table').DataTable({            
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(),
                     data;
-
                 // Remove the formatting to get integer data for summation
                 var intVal = function (i) {
                     return typeof i === 'string' ?
@@ -138,7 +151,18 @@
                     footer: true
                 },
 
-            ]
+            ],
+            "aoColumns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null            
+           ]
         })
     });
 </script>

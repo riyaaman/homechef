@@ -1,15 +1,12 @@
 <section id="page-title" class="page-title-mini">
-
     <div class="container clearfix">
         {{!-- <h1>Our Items</h1> --}}
-        <span>A Short Page Title Tagline</span>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Bakers</a></li>
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/get_bakers">Bakers</a></li>
             <li class="breadcrumb-item active" aria-current="page"> Items</li>
         </ol>
     </div>
-
 </section>
 <!-- Content
 ============================================= -->
@@ -22,7 +19,8 @@
                 <div class="postcontent col-lg-9 order-lg-last">
                     <div class="style-msg successmsg" style="display: none;">
                         <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> You
-                            Successfully Added Product To Cart</div>
+                            Successfully Added Product To Cart.   <a href="/cart" class="color">View Your Cart</a></div>
+                           
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
                     <div class="row">
@@ -35,7 +33,7 @@
                                     {{#if products}}
                                     <li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
                                     {{#each categories}}
-                                    <li><a href="#" data-filter=".{{this.cat_name}}">{{this.cat_name}}</a></li>
+                                    <li><a href="#" data-filter=".{{this._id}}">{{this.cat_name}}</a></li>
                                     {{/each}}
                                     {{else}}
                                     <h2 class="color">No Products Found</h2>
@@ -49,26 +47,41 @@
                     <div id="shop" class="shop row grid-container gutter-30" data-layout="fitRows">
                         {{#each products}}
                         <input type="hidden" id="vendorId" name="vendorId" value="{{this.ven_id}}">
-                        <div class="product  col-md-4 col-sm-6 col-12 {{this.cat_name}}">
+                        
+                        <div class="product  col-md-4 col-sm-6 col-12 {{this.cat_id}}">
                             <div class="grid-inner  p-1 shadow">
                                 <div class="product-image">
-                                    <a class="">
+                                    <a class="" 
+                                    href="../images/product-images/{{this._id}}.jpg"
+                                     data-hover-speed="350" data-lightbox="image" title="{{this.product_name}}" style="animation-duration: 350ms;">
                                         <img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"
                                             alt="1" class="rounded" />
                                     </a>
+                                    {{#if this.percent}}
+                                    <div class="sale-flash badge badge-success p-2"> {{this.percent}} %Off*</div>
+                                    {{/if}}
+                                   
                                 </div>
                                 <div class="product-desc">
                                     <div class="product-title">
-                                        <h5 class="mb-1 text-center"><a class="text-dark ">{{this.product_name}}</a>
+                                        <h5 class="mb-1 text-center"><a class="text-dark ">{{this.product_name}}</a> 
                                         </h5>
-                                    </div>
-                                    <div class="product-price text-center"><del></del> <ins>₹{{ this.price}} </ins>
+                                    </div>                                    
+                                    <div class="product-price text-center">
+                                        {{#if this.discount_price}}                                        
+                                            <del>₹{{ this.price}} </del> 
+                                            <ins >₹{{ this.discount_price}} </ins>
+                                            <input type="hidden" name="product_price1" id="product_price1" value="{{ this.discount_price}}">
+                                        {{else}}
+                                         <ins >₹{{ this.price}} </ins>
+                                         <input type="hidden" name="product_price2" id="product_price2" value="{{ this.price}}">
+                                        {{/if}}
                                     </div>
                                     <div class="row ml-0">
                                         <button class="button text-white button-mini  button-rounded m-1 bg-color"
-                                            onclick="addToCart('{{this._id}}',0)">Add To Cart</button>
+                                            onclick="addToCart('{{this._id}}',0,{{this.price}},{{this.discount_price}})">Add To Cart</button>
                                             <button class="button button-mini button-border button-rounded m-1"
-                                            onclick="addToCart('{{this._id}}',1)">Buy Now</button>
+                                            onclick="addToCart('{{this._id}}',1,{{this.price}},{{this.discount_price}})">Buy Now</button>
                                        
                                     </div>
                                 </div>
@@ -81,8 +94,7 @@
 				============================================= -->
                 <div class="sidebar col-lg-3">
                     <div class="sidebar-widgets-wrap">
-                        <div class="widget widget_links clearfix">
-                            {{!-- <h4>Shop Categories</h4> --}}
+                        <div class="widget widget_links clearfix">                        
                             <a href="/get_bakers">
                                 <img src="../images/vendor-images/{{vendor_id}}.jpg" alt="" /></a>
                         </div>

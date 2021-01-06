@@ -1,10 +1,21 @@
-<section id="content">
-  <div class="content-wrap " style="padding: 20px;">
+<!-- Sub Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
     <div class="container clearfix">
-      <div class="card shadow mb-4">
-        <div class="card-header">
-          <h2 class="m-0 font-weight-bold color float-left">Sales Report</h2>
-        </div>
+        <h1 class="color">Sales Report</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sales Report</li>
+        </ol>
+    </div>
+</section>
+
+<!-- Content
+============================================= -->
+<section id="content">
+  <div class="content-wrap p-0">
+    <div class="container clearfix p-1">
+      <div class="card shadow">       
         <div class="card-body">
           <form action="/admin/sales_report_bydate" method="post" class="mb-0" name="form-date" id="form-date">
             <div class="input-daterange sales-date col-md-12 bottommargin-sm">
@@ -32,7 +43,8 @@
 
                 </div>
                 <div class="col-md-1">
-                  <button class="button button-3d  mt-4 ">Filter</button>
+                   <label></label>
+                  <button class="button button-3d ">Filter</button>
 
                 </div>
               </div>
@@ -59,6 +71,7 @@
                     <tr>
                       <th style="background-color: #928989; color; white;">Product</th>
                       <th style="background-color: #928989; color; white;">Price</th>
+                       <th style="background-color: #928989; color; white;">Dis_Price</th>
                       <th style="background-color: #928989; color; white;">Quantity</th>
                       <th style="background-color: #928989; color; white;"> Total </th>
                       <th style="background-color: #928989; color; white;"> Order_status</th>
@@ -70,6 +83,7 @@
                     <tr>
                       <td>{{ this.product.product_name }}</td>
                       <td>{{ this.product.price }}</td>
+                      <td>{{ this.product.discount_price }}</td>
                       <td>{{ this.quantity }}</td>
                       <td>{{ this.totalAmount }}</td>
                       <td>{{ this.order_status }}</td>

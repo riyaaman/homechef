@@ -35,11 +35,20 @@
                                 <ul class="iconlist d-none d-xl-block mt-md-3">
                                     <li><i class="icon-caret-right"></i>
                                     Price:{{this.product.price}}
+                                     
                                     <li><i class="icon-caret-right"></i>
                                         Quantity: {{this.quantity}}
                                     </li>
-                                    <li class="product-price"><i class="icon-caret-right"></i>
-                                        Total: {{this.totalAmount}}
+                                    <li ><i class="icon-caret-right"></i>
+                                        Sub Total: {{this.totalAmount}}.00
+                                    </li>
+                                    {{#if discount}}
+                                     <li><i class="icon-caret-right"></i>
+                                    Discount:{{this.discount}}.00
+                                    </li>
+                                    {{/if}}
+                                     <li class="product-price"><i class="icon-caret-right"></i>
+                                        Total: {{this.netAmount}}.00
                                     </li>
                                 
                                 </ul>
