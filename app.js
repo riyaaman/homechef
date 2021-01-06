@@ -33,6 +33,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
 db.connect((err)=>{
   if(err)
   console.log("Db not Connected" +err)
