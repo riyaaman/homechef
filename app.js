@@ -11,6 +11,8 @@ var vendorRouter      =   require('./routes/vendor');
 var hbs               =   require('express-handlebars');
 var app               =   express();
 
+
+
 var db                =   require('./config/connection');
 var session           =   require('express-session');
 var fileUpload        =   require('express-fileupload')
@@ -32,7 +34,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
+});
 db.connect((err)=>{
   if(err)
   console.log("Db not Connected" +err)
