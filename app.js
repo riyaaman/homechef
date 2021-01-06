@@ -10,10 +10,6 @@ var vendorRouter      =   require('./routes/vendor');
 
 var hbs               =   require('express-handlebars');
 var app               =   express();
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log("Our app is running ");
-});
 
 
 
@@ -81,6 +77,10 @@ app.use(function(err, req, res, next) {
   // res.status(err.status || 500);
   
   // res.render('error', {title: "Sorry,Something Went Wrong"});
+});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log("Our app is running ");
 });
 
 
