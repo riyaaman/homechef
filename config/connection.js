@@ -4,7 +4,7 @@ module.exports.connect  =   function (done){
     
    // const url       =   'mongodb://localhost:27017'
     //const url       =   'mongodb+srv://riyarahim:ashriya@cluster0.jvvz7.mongodb.net/test'
-    var url           =    process.env.MONGODB_URL;
+    var url           =    process.env.MONGODB_URI;
     const dbname      =   'db-snacky'
     
     mongoClient.connect(url,(err,data)=>{
