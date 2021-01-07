@@ -81,6 +81,10 @@ app.use(function(err, req, res, next) {
   
   // res.render('error', {title: "Sorry,Something Went Wrong"});
 });
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log("Our app is running ");
+});
 
 
 
