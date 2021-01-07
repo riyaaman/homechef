@@ -1,4 +1,3 @@
-
 <!--Subtitle
 ============================================= -->
 <section id="page-title" class="page-title-mini">
@@ -16,27 +15,39 @@
 ============================================= -->
 <section>
     <div class="container mt-5">
+        <div class="col-md-6 mb-2">
+             <div class="card">
+            <div class="card-body">
+                <p class="card-text font-weight-bold">Order Id : {{orderId}}</p>
+            </div>
+        </div>
+
+        </div>
+       
         <div class="row">
-                {{#each products}}
-                <div class="col-lg-3 col-md-6 bottommargin-sm" >
-                    <div class="feature-box media-box fbox-bg shadow">
-                        <div class="fbox-media">
-                            <a href="/get_products_bybaker/{{this.product.vendor_id}}"> <img src="/images/product-images/{{this.product._id}}.jpg" alt="{{this.product.product_name}}" class="card-img-top"
-                            style="width:250px;height:200px;"></a>
-                        </div>
-                        <div class="fbox-content border-0">
-                            <h3 class="nott ls0 font-weight-semibold">{{this.product.product_name}}</h3>
-                                <span class="subtitle font-weight-light ls0">Quantity :{{this.quantity}} <br>
-                                   Gross :{{this.totalAmount}} Rs
-                                </span><br>
-                                  <span class="subtitle font-weight-light ls0 color">
-                                    Total :{{this.discountAmount}} Rs
-                                </span><br>
-                                <span class="color font-weight-bold">Status: {{this.order_status}}</span>
-                        </div>
-                    </div> 
+            {{#each products}}
+            <div class="col-lg-3 col-md-6 bottommargin-sm">
+                <div class="feature-box media-box fbox-bg shadow">
+                    <div class="fbox-media">
+                        <a href="/get_products_bybaker/{{this.product.vendor_id}}"> <img
+                                src="/images/product-images/{{this.product._id}}.jpg"
+                                alt="{{this.product.product_name}}" class="card-img-top"
+                                style="width:250px;height:200px;"></a>
+                    </div>
+
+                    <div class="fbox-content border-0">
+                        <h3 class="nott ls0 font-weight-semibold">{{this.product.product_name}}</h3>
+                        <span class="subtitle font-weight-light ls0">Quantity :{{this.quantity}} <br>
+                            Gross :{{this.totalAmount}} Rs
+                        </span><br>
+                        <span class="subtitle font-weight-light ls0 color">
+                            Total :{{this.discountAmount}} Rs
+                        </span><br>
+                        <span class="color font-weight-bold">Status: {{this.order_status}}</span>
+                    </div>
                 </div>
-                {{/each}}
+            </div>
+            {{/each}}
         </div>
     </div>
 </section>

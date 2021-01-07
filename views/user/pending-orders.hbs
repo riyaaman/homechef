@@ -1,0 +1,72 @@
+<!-- Page Title
+============================================= -->
+<section id="page-title" class="page-title-parallax page-title-center border-bottom "
+    style="background-image: url('/images/sections/6.jpg'); background-size: 100% auto;"
+    data-center="background-position:100% 100px;" data-top-bottom="background-position:100% -200px;">
+    <div class="container clearfix">
+        <span class="font-primary ls1 mb-2 color" style="font-size: 14px;">Orders</span>
+        <h1 class="font-secondary text-capitalize ls0" style="font-size: 62px;">Pending Orders</h1>
+    </div>
+</section><!-- #page-title end -->
+
+
+<section>
+    <div class="container">
+        <div class="card mx-auto rounded-0 border mt-4 shadow ">
+             {{#if orders}}
+                {{!-- <div class="card-header">
+                    <h2>Pedind Orders </h2>               
+                </div> --}}
+                <div class="card-body">                
+                    <table class="table mt-5">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Pincode</th>
+                                <th scope="col">State</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Payment</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orders}}
+                            <tr>
+                                <td>{{this.created_date}}</td>
+                                <td>{{this.deliveryDetails.billing_address}} </td>
+                                <td>{{this.deliveryDetails.billing_city}} </td>
+                                <td>{{this.deliveryDetails.billing_pincode}} </td>
+                                <td>{{this.deliveryDetails.billing_state}} </td>
+                                <td>{{this.totalAmount}}</td>
+                                <td>{{this.paymentMethod}}</td>
+                                <td>{{this.status}}</td>
+                                <td>
+                                    <a class="btn btn-success" href="/view-pending-order-products/{{this._id}}">View Products</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" href="/pending-order-proceed/{{this._id}}">Proceed</a>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    
+                </div>
+            {{else}}
+                <div class="row mt-4 ml-5">
+                    <h2 class="color">No Order History Found</h2>
+                </div>
+
+            {{/if}}
+        </div>
+
+        
+
+        <hr>
+
+    </div>
+
+</section>

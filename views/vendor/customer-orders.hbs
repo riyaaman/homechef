@@ -9,8 +9,8 @@
                     <table class="table" id="order_table">
                         <thead>
                             <tr>
+                                <th scope="col">Order Id</th>
                                 <th scope="col">Date</th>
-                                <th scope="col">City</th>
                                 <th scope="col">Pincode</th>
                                 <th scope="col">Payment</th>
                                 <th scope="col">Gross </th>
@@ -22,10 +22,11 @@
                         <tbody>
                             {{#each orders}}
                             <tr>
+                                <td>{{this._id}} </td>
                                 <td><span
                                         class="datatable-date">{{this.created_date_string}}</span>{{this.created_date}}
                                 </td>
-                                <td>{{this.deliveryDetails.billing_city}} </td>
+                              
                                 <td>{{this.deliveryDetails.billing_pincode}} </td>
                                 <td>{{this.paymentMethod}}</td>
                                 <td>{{this.gross_amount}}</td>
@@ -52,7 +53,7 @@
     $(document).ready(function () {
       
     var table=   $('#order_table').dataTable({   
-        "order": [[0, "desc" ]],         
+        "order": [[1, "desc" ]],         
             "aoColumns": [
                 null,
                 null,
@@ -61,7 +62,8 @@
                 null,
                 null,
                 null,
-                null
+                null,
+               
             ]
         });
     });

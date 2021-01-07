@@ -9,8 +9,8 @@
                     <table class="table " id="order_table">
                         <thead>
                             <tr>                               
+                                <th scope="col">Order Id</th>
                                 <th scope="col">Address</th>
-                                <th scope="col">City</th>
                                 <th scope="col">Pincode</th>
                                 <th scope="col">Payment</th>
                                  <th scope="col">Total</th>
@@ -23,8 +23,8 @@
                             {{#each orders}}
                             <tr>
                                
+                                <td>{{this._id}} </td>
                                 <td>{{this.deliveryDetails.billing_address}} </td>
-                                <td>{{this.deliveryDetails.billing_city}} </td>
                                 <td>{{this.deliveryDetails.billing_pincode}} </td>
                                 <td>{{this.paymentMethod}}</td>
                                 <td>{{this.total}}</td>

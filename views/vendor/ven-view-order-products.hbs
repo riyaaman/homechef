@@ -10,10 +10,15 @@
             </div>
             <label id="message" class="text-success"></label><br>
          
-
+             <div class="card mb-2" style="width: 50%;">
+                        <div class="card-body">
+                            <p class="card-text font-weight-bold">Order Id : {{details.order_id}}</p>
+                        </div>
+             </div>
             <div class="row">
+
                 <div class="col-md-8">
-                    
+                        
                     {{#each orders}}
 
                     <div class="product  col-12 col-sm-6 col-lg-12">
@@ -57,7 +62,8 @@
                     </div>
                     {{/each}}
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4">                
+                   
                     <label for="status p-1">Choose a Status:</label>
                     <select name="status" id="status" class=" bg-color text-white border selectpicker p-1 form-control form-control-lg">
                         <option value="pending">pending</option>

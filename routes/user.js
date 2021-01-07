@@ -475,10 +475,11 @@ router.get("/orders", verifyUserLogin, async (req, res) => {
 /*View Order Products By User Id
 ============================================= */
 router.get("/view-order-products/:id", verifyUserLogin, async (req, res) => {
-    let products = await UserHelpers.getOrderProductsByOrderId(req.params.id);
+    let orderId =   req.params.id
+    let products = await UserHelpers.getOrderProductsByOrderId(orderId);
     let user_details = null;
     user_details = { first_name: req.session.user.first_name };
-    res.render("user/view-order-products", { products, user_status: true, user_details });
+    res.render("user/view-order-products", { products, user_status: true, user_details,orderId });
     // res.render("user/view-order-products", { user: req.session.user, products, user_status: true, user_details });
 });
 
@@ -571,6 +572,7 @@ router.post("/contact", async (req, res) => {
 router.get("/about", (req, res) => {
     let user_details = null;
     let cart_count = null;
+    
     if (req.session.user) {
         user_details = req.session.user;
         cart_count = req.session.cart_count;

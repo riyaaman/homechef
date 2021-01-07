@@ -46,7 +46,10 @@ app.use(session ({
         secret:"Key",
         cookie:{maxAge:600000},
         duration: 30 * 60 * 1000,
-        activeDuration:5 * 60 * 1000
+        activeDuration:5 * 60 * 1000,
+        proxy: true,
+        resave: true,
+        saveUninitialized: true
     }))
 app.use(fileUpload())
 app.use(flash())
@@ -79,13 +82,6 @@ app.use(function(err, req, res, next) {
   // res.render('error', {title: "Sorry,Something Went Wrong"});
 });
 
-// caching disabled for every route
-// app.use(function(req, res, next) {
-//   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-//   next();
-// });
-// app.use(function (req, res, next) {
-//   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-// }); 
+
 
 module.exports = app;

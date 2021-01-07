@@ -209,10 +209,12 @@ router.get("/customer_orders", verifyVendorLogin, async (req, res) => {
 /* View Order Products By Vendor Id
 ============================================= */
 router.get("/view_order_products_byvendor/:id", verifyVendorLogin, async (req, res) => {
-    let orderId            =   req.params.id;
-    let orders              =   await UserHelpers.viewOrderProductsByvendorAndOrderId(req.session.vendor._id, orderId)
+    let orderId             =   req.params.id;
+    let orders              =   await UserHelpers.viewOrderProductsByvendorAndOrderId(req.session.vendor._id,orderId)
     let delivery_details    =   orders.slice(0, 1)   
-    let details             =   { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    let details             =   { name: req.session.vendor.ven_name, 
+                                  shop_name: req.session.vendor.ven_shop,
+                                order_id:orderId };
     res.render("vendor/ven-view-order-products", { vendor_status: true, orders, details, delivery_details });
 });
 
