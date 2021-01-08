@@ -20,8 +20,6 @@
 										alt="Image">
 									<img class="leftmargin-sm" src="images/icons/glass-white.svg" width="42" height="42"
 										alt="Image">
-									{{!-- <img class="leftmargin-sm" src="images/icons/wifi-white.svg" width="42"
-										height="42" alt="Image"> --}}
 								</div>
 							</div>
 						</div>
@@ -76,6 +74,7 @@
 
 	</div>
 </section>
+
 <!-- Content
 ============================================= -->
 <section id="content">
@@ -86,11 +85,9 @@
 		<div class="section m-0 clearfix mb-5"
 			style="padding: 40px 0; background: url('images/sections/4.jpg') center center no-repeat; background-size: 100% auto">
 			<div class="container">
-
 				<div class="heading-block border-bottom-0 bottommargin-sm">
 					<h2 class="font-secondary color nott" style="font-size: 52px;">How We Work</h2>
 				</div>
-
 				<div class="row col-mb-50">
 					<div class="col-lg-3">
 						<div class="feature-box media-box" style="max-width: 400px;">
@@ -142,7 +139,7 @@
 							<h2 class="font-weight-bold ls1 text-uppercase mb-3">Burgers</h2>
 							<p class="">Delicious lip-smacking and crunchy vegetable & Non vegetable varieties of 
 								 Burgers. Our Burgers will make you so tempting that it will leave you craving for more
-								 each time u have it.   </p>
+								 each time you have it.   </p>
 
 						</div>
 					</div>
@@ -196,24 +193,18 @@
 							<div class="jm-item second">
 								<div class="jm-item-wrapper">
 									<div class="jm-item-image">
-										<img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"/>
-										
+										<img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"/>										
 										<div class="jm-item-description text-center">
 											<h4 class="text-white mb-0 mt-5">{{this.product_name}}</h4>
 											<span>By {{this.ven_shop}}</span>
-
 											<div class="jm-item-button"><a
 													href="/get_products_bybaker/{{this.ven_id}}">View</a></div>
 										</div>
-									</div>
-									{{!-- <div class="jm-item-title">Pizza Ristorante</div> --}}
+									</div>									
 								</div>
 							</div>
 						</div>
-
 						{{/each}}
-
-
 					</div>
 				</div>
 			</div>

@@ -422,7 +422,6 @@ module.exports = {
                             $group: {
                                 _id: null,
                                 order_count: { $sum: 1 },
-                                // total_amount: { $sum: { $multiply: ["$convertedPrice", "$convertedQty"] } },
                                 total_amount: { $sum: { $multiply: ["$price", "$convertedQty"] } },
                                 sale_quantity: { $sum: "$quantity" },
                             },
@@ -452,7 +451,7 @@ module.exports = {
                 let product_count = await db
                     .get()
                     .collection(collection.PRODUCT_COLLECTION)
-                    .find({ vendor_id: objectId(vendorId) })
+                    .find({ vendor_id: objectId(vendorId),status: 1 })
                     .count();
                 resolve(product_count);
             });
@@ -1089,7 +1088,7 @@ module.exports = {
         try {
             return new Promise(async (resolve, reject) => {
                 let count = {};
-                count.vendor = await db.get().collection(collection.VENDOR_COLLECTION).countDocuments();
+                count.vendor = await db.get().collection(collection.VENDOR_COLLECTION).find({ active: "true" }).count();
                 count.product = await db.get().collection(collection.PRODUCT_COLLECTION).countDocuments();
                 count.order = await db.get().collection(collection.ORDER_COLLECTION).countDocuments();
                 count.customers = await db.get().collection(collection.USERS_COLLECTION).find({ active: "true" }).count();
