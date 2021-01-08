@@ -8,14 +8,14 @@
 			background-attachment: fixed;filter: brightness(.5);">
 		</div>
 
-		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex">
+		<div class="section bg-transparent min-vh-100 p-0 m-0 d-flex ">
 			<div class="vertical-middle">
 				<div class="container ">
 					<div class="text-center">
 						<a href="/"><img src="/images/logo-dark.png" alt=" Logo" style="height: 90px;"></a>
 					</div>
-					<div class="card mx-auto rounded-2 border-1 hub-sign ">
-						<div class="card-body">
+					<div class="card mx-auto rounded-2 border-1 hub-sign col-md-6 col-sm-12">
+						<div class="card-body col-sm-12">
 							<form id="login-form" name="login-form" class="mb-0" action="/user_login" method="post">
 								<h3 class="m-3">Login to your Account</h3>
 								{{#if userMessage}}
@@ -23,7 +23,7 @@
 								{{/if}}
 								<div class="row">
 									<div class="col-12 form-group has-error">
-										<input type="text" id="email" name="email" value="ashitha@gmail.com" 
+										<input type="text" id="email" name="email" value="ashitha@gmail.com"
 											class="form-control not-dark" placeholder="Email/Mobile" />
 									</div>
 									<div class="col-12 form-group has-error">
@@ -45,7 +45,7 @@
 								<div class="row">
 									<div class="col-12 form-group has-error">
 										<input type="tel" name="number" id="number"
-											class="form-control text-black not-dark" placeholder="eg:96895391310"
+											class="form-control text-black not-dark" placeholder=""
 											autocomplete="off" />
 										<div id="phone_error" class="text-danger" style="font-size: 14px;"></div>
 									</div>
@@ -57,12 +57,13 @@
 								<div class="form-group">
 									<div class="clearfix">
 										<a class="color-link" href="/signup">Sign up</a>
-										<a class="float-right color-link" href="/forget_password">Forgot your password ?</a>
+										<a class="float-right color-link" href="/forget_password">Forgot your password
+											?</a>
 									</div>
 								</div>
 							</form>
 						</div>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div>
@@ -78,7 +79,7 @@
 		$("#login-form").validate({
 			rules: {
 				email: {
-					required: true					
+					required: true
 				},
 				password: {
 					required: true,
@@ -93,10 +94,10 @@
 				},
 			},
 		});
-		
+
 
 		// Specify validation for login with otp
-		$("#login-otp-form").validate({		
+		$("#login-otp-form").validate({
 			rules: {
 				number: {
 					required: true,

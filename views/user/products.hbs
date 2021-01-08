@@ -1,3 +1,8 @@
+
+
+<!-- Subtitle
+============================================= -->
+<section id="content">
 <section id="page-title" class="page-title-mini">
     <div class="container clearfix">
         {{!-- <h1>Our Items</h1> --}}
@@ -8,6 +13,8 @@
         </ol>
     </div>
 </section>
+
+
 <!-- Content
 ============================================= -->
 <section id="content">
@@ -19,8 +26,7 @@
                 <div class="postcontent col-lg-9 order-lg-last">
                     <div class="style-msg successmsg" style="display: none;">
                         <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Well done!</strong> You
-                            Successfully Added Product To Cart.   <a href="/cart" class="color">View Your Cart</a></div>
-                           
+                            Successfully Added Product To Cart.   <a href="/cart" class="color">View Your Cart</a></div>                           
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
                     <div class="row">
@@ -46,9 +52,8 @@
                     ============================================= -->
                     <div id="shop" class="shop row grid-container gutter-30" data-layout="fitRows">
                         {{#each products}}
-                        <input type="hidden" id="vendorId" name="vendorId" value="{{this.ven_id}}">
-                        
-                        <div class="product  col-md-4 col-sm-6 col-12 {{this.cat_id}}">
+                        <input type="hidden" id="vendorId" name="vendorId" value="{{this.ven_id}}">                        
+                        <div class="product col-md-4 col-sm-12 col-12 {{this.cat_id}}">
                             <div class="grid-inner  p-1 shadow">
                                 <div class="product-image">
                                     <a class="" 

@@ -1,0 +1,95 @@
+<!-- Page Title
+============================================= -->
+<section id="page-title" class="page-title-mini">
+    <div class="container clearfix">
+        {{!-- <h1>Our Items</h1> --}}
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> Gallery</li>
+        </ol>
+    </div>
+</section>
+
+
+<!-- Content
+============================================= -->
+<section id="content">
+    <div class="content-wrap">
+        <div class="container clearfix">
+
+            <div class="grid-filter-wrap">
+
+                <!-- Portfolio Filter
+				============================================= -->
+                <ul class="grid-filter" data-container="#portfolio">
+                    {{#if products}}
+                    <li class="activeFilter"><a href="#" data-filter="*">Show All</a></li>
+                    {{#each categories}}
+                    <li><a href="#" data-filter=".{{this._id}}">{{this.cat_name}}</a></li>
+                    {{/each}}
+                    {{else}}
+                    <h2 class="color">No Products Found</h2>
+                    {{/if}}
+                </ul><!-- .grid-filter end -->
+
+                <div class="grid-shuffle rounded" data-container="#portfolio">
+                    <i class="icon-random"></i>
+                </div>
+
+            </div>
+
+            <!-- Portfolio Items
+					============================================= -->
+            <div id="portfolio" class="portfolio row grid-container gutter-20 gallery" data-layout="fitRows">
+                {{#each products}}
+                <!-- Portfolio Item: Start -->
+                <article class="portfolio-item col-lg-3 col-md-4 col-sm-6 col-12 {{this.cat_id}}">
+                    <!-- Grid Inner: Start -->
+                    <div class="grid-inner">
+                        <!-- Image: Start -->
+                        <div class="portfolio-image">
+                            {{!-- <a>
+                                <img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}">
+                            </a> --}}
+                            <a><img class="lazy"
+                                    src="../images/product-images/{{this._id}}.jpg' viewBox='0 0 4 3'%3E%3C/svg%3E"
+                                    width="800" height="600" data-src="../images/product-images/{{this._id}}.jpg"
+                                    alt="{{this.product_name}}"></a>
+                            <!-- Overlay: Start -->
+                            <div class="bg-overlay">
+                                <div class="bg-overlay-content dark flex-column" data-hover-animate="fadeIn">
+                                    <!-- Decription: Start -->
+                                    <div class="portfolio-desc pt-0 center" data-hover-animate="fadeInDownSmall"
+                                        data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350">
+                                        <h3><a>{{this.product_name}}</a></h3>
+                                        <span><a>By {{this.ven_shop}}</a></span>
+                                    </div>
+                                    <!-- Description: End -->
+                                    <div class="d-flex">
+                                        <a href="../images/product-images/{{this._id}}.jpg"
+                                            class="overlay-trigger-icon bg-light text-dark"
+                                            data-hover-animate="fadeInUpSmall" data-hover-animate-out="fadeOutDownSmall"
+                                            data-hover-speed="350" data-lightbox="image"
+                                            title="{{this.product_name}}"><i class="icon-line-plus"></i></a>
+                                        <a href="/get_products_bybaker/{{this.ven_id}}"
+                                            class="overlay-trigger-icon bg-light text-dark"
+                                            data-hover-animate="fadeInUpSmall" data-hover-animate-out="fadeOutDownSmall"
+                                            data-hover-speed="350"><i class="icon-line-ellipsis"></i></a>
+                                    </div>
+                                </div>
+                                <div class="bg-overlay-bg dark" data-hover-animate="fadeIn"></div>
+                            </div>
+                            <!-- Overlay: End -->
+                        </div>
+                        <!-- Image: End -->
+                    </div>
+                    <!-- Grid Inner: End -->
+                </article>
+                <!-- Portfolio Item: End -->
+                {{/each}}
+
+            </div><!-- #portfolio end -->
+
+        </div>
+    </div>
+</section><!-- #content end -->

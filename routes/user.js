@@ -582,4 +582,26 @@ router.get("/about", (req, res) => {
     });
 });
 
+/*Gallery
+============================================= */
+router.get("/gallery", (req, res) => {
+    
+    let user_details = null;
+    let cart_count = null;
+    
+    if (req.session.user) {
+        user_details = req.session.user;
+        cart_count = req.session.cart_count;
+    }
+    ProductHelpers.getAllProducts().then(async(products) => {
+        if (products.length > 0) {
+            categories = await ProductHelpers.getAllcategories();
+            console.log(products)
+            console.log(categories)
+        }
+        res.render("user/gallery", { user_status: true, products, user_details, cart_count,categories});
+    });
+});
+
+
 module.exports = router;

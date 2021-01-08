@@ -188,7 +188,8 @@ label.error {
 	overflow: hidden;
 }
 .jm-item-image img {
-	display: block;
+    display: block;
+ 
 }
 .jm-item-title {
     position: absolute;
@@ -507,8 +508,8 @@ label.error {
 
 @media (max-width: 640px) {
     .hub-sign {
-        width: 380px;
-        margin: 15px 0;
+        width: 350px;
+        /* margin: 10px 0; */
     }
 }
 
@@ -603,3 +604,25 @@ label.error {
 .chart-samples li a:not(:hover) {
     color: #AAA;
 }
+
+
+
+/*** 
+====================================================================
+    Media Queries
+==================================================================== 
+***/
+
+@media only screen and (min-width: 900px) {
+    .jm-item-image img {
+        display: block;
+        width: 280px;
+        height:250px
+    }
+    .gallery .portfolio-item .portfolio-image img {
+        display: block;
+        width: 280px;
+        height:230px
+    }
+
+  }
