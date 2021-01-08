@@ -509,6 +509,20 @@ module.exports = {
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
                             },
                         },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
+                            },
+                        }
                     ])
                     .toArray();
                 resolve(orderItems);
@@ -579,6 +593,20 @@ module.exports = {
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
                             },
                         },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
+                            },
+                        }
                     ])
                     .toArray();
                 resolve(orderItems);
@@ -648,6 +676,20 @@ module.exports = {
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
                             },
                         },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
+                            },
+                        }
                     ])
                     .toArray();
                 resolve(orderItems);
@@ -762,6 +804,20 @@ module.exports = {
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
                             },
                         },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
+                            },
+                        }
                     ])
                     .toArray();
                 resolve(orderItems);
@@ -1079,14 +1135,28 @@ module.exports = {
                         },
                         {
                             $addFields: {
-                                convertedPrice: { $toDecimal: "$product.price" },
-                                convertedQty: { $toInt: "$quantity" },
+                                convertedPrice: { $toDouble: "$product.price" },
+                                convertedQty: { $toInt: "$quantity" }, 
+                            },
+                        },
+                        {
+                            $set: {                                
+                                grossAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
+                                totalAmount: { $multiply: ["$price", "$convertedQty"] },                               
                             },
                         },
                         {
                             $set: {
-                                grossAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
-                                totalAmount: { $multiply: ["$price", "$convertedQty"] },
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
                             },
                         },
                     ])
@@ -1151,6 +1221,20 @@ module.exports = {
                             $set: {
                                 grossAmount: { $multiply: ["$convertedPrice", "$convertedQty"] },
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
+                            },
+                        },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
                             },
                         },
                     ])
@@ -1222,6 +1306,20 @@ module.exports = {
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
                             },
                         },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
+                            },
+                        }
                     ])
                     .toArray();
                 resolve(orderItems);
@@ -1290,6 +1388,20 @@ module.exports = {
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
                             },
                         },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
+                            },
+                        },
                     ])
                     .toArray();
                 resolve(orderItems);
@@ -1356,6 +1468,20 @@ module.exports = {
                                 totalAmount: { $multiply: ["$price", "$convertedQty"] },
                             },
                         },
+                        {
+                            $set: {
+                                discount1:{ $divide: ["$totalAmount", "$quantity"] }                                
+                            }
+                        },
+                        {
+                            $addFields: {                                
+                                discount:
+                                {
+                                    $cond: { if: { $eq: [ "$discount1","$convertedPrice" ] }, then:null, else: "$discount1" }
+                                }
+                                                          
+                            },
+                        }
                     ])
                     .toArray();
                 resolve(orderItems);

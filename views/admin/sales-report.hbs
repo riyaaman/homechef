@@ -31,7 +31,7 @@
                   <input type="text" value="{{details.end}}" class="sm-form-control text-left  sales-date-end"
                     name="end" placeholder="DD/MM/YYYY" autocomplete="off" required>
                 </div>
-                <div class="col-md-3   <label>End Date</label>">
+                <div class="col-md-3 ">
                   <label>Status</label>
                   <select class="status form-control" id="status" name="status">
                     <option value="1">--- Please Select Status---</option>
@@ -83,7 +83,7 @@
                     <tr>
                       <td>{{ this.product.product_name }}</td>
                       <td>{{ this.product.price }}</td>
-                      <td>{{ this.product.discount_price }}</td>
+                      <td>{{ this.discount }}</td>
                       <td>{{ this.quantity }}</td>
                       <td>{{ this.totalAmount }}</td>
                       <td>{{ this.order_status }}</td>

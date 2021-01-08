@@ -16,21 +16,17 @@
 <section id="content">
     <div class="content-wrap " style="padding: 20px;">
         <div class="container clearfix">
-
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    {{!-- <h2 class="m-0 font-weight-bold text-theme float-left">Vendor Details</h2> --}}
                     <a href="/admin/vendor_add" class="btn bg-color text-white float-right mr-auto">Add Vendor
                         Details</a>
                 </div>
                 <div class="card-body">
-
                     {{#if admin_details.adminMessage}}
                     <div class="style-msg successmsg">
                         <div class="sb-msg"><i class="icon-thumbs-up"></i> {{admin_details.adminMessage}}</div>
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     </div>
-
                     {{/if}}
                     <div class="table-responsive">
                         <table class="table mt-4" id="vendorsTable">
@@ -43,7 +39,6 @@
                                     <th scope="col">Phone</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Actions</th>
-                                    {{!-- <th scope="col"></th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,7 +57,6 @@
                                         <a href="/admin/vendor_delete/{{this._id}}" class="btn btn-danger"
                                             onclick="return confirm('Are You Want To Delete {{this.ven_name}}?')">Delete</a>
                                     </td>
-
                                 </tr>
                                 {{/each}}
                             </tbody>

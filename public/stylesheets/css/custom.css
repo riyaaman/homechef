@@ -522,7 +522,7 @@ label.error {
 ***/
 .product-image{
     position: relative;
-    width: 250px;     
+    /* width: 250px;      */
     height:200px;
     overflow: hidden;
  }

@@ -50,11 +50,11 @@
                     </div>
                     <!-- Shop			        
                     ============================================= -->
-                    <div id="shop" class="shop row grid-container gutter-30" data-layout="fitRows">
+                    <div id="shop" class="shop row grid-container gutter-30 " data-layout="fitRows">
                         {{#each products}}
                         <input type="hidden" id="vendorId" name="vendorId" value="{{this.ven_id}}">                        
                         <div class="product col-md-4 col-sm-12 col-12 {{this.cat_id}}">
-                            <div class="grid-inner  p-1 shadow">
+                            <div class="grid-inner  p-1 shadow ">
                                 <div class="product-image">
                                     <a class="" 
                                     href="../images/product-images/{{this._id}}.jpg"
