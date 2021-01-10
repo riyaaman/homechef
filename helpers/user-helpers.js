@@ -440,7 +440,7 @@ module.exports = {
                 let user = await db
                     .get()
                     .collection(collection.USERS_COLLECTION)
-                    .findOne({ $or: [{ email: userData.email }, { phone: userData.email }] })
+                    .findOne({active:"true",$or: [{ email: userData.email }, { phone: userData.email }] })
                 if (user) {
                     bcrypt.compare(userData.password, user.password).then((loginStatus) => {
                         if (loginStatus) {

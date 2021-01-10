@@ -95,9 +95,21 @@
 			// Specify validation rules
 			rules: {
 				email: {
+					required: {
+						depends: function () {
+							$(this).val($.trim($(this).val()));
+							return true;
+						}
+					},
 					email: true
 				},
 				phone: {
+						required: {
+						depends: function () {
+							$(this).val($.trim($(this).val()));
+							return true;
+						}
+					},
 					digits: true,
 					//minlength: 10,
 					//maxlength: 10,

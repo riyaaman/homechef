@@ -16,9 +16,7 @@
 <section id="content">
     <div class="content-wrap">
         <div class="container clearfix">
-
             <div class="grid-filter-wrap">
-
                 <!-- Portfolio Filter
 				============================================= -->
                 <ul class="grid-filter" data-container="#portfolio">
@@ -47,10 +45,7 @@
                     <!-- Grid Inner: Start -->
                     <div class="grid-inner">
                         <!-- Image: Start -->
-                        <div class="portfolio-image">
-                            {{!-- <a>
-                                <img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}">
-                            </a> --}}
+                        <div class="portfolio-image">                           
                             <a><img class="lazy"
                                     src="../images/product-images/{{this._id}}.jpg' viewBox='0 0 4 3'%3E%3C/svg%3E"
                                     width="800" height="600" data-src="../images/product-images/{{this._id}}.jpg"
@@ -62,7 +57,13 @@
                                     <div class="portfolio-desc pt-0 center" data-hover-animate="fadeInDownSmall"
                                         data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350">
                                         <h3><a>{{this.product_name}}</a></h3>
-                                        <span><a>By {{this.ven_shop}}</a></span>
+                                        {{!-- <span><a>By {{this.ven_shop}}</a></span> --}}
+                                        {{#if this.discount_price}} 
+											<span class="text-white"><del class="text-white-50">₹{{ this.price}} </del> 
+                                             ₹ {{ this.discount_price}}</span></ins>
+											{{else}}
+											 <span class="text-white">₹  {{ this.price}} </span>
+											 {{/if}}
                                     </div>
                                     <!-- Description: End -->
                                     <div class="d-flex">
