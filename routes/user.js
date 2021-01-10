@@ -34,7 +34,6 @@ router.get("/", async (req, res, next) => {
     let user = req.session.user;
     if (user) {
         user_details = req.session.user;
-        //cart_count      =   await UserHelpers.get_CartCount(user._id);
         cart_count = await UserHelpers.getCartCount(user._id);
         req.session.cart_count = cart_count;
     }
@@ -595,9 +594,7 @@ router.get("/gallery", (req, res) => {
     }
     ProductHelpers.getAllProducts().then(async(products) => {
         if (products.length > 0) {
-            categories = await ProductHelpers.getAllcategories();
-            console.log(products)
-            console.log(categories)
+            categories = await ProductHelpers.getAllcategories();           
         }
         res.render("user/gallery", { user_status: true, products, user_details, cart_count,categories});
     });

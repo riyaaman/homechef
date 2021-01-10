@@ -127,6 +127,11 @@ module.exports = {
                     .get()
                     .collection(collection.PRODUCT_COLLECTION)
                     .aggregate([
+                        {
+                            $match:{
+                                status:1
+                            }
+                        },
                         { $sort: { _id: -1 } },
                         { $set: { cat_id: { $toObjectId: "$category" } } },
                         {
@@ -157,6 +162,7 @@ module.exports = {
                                 product_name: 1,
                                 price: 1,
                                 status: 1,
+                                discount_price:1,
                                 cat_id: "$category._id",
                                 cat_name: "$category.cat_name",
                                 ven_name: "$vendor.ven_name",

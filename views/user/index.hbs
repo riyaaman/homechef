@@ -74,7 +74,6 @@
 
 	</div>
 </section>
-
 <!-- Content
 ============================================= -->
 <section id="content">
@@ -128,7 +127,7 @@
 
 			</div>
 		</div>
-		<div id="story" class="page-section">
+		<div id="story" class="page-section d-none d-sm-block">
 			<div class="section m-0 p-0">
 				<div class="row align-items-stretch clearfix ">
 					<div class="item-categories overflow-hidden col-md-4 dark col-padding position-relative"
@@ -189,14 +188,21 @@
 				<div class="col-lg-8 col-sm-12">
 					<div class="row no-gutters">
 						{{#each latest_products}}
-						<div class="col-lg-4 col-md-4  col-xs-12">
+						<div class="col-lg-4 col-md-4 col-6">
 							<div class="jm-item second">
 								<div class="jm-item-wrapper">
 									<div class="jm-item-image">
-										<img src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"/>										
-										<div class="jm-item-description text-center">
-											<h4 class="text-white mb-0 mt-5">{{this.product_name}}</h4>
-											<span>By {{this.ven_shop}}</span>
+										<img  src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"/>										
+										<div class="jm-item-description text-center ">
+											<h4 class="text-white mb-0 mt-md-5 mt-xs-0">{{this.product_name}}</h4>
+											{{!-- <span>By {{this.ven_shop}}</span> --}}
+											{{#if this.discount_price}} 
+											<span>  <del>₹{{ this.price}} </del> 
+                                            <span>₹{{ this.discount_price}}</span></ins>
+											{{else}}
+											 <span >₹{{ this.price}} </span>
+											 {{/if}}
+
 											<div class="jm-item-button"><a
 													href="/get_products_bybaker/{{this.ven_id}}">View</a></div>
 										</div>
@@ -215,7 +221,7 @@
 
 
 
-		<div class="section bg-transparent">
+		<div class="section bg-transparent d-none d-sm-block">
 			<div class="d-none d-lg-block"
 				style="background: #FFF url('images/sections/3.jpg') no-repeat center center / cover; height: 100%;position: absolute; top: 0; left: 0; width: 100%">
 			</div>

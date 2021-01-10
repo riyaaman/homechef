@@ -53,8 +53,8 @@
                     <div id="shop" class="shop row grid-container gutter-30 " data-layout="fitRows">
                         {{#each products}}
                         <input type="hidden" id="vendorId" name="vendorId" value="{{this.ven_id}}">                        
-                        <div class="product col-md-4 col-sm-12 col-12 {{this.cat_id}}">
-                            <div class="grid-inner  p-1 shadow ">
+                        <div class="product col-md-4 col-sm-12 col-12  {{this.cat_id}}">
+                            <div class="grid-inner p-1 shadow ">
                                 <div class="product-image">
                                     <a class="" 
                                     href="../images/product-images/{{this._id}}.jpg"
@@ -82,12 +82,15 @@
                                          <input type="hidden" name="product_price2" id="product_price2" value="{{ this.price}}">
                                         {{/if}}
                                     </div>
-                                    <div class="row ml-0">
-                                        <button class="button text-white button-mini  button-rounded m-1 bg-color"
+                                    <div class="row ml-0 ">
+                                        <div class="col-md-6 col-sm-3">
+                                             <button class="button text-white button-mini  button-rounded m-1 bg-color"
                                             onclick="addToCart('{{this._id}}',0,{{this.price}},{{this.discount_price}})">Add To Cart</button>
-                                            <button class="button button-mini button-border button-rounded m-1"
-                                            onclick="addToCart('{{this._id}}',1,{{this.price}},{{this.discount_price}})">Buy Now</button>
-                                       
+                                        </div>
+                                         <div class="col-md-6 col-sm-3">
+                                              <button class="button button-mini button-border button-rounded m-1"
+                                            onclick="addToCart('{{this._id}}',1,{{this.price}},{{this.discount_price}})">Buy Now</button>                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
