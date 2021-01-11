@@ -10,6 +10,9 @@ var fs = require("fs");
 ============================================= */
 const verifyVendorLogin = (req, res, next) => {
     if (req.session.vendorLoggedIn) {
+        req.details = { name: req.session.vendor.ven_name,
+                        shop_name: req.session.vendor.ven_shop,
+                        vendor_message:req.session.vendor_message }
         next();
     } else {
         res.redirect("/vendor");
@@ -40,6 +43,7 @@ router.post("/vendor_login", (req, res) => {
         if (response.loginStatus) {
             req.session.vendor          =   response.user;
             req.session.vendorLoggedIn  =   true;
+            req.session.vendor_message  =   false;
             res.redirect("ven_dashboard");
         } else {
             req.session.vendorLoggedIn = "Invalid Password or Username";
@@ -49,7 +53,7 @@ router.post("/vendor_login", (req, res) => {
 });
 
 router.get("/ven_dashboard", verifyVendorLogin,noCache,async (req, res) => {
-    let details         =   { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop }
+    let details         =   req.details 
     let count           =   await ProductHelpers.getCountByvendor(req.session.vendor._id) 
     let product_count   =   await ProductHelpers.getProductCountByvendor(req.session.vendor._id)    
     res.render("vendor/vendor_dashboard", { vendor_status: true, details, count,product_count })
@@ -59,13 +63,10 @@ router.get("/ven_dashboard", verifyVendorLogin,noCache,async (req, res) => {
 ============================================= */
 router.get("/settings", verifyVendorLogin,noCache,(req, res) => {
     let vendor_status   =   true;
-    let vendor_id       =   req.session.vendor._id;
-    let details         =   { name: req.session.vendor.ven_name, 
-                              shop_name: req.session.vendor.ven_shop,
-                              vendor_message:req.session.vendor_message
-                            }
-        res.render("vendor/settings", { vendor_status,vendor_id,details });
-        req.session.vendor_message = false
+    let vendor_id       =   req.session.vendor._id; 
+    let details         =   req.details 
+    res.render("vendor/settings", { vendor_status,vendor_id,details });
+    req.session.vendor_message = false
 });
 
 /* Change Password of a vendor
@@ -86,6 +87,7 @@ router.post("/change_password", (req, res) => {
 router.get("/logout", (req, res) => {
     req.session.vendor = null;
     req.session.vendorLoggedIn = false;
+    req.session.vendor_message = false;
     res.redirect("/vendor");
 });
 
@@ -97,9 +99,10 @@ router.get("/logout", (req, res) => {
 /* Add  Product 
 ============================================= */
 router.get("/product_add", verifyVendorLogin,noCache,async (req, res) => {
-    let details     =   { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    let details         =   req.details
     let categories  =   await ProductHelpers.getAllcategories();
-    res.render("vendor/product-add", { vendor_status: true,categories,details });
+    res.render("vendor/product-add", { vendor_status:true,categories,details });
+    req.session.vendor_message = false;
 });
 
 router.post("/product_add", (req, res) => {
@@ -138,23 +141,18 @@ router.get("/product_manage", verifyVendorLogin, async (req, res, next) => {
     let categories  =   await ProductHelpers.getAllcategories()
     let vendor_id   =   req.session.vendor._id;
     ProductHelpers.getProductsByVendorId(vendor_id).then((products) => {
-        let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop,
-                        vendor_message:req.session.vendor_message }
-        res.render("vendor/product-manage", { vendor_status, products, categories, details })      
+        let details         =   req.details
+        res.render("vendor/product-manage", { vendor_status, products, categories, details })
+        req.session.vendor_message = false;      
     });
 });
 
 /* Edit  product 
 ============================================= */
-router.get("/product_edit/:product_id", verifyVendorLogin, async (req, res) => {
-    let details = { 
-        name: req.session.vendor.ven_name, 
-        shop_name: req.session.vendor.ven_shop,
-        vendor_message:req.session.vendor_message
-    }
+router.get("/product_edit/:product_id", verifyVendorLogin, async (req, res) => {   
+    let details         =   req.details
     let categories      =   await ProductHelpers.getAllcategories()
-    let product_details =   await ProductHelpers.getProductDetailsByProductId(req.params.product_id)    
-    
+    let product_details =   await ProductHelpers.getProductDetailsByProductId(req.params.product_id) 
     res.render("vendor/product-edit", { vendor_status: true, categories, details, product_details })
     req.session.vendor_message = false
 });
@@ -183,7 +181,7 @@ router.post("/product_delete", async (req, res) => {
         try {
             // const DIR = "./public/images/product-images";
             // fs.unlinkSync(DIR + "/" + product_id + ".jpg");
-            req.session.product_message = "Product Deleted Successfully";
+            req.session.vendor_message = "Product Deleted Successfully";
             res.redirect("product_manage")
         } catch (err) {
             console.log(err)         
@@ -202,7 +200,7 @@ router.post("/product_delete", async (req, res) => {
 ============================================= */
 router.get("/customer_orders", verifyVendorLogin, async (req, res) => {
     let orders      =   await UserHelpers.getUserOrdersByVendorId(req.session.vendor._id);  
-    let details     =   { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    let details         =   req.details;
     res.render("vendor/customer-orders", { vendor_status: true, orders, details });
 });
 
@@ -235,7 +233,7 @@ router.post("/change_orderstatus_byvendor", (req, res) => {
 ============================================= */
 router.get("/sales_report", verifyVendorLogin, async (req, res) => {
     let orders  =   await ProductHelpers.viewSalesReportByvendor(req.session.vendor._id);
-    let details =   { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    let details         =   req.details;
     res.render("vendor/sales-report", { vendor_status: true, orders, details });
 });
 
@@ -262,18 +260,15 @@ router.post("/sales_report_bydate", verifyVendorLogin, async (req, res) => {
 /* Get Sales Report by Vendor Id , Previous Week & Month
 ============================================= */
 router.get("/sales_report_by_parameters/:value", verifyVendorLogin, async (req, res) => {
-    var value = req.params.value;
-    console.log(value);
+    var value = req.params.value;    
     orders = null;
     if (value == 0) {
         orders = await ProductHelpers.getSalesReportByvendorIdAndWeek(req.session.vendor._id);
     } else {
         orders = await ProductHelpers.getSalesReportByvendorIdAndMonth(req.session.vendor._id);
     }
-    let details = {
-        name: req.session.vendor.ven_name,
-        shop_name: req.session.vendor.ven_shop,
-    }
+    
+    let details         =   req.details;
     res.render("vendor/sales-report", { vendor_status: true, orders, details, value });
 });
 
@@ -287,7 +282,7 @@ router.get("/sales_report_by_parameters/:value", verifyVendorLogin, async (req, 
 ============================================= */
 router.get("/customer_order_history", verifyVendorLogin, async (req, res) => {
     let orders = await ProductHelpers.getUserOrderhistoryByvendorId(req.session.vendor._id);
-    let details = { name: req.session.vendor.ven_name, shop_name: req.session.vendor.ven_shop };
+    let details         =   req.details;
     res.render("vendor/customer-order-history", { vendor_status: true, orders, details });
 });
 

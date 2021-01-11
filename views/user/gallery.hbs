@@ -41,7 +41,7 @@
             <div id="portfolio" class="portfolio row grid-container gutter-20 gallery" data-layout="fitRows">
                 {{#each products}}
                 <!-- Portfolio Item: Start -->
-                <article class="portfolio-item col-lg-3 col-md-4 col-sm-6 col-12 {{this.cat_id}}">
+                <article class="portfolio-item col-lg-3 col-md-4 col-sm-6 p-2  col-6 pl-xs-1  {{this.cat_id}}">
                     <!-- Grid Inner: Start -->
                     <div class="grid-inner">
                         <!-- Image: Start -->
@@ -50,20 +50,25 @@
                                     src="../images/product-images/{{this._id}}.jpg' viewBox='0 0 4 3'%3E%3C/svg%3E"
                                     width="800" height="600" data-src="../images/product-images/{{this._id}}.jpg"
                                     alt="{{this.product_name}}"></a>
+                              {{#if this.percent}}
+                                    <div class="sale-flash badge badge-success p-2"> {{this.percent}} %Off*</div>
+                                    {{/if}}
                             <!-- Overlay: Start -->
                             <div class="bg-overlay">
                                 <div class="bg-overlay-content dark flex-column" data-hover-animate="fadeIn">
                                     <!-- Decription: Start -->
-                                    <div class="portfolio-desc pt-0 center" data-hover-animate="fadeInDownSmall"
-                                        data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350">
-                                        <h3><a>{{this.product_name}}</a></h3>
-                                        {{!-- <span><a>By {{this.ven_shop}}</a></span> --}}
-                                        {{#if this.discount_price}} 
-											<span class="text-white"><del class="text-white-50">₹{{ this.price}} </del> 
-                                             ₹ {{ this.discount_price}}</span></ins>
-											{{else}}
-											 <span class="text-white">₹  {{ this.price}} </span>
-											 {{/if}}
+                                    <div class="portfolio-desc center p-0  pl-xs-0 pb-xs-0" data-hover-animate="fadeInDownSmall"
+                                        data-hover-animate-out="fadeOutUpSmall" data-hover-speed="350">                                        
+                                        <div class="product-title ">
+                                            <p class="mb-0"><a>{{this.product_name}}</a></p>
+                                            {{!-- <span><a>By {{this.ven_shop}}</a></span> --}}
+                                            {{#if this.discount_price}} 
+                                                <span class="text-white"><del class="text-white-50 mr-1 ">₹{{this.price}} </del> 
+                                                ₹{{this.discount_price}}</span></ins>
+                                                {{else}}
+                                                <span class="text-white ">₹{{this.price}}</span>
+                                                {{/if}}
+                                        </div>
                                     </div>
                                     <!-- Description: End -->
                                     <div class="d-flex">

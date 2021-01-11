@@ -40,13 +40,14 @@
                         </div>
                         <div class="form-group">
                               <label for="product_price">Price</label>
-                            <input type="text" name="price" class="form-control price" placeholder="Product Price"
+                            <input type="text" id="price" name="price" class="form-control price" placeholder="Product Price"
                                 value="{{product_details.price}}" required>
                         </div>
                         <div class="form-group">
                               <label for="product_discount_price">Discount Price</label>
-                            <input type="text" name="discount_price" class="form-control discount_price" placeholder="Discount Price"
+                            <input type="text" id="discount_price" name="discount_price" class="form-control discount_price" placeholder="Discount Price"
                                 value="{{product_details.discount_price}}" >
+                                 <div class="error" style="display:none">Please Enter A value Less Than Price Amount</div>
                         </div>
 
 
@@ -128,4 +129,22 @@
     });
 
 
+</script>
+
+
+{{!-- Cehcking discount price less than price amount --}}
+<script>
+    $("#discount_price").focusout(function(){
+    if(parseFloat($("#discount_price").val()) >= parseFloat($("#price").val()))
+    {
+        $(".error").css("display","block").css("color","red");
+        $("#submit").prop('disabled',true);
+        $("#discount_price").val("")
+    }
+    else {
+        $(".error").css("display","none");
+        $("#submit").prop('disabled',false);        
+    }
+
+});
 </script>

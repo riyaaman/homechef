@@ -133,7 +133,9 @@ module.exports = {
                             }
                         },
                         { $sort: { _id: -1 } },
-                        { $set: { cat_id: { $toObjectId: "$category" } } },
+                        { $set: { cat_id: { $toObjectId: "$category" },
+                        convertedPrice: { $toDouble: "$price" },
+                        convertedDiscPrice: { $convert: { input: "$discount_price", to: "double", onError: 0 } }, } },
                         {
                             $lookup: {
                                 from: collection.CATEGORY_COLLECTION,
@@ -158,6 +160,18 @@ module.exports = {
                             $unwind: "$vendor",
                         },
                         {
+                            $set: {
+                                percent: {
+                                    $ceil: {
+                                        $subtract: [
+                                            100,
+                                            { $multiply: [{ $divide: ["$convertedDiscPrice", "$convertedPrice"] }, 100] },
+                                        ],
+                                    },
+                                },
+                            },
+                        },                       
+                        {
                             $project: {
                                 product_name: 1,
                                 price: 1,
@@ -168,6 +182,13 @@ module.exports = {
                                 ven_name: "$vendor.ven_name",
                                 ven_shop: "$vendor.ven_shop",
                                 ven_id: "$vendor._id",
+                                percent: {
+                                    $cond: {
+                                        if: { $eq: [100, "$percent"] },
+                                        then: "$$REMOVE",
+                                        else: "$percent",
+                                    },
+                                },
                             },
                         },
                     ])

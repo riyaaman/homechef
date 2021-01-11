@@ -2,8 +2,8 @@ const mongoClient       =   require('mongodb').MongoClient
 const state             =   {db:null}
 module.exports.connect  =   function (done){
     
-    // const url       =   'mongodb://localhost:27017'  
-    var url           =    process.env.MONGODB_URI;
+   
+    const url           =    process.env.MONGODB_URI || 'mongodb://localhost:27017';
     const dbname      =   'db-snacky'
     
     mongoClient.connect(url,(err,data)=>{

@@ -29,13 +29,13 @@
                         </div>
                         <div class="col-12 form-group">
                             <label for="price">Price:</label>
-                            <input type="text" name="price" type="number" class="form-control" placeholder="Product Price" required>
+                            <input type="text" id="price" name="price" type="number" class="form-control" placeholder="Product Price" required>
 
                         </div>
                         <div class="col-12 form-group">
                             <label for="discount_price">Discount Price:</label>
-                            <input type="text" name="discount_price" type="number"  class="form-control" placeholder="Product Discount Amount" >
-
+                            <input type="text" id="discount_price" name="discount_price" type="number"  class="form-control" placeholder="Product Discount Amount" >
+                            <div class="error" style="display:none">Please Enter A value Less Than Price Amount</div>
                         </div>
                         <div class="col-12 form-group">
                             <label for="category">Category:</label>
@@ -223,7 +223,21 @@
 </script>
 
 
+<script>
+    $("#discount_price").focusout(function(){    
+    if(parseFloat($("#discount_price").val()) >= parseFloat($("#price").val()))
+    {
+        $(".error").css("display","block").css("color","red");
+        $("#submit").prop('disabled',true);
+        $("#discount_price").val("")
+    }
+    else {
+        $(".error").css("display","none");
+        $("#submit").prop('disabled',false);        
+    }
 
+});
+</script>
 
 <style>
     /* Limit image width to avoid overflow the container */
