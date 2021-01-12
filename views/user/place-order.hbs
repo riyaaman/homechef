@@ -19,12 +19,11 @@
 		<div class="container clearfix ">
 			<div class="row col-mb-50 gutter-50">
 				<form id="checkout-form" name="checkout-form" class="row mb-0" action="#" method="post">
-					<div class="col-lg-6 ">
+					<div class="col-lg-6 col-md-8">
 						<h3>Billing Address</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde, vel odio non dicta provident
-							sint
-							ex autem mollitia dolorem illum repellat ipsum aliquid illo similique sapiente fugiat minus
-							ratione.</p>
+							
+							</p>
 						<input type="text" name="userId" value="{{user._id}}" hidden>
 						<div class="w-100"></div>
 						{{#if user_address}}
@@ -309,7 +308,7 @@
 			"order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 			"handler": function (response) {
 				//alert(response.razorpay_payment_id);alert(response.razorpay_order_id);alert(response.razorpay_signature);
-				
+				verifyPayment(response, order)
 			},
 			"prefill": {
 				"name": "Snacky",
