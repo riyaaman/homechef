@@ -56,7 +56,9 @@ router.get("/ven_dashboard", verifyVendorLogin,noCache,async (req, res) => {
     let details         =   req.details 
     let count           =   await ProductHelpers.getCountByvendor(req.session.vendor._id) 
     let product_count   =   await ProductHelpers.getProductCountByvendor(req.session.vendor._id)    
-    res.render("vendor/vendor_dashboard", { vendor_status: true, details, count,product_count })
+    var datetime = new Date();
+    var date = datetime.toISOString().slice(0,10)
+    res.render("vendor/vendor_dashboard", { vendor_status: true, details, count,product_count,date })
 });
 
 /* settings of vendor

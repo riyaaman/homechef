@@ -56,7 +56,9 @@ router.get("/dashboard", verifyAdminLogin, noCache, async (req, res) => {
         adminMessage: req.session.adminMessage,
     }
     let count   =   await ProductHelpers.getCount();
-    res.render("admin/dashboard", { admin_status: true, admin_details, count });
+    var datetime = new Date();
+    var date = datetime.toISOString().slice(0,10)
+    res.render("admin/dashboard", { admin_status: true, admin_details, count,date });
 });
 
 /* Admin Logout
