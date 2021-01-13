@@ -74,8 +74,8 @@
                                     </div>                                    
                                     <div class="product-price text-center">
                                         {{#if this.discount_price}}                                        
-                                            <del>₹{{ this.price}} </del> 
-                                            <ins >₹{{ this.discount_price}} </ins>
+                                            <del>₹{{this.price}} </del> 
+                                            <ins class="ml-1">₹{{this.discount_price}} </ins>
                                             <input type="hidden" name="product_price1" id="product_price1" value="{{ this.discount_price}}">
                                         {{else}}
                                          <ins >₹{{ this.price}} </ins>
