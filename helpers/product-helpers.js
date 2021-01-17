@@ -215,6 +215,7 @@ module.exports = {
                         {
                             $match: { vendor_id: objectId(vendorId), status: 1 },
                         },
+                        { $sort: { _id: -1 } },
                         {
                             $set: {
                                 cat_id: { $toObjectId: "$category" },

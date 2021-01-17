@@ -233,7 +233,10 @@ module.exports = {
     getAllVendors: () => {
         try {
             return new Promise(async (resolve, reject) => {
-                let vendors = await db.get().collection(collection.VENDOR_COLLECTION).find({ active: "true" }).toArray();
+                let vendors = await db.get().collection(collection.VENDOR_COLLECTION)
+                .find({ active: "true" })
+                .sort( { "_id": -1 } )
+                .toArray();
                 resolve(vendors);
             });
         } catch (err) {

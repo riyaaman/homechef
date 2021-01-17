@@ -108,32 +108,39 @@ router.get("/product_add", verifyVendorLogin,noCache,async (req, res) => {
 });
 
 router.post("/product_add", (req, res) => {
-    req.body.vendor_id = req.session.vendor._id;
-    ProductHelpers.addProduct(req.body).then((response) => {       
-        let id      =   response._id
-        var img_url =   req.body.img_url
-        if (img_url == 0) {
-            let image = req.files.product_image;
-            image.mv("./public/images/product-images/" + id + ".jpg", (err, done) => {
-                if (!err) {
-                    req.session.vendor_message = "Well Done ! You Successfully Added the Product";
-                    res.redirect("product_manage");
-                } else {
-                    console.log(err);
-                }
-            });
-        } else {
-            var base64Data = img_url.replace(/^data:image\/png;base64,/, "");
-            fs.writeFile("./public/images/product-images/" + id + ".jpg", base64Data, "base64", (err, done) => {
-                if (!err) {
-                    req.session.vendor_message = "Well Done ! You Successfully Added the Product";
-                    res.redirect("product_manage");
-                } else {
-                    console.log(err);
-                }
-            });
-        }
-    });
+    try{
+        req.body.vendor_id = req.session.vendor._id;
+        ProductHelpers.addProduct(req.body).then((response) => {       
+            let id      =   response._id
+            var img_url =   req.body.img_url
+            if (img_url == 0) {
+                let image = req.files.product_image;
+                image.mv("./public/images/product-images/" + id + ".jpg", (err, done) => {
+                    if (!err) {
+                        req.session.vendor_message = "Well Done ! You Successfully Added the Product";
+                        res.redirect("product_manage");
+                    } else {
+                        console.log(err);
+                    }
+                });
+            } else {
+                var base64Data = img_url.replace(/^data:image\/png;base64,/, "");
+                fs.writeFile("./public/images/product-images/" + id + ".jpg", base64Data, "base64", (err, done) => {
+                    if (!err) {
+                        req.session.vendor_message = "Well Done ! You Successfully Added the Product";
+                        res.redirect("product_manage");
+                    } else {
+                        console.log(err);
+                    }
+                });
+            }
+        });
+
+    }
+    catch(err){
+        console.log(err)
+    }
+   
 });
 
 /* View Products

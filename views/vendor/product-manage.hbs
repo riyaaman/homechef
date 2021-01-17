@@ -129,9 +129,14 @@
 <script>
 
   $(document).ready(function () {
-
     // Datatable for product details
-    $('#product_table').DataTable();
+   // $('#product_table').DataTable();
+    $('#product_table').dataTable({
+        /* No ordering applied by DataTables during initialisation */
+        "order": []
+    });
+   
+   
     // Product edit from validation
     $("#product-update-form").validate({
       // Specify validation rules

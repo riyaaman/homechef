@@ -32,7 +32,7 @@
                         <table class="table mt-4" id="vendorsTable">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
+                                    {{!-- <th scope="col">#</th> --}}
                                     <th scope="col">Name</th>
                                     <th scope="col">Shop Name</th>
                                     <th scope="col">Email</th>
@@ -44,7 +44,7 @@
                             <tbody>
                                 {{#each vendors}}
                                 <tr>
-                                    <td scope="row">{{@index}}</td>
+                                    {{!-- <td scope="row">{{@index}}</td> --}}
                                     <td>{{this.ven_name}}</td>
                                     <td>{{this.ven_shop}}</td>
                                     <td>{{this.ven_email}}</td>
@@ -77,7 +77,11 @@
 ============================================= -->
 <script>
     $(function () {
-        $('#vendorsTable').DataTable();
+        //$('#vendorsTable').DataTable();
+         $('#vendorsTable').dataTable({
+        /* No ordering applied by DataTables during initialisation */
+        "order": []
+    });
     });
 </script>
 
