@@ -197,6 +197,8 @@ router.get("/profile", verifyUserLogin, async (req, res) => {
     let user_details = req.session.user;
     cart_count = req.session.cart_count;
     user_details.userMessage = req.session.userMessage;
+    user_details.first_name = user[0].first_name
+    user_details.last_name = user[0].last_name
     res.render("user/profile", { user_status: true, user, user_details, cart_count });
     req.session.userMessage = false;
 });

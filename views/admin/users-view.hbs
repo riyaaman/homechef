@@ -29,32 +29,34 @@
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
           </div>
           {{/if}}
-          <table class="table table-striped" id="user_table">
-            <thead>
-              <tr>
-                <th>First Name</th>
-                <th> Last Name</th>
-                <th> Phone</th>
-                <th> Email</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {{#each users}}
-              <tr>
-                <td>{{ this.first_name }}</td>
-                <td>{{ this.last_name }}</td>
-                <td>{{ this.phone }}</td>
-                <td>{{ this.email }}</td>
-                <td >
-                  <a href="/admin/user_edit/{{ this._id }}" class="btn btn-sm bg-color m-1 edit">Edit</a>
-                  <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ _id }}">Delete</a>
-                  <a href="javascript:void(0);" class="btn btn-sm btn-secondary block" data-id="{{ _id }}">Block</a>
-                </td>
-              </tr>
-              {{/each}}
-            </tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table table-striped" id="user_table">
+              <thead>
+                <tr>
+                  <th>First Name</th>
+                  <th> Last Name</th>
+                  <th> Phone</th>
+                  <th> Email</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each users}}
+                <tr>
+                  <td>{{ this.first_name }}</td>
+                  <td>{{ this.last_name }}</td>
+                  <td>{{ this.phone }}</td>
+                  <td>{{ this.email }}</td>
+                  <td >
+                    <a href="/admin/user_edit/{{ this._id }}" class="btn btn-sm bg-color m-1 edit">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-danger delete" data-id="{{ _id }}">Delete</a>
+                    <a href="javascript:void(0);" class="btn btn-sm btn-secondary block" data-id="{{ _id }}">Block</a>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

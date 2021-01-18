@@ -8,7 +8,7 @@
                 <div class="card-header  ">
                     <h3 class="m-0 font-weight-bold text-theme color ">Customer Orders </h3>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table" id="order_table">
                         <thead>
                             <tr>
@@ -28,8 +28,7 @@
                                 <td>{{this._id}} </td>
                                 <td><span
                                         class="datatable-date">{{this.created_date_string}}</span>{{this.created_date}}
-                                </td>
-                              
+                                </td>                              
                                 <td>{{this.deliveryDetails.billing_pincode}} </td>
                                 <td>{{this.paymentMethod}}</td>
                                 <td>{{this.gross_amount}}</td>

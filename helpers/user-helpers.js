@@ -869,7 +869,7 @@ module.exports = {
 
     /* Add/Update User Profile
     ============================================= */
-    addUserProfile: (userData, userId) => {
+    addUserProfile: (userData, userId) => {       
         try {
             return new Promise(async (resolve,reject) => {
                 db.get()
