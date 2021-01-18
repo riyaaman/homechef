@@ -9,7 +9,8 @@
 					<div class="container dark">
 						<div class="slider-caption">
 							<div>
-								<h2 class="font-secondary ls0 font-weight-normal nott" data-animate="fadeIn">Homely flavours</h2>
+								<h2 class="font-secondary ls0 font-weight-normal nott" data-animate="fadeIn">Homely
+									flavours</h2>
 								<p class="d-none d-sm-block font-primary" data-animate="fadeIn" data-delay="400">
 									Delivery to The door Step</p>
 								<div class="static-content"
@@ -63,7 +64,8 @@
 						</div>
 					</div>
 					<div class="swiper-slide-bg"
-						style="background-image: url('images/slider/2.jpg'); background-position: center bottom;filter: brightness(.4);"></div>
+						style="background-image: url('images/slider/2.jpg'); background-position: center bottom;filter: brightness(.4);">
+					</div>
 				</div>
 			</div>
 
@@ -136,9 +138,9 @@
 								alt="Category Image"></div>
 						<div class="cat-text">
 							<h2 class="font-weight-bold ls1 text-uppercase mb-3">Burgers</h2>
-							<p class="">Delicious lip-smacking and crunchy vegetable & Non vegetable varieties of 
-								 Burgers. Our Burgers will make you so tempting that it will leave you craving for more
-								 each time you have it.   </p>
+							<p class="">Delicious lip-smacking and crunchy vegetable & Non vegetable varieties of
+								Burgers. Our Burgers will make you so tempting that it will leave you craving for more
+								each time you have it. </p>
 
 						</div>
 					</div>
@@ -148,10 +150,10 @@
 								alt="Category Image"></div>
 						<div class="cat-text">
 							<h2 class="font-weight-bold ls1 text-uppercase mb-3">Cakes</h2>
-							<p class="">You will experience a bite of deliciousness by trying out our wide variety of 
-								cakes from proffessional chefs. We offer a huge assortment of the most appetizing, 
-								 magnificent and elegant cakes freshly baked. 
-								 </p>
+							<p class="">You will experience a bite of deliciousness by trying out our wide variety of
+								cakes from proffessional chefs. We offer a huge assortment of the most appetizing,
+								magnificent and elegant cakes freshly baked.
+							</p>
 						</div>
 					</div>
 					<div class="item-categories overflow-hidden col-md-4 dark col-padding position-relative"
@@ -160,8 +162,10 @@
 								alt="Category Image"></div>
 						<div class="cat-text">
 							<h2 class="font-weight-bold ls1 text-uppercase mb-3"> Muffins</h2>
-							<p class="">Our classic muffins have a delicious twist. They are great first thing in the morning 
-								or served as a coffee break snack. Made with premium quality ingradients, the taste is surely going to 
+							<p class="">Our classic muffins have a delicious twist. They are great first thing in the
+								morning
+								or served as a coffee break snack. Made with premium quality ingradients, the taste is
+								surely going to
 								tame your taste buds.</p>
 						</div>
 					</div>
@@ -192,21 +196,25 @@
 							<div class="jm-item second">
 								<div class="jm-item-wrapper">
 									<div class="jm-item-image">
-										<img  src="../images/product-images/{{this._id}}.jpg" alt="{{this.product_name}}"/>										
+										<img src="../images/product-images/{{this._id}}.jpg"
+											alt="{{this.product_name}}" />
+										  {{#if this.percent}}
+                                    <div class="sale-flash badge badge-success p-2"> {{this.percent}} %Off*</div>
+                                    {{/if}}
 										<div class="jm-item-description text-center ">
 											<h4 class="text-white mb-0 mt-md-5 mt-xs-0">{{this.product_name}}</h4>
 											{{!-- <span>By {{this.ven_shop}}</span> --}}
-											{{#if this.discount_price}} 
-											<span><del class="mr-1">₹{{ this.price}}</del> 
-                                            <span>₹{{ this.discount_price}}</span></ins>
-											{{else}}
-											 <span >₹{{ this.price}} </span>
-											 {{/if}}
+											{{#if this.discount_price}}
+											<span><del class="mr-1">₹{{ this.price}}</del>
+												<span>₹{{ this.discount_price}}</span></ins>
+												{{else}}
+												<span>₹{{ this.price}} </span>
+												{{/if}}
 
-											<div class="jm-item-button"><a
-													href="/get_products_bybaker/{{this.ven_id}}">View</a></div>
+												<div class="jm-item-button"><a
+														href="/get_products_bybaker/{{this.ven_id}}">View</a></div>
 										</div>
-									</div>									
+									</div>
 								</div>
 							</div>
 						</div>
@@ -252,6 +260,3 @@
 		style="position: absolute; bottom: 0; left: 0; width: 100%; z-index: 3; background: url('images/sketch-header.png') repeat center bottom; background-size: auto 100%; height: 40px; margin-bottom: -10px;">
 	</div>
 </section><!-- #content end -->
-
-
-
