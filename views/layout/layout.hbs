@@ -71,9 +71,10 @@
 ============================================= -->
 <title>Food Delivery System | Home Bakers</title>
 </head>
+<body class="stretched"  data-loader-html="<span class='pizza'> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> <span class='slice'></span> </span>">
 
-<body class="stretched ">
-	{{#if admin_status}}
+{{!-- <body class="stretched "> --}}
+	{{#if admin_status}} 
 	{{>admin-header}}
 
 	{{else if vendor_status}}

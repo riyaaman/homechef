@@ -773,7 +773,10 @@ module.exports = {
     getAllUsers: () => {
         try {
             return new Promise(async (resolve, reject) => {
-                let users   =   await db.get().collection(collection.USERS_COLLECTION).find({ active: "true" }).toArray();
+                let users   =   await db.get().collection(collection.USERS_COLLECTION)
+                .find({ active: "true" })
+                .sort( { "_id": -1 } )
+                .toArray();
                 resolve(users);
             });
         } catch (err) {
@@ -1948,6 +1951,7 @@ module.exports = {
                                 created_date_string:1
                             },
                         },
+                        { $sort: { _id: -1 } },
                       
                     ])
                     .toArray();

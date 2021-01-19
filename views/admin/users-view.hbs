@@ -116,7 +116,10 @@
   $(document).ready(function () {
 
     // Datatable for user details
-    $('#user_table').DataTable();
+    $('#user_table').DataTable({
+        /* No ordering applied by DataTables during initialisation */
+        "order": []
+    });
 
     //showing delete record modal
     $('#user_table').on('click', '.delete', function () {
