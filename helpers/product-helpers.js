@@ -1657,7 +1657,8 @@ module.exports = {
                             $set: {
                                 expiry_date: { $dateToString: { format: "%d-%m-%Y", date: "$expiry_date" } },
                             },
-                        }
+                        },
+                        { $sort: { _id: -1 } }
                     ])
                     .toArray();
                 resolve(coupon);
@@ -1692,7 +1693,7 @@ module.exports = {
                 let coupon = await db
                     .get()
                     .collection(collection.COUPON_COLLECTION)
-                    .findOne({ coupon_code: couponData.coupon_code });
+                    .findOne({ coupon_code: couponData.coupon_code ,active:true});
                 if (coupon) {
                     resolve({ isCoupon: true });
                 } else {
@@ -1721,7 +1722,7 @@ module.exports = {
     checkCouponAvailable: (couponData) => {
         try {
             return new Promise(async (resolve, reject) => {
-                let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ coupon_code: couponData });
+                let coupon = await db.get().collection(collection.COUPON_COLLECTION).findOne({ coupon_code: couponData , active:true });
                 if (coupon) {
                     resolve({ isCoupon: true });
                 }
@@ -1749,6 +1750,52 @@ module.exports = {
                     .then(() => {
                         resolve();
                     });
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    },
+
+
+    
+    /* Get Latest  Coupon Details
+    ============================================= */
+    getLatestCouponDetails: () => {
+      
+        try {
+            return new Promise(async (resolve, reject) => {
+                let coupon_details = await db
+                .get()
+                .collection(collection.COUPON_COLLECTION)
+               // .findOne({ expiry_date: { $gte: startDate },active: true } ,{sort:{$natural:-1}});
+                .aggregate([                    
+                    {
+                        $addFields: {                          
+                            today_date:{ $dateToString: { format: "%Y-%m-%d",date: new Date()} },
+                            expiry_date: { $dateToString: { format: "%Y-%m-%d", date: "$expiry_date" } },                             
+                        }
+                    },        
+                    {
+                        $project:
+                           {
+                             minimum_amount: 1,
+                             expiry_date: 1,
+                             coupon_code:1,
+                             coupon_amount:1,
+                             active:1,
+                             expiry_date: { $gte: [ "$expiry_date", "$today_date" ] },
+                             _id: 1
+                           }
+                      },
+                      {
+                        $match: {
+                           active :true,
+                           expiry_date:true
+                        }
+                    }
+                ])
+                .sort({_id:-1}).toArray();
+                resolve(coupon_details[0]);
             });
         } catch (err) {
             console.log(err);

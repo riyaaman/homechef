@@ -82,7 +82,10 @@
 	<div
 		style="position: absolute; top: 0; left: 0; width: 100%; z-index: 3; background: url('images/sketch.png') repeat center bottom; background-size: auto 100%; height: 40px; margin-top: -40px;">
 	</div>
-	<div class="content-wrap" style="overflow: visible;">
+	<div class="content-wrap " style="overflow: visible;">
+
+		<!-- How We Work
+		============================================= -->
 		<div class="section m-0 clearfix "
 			style="padding: 40px 0; background: url('images/sections/4.jpg') center center no-repeat; background-size: 100% auto">
 			<div class="container">
@@ -129,6 +132,9 @@
 
 			</div>
 		</div>
+
+		<!-- Items
+		============================================= -->
 		<div id="story" class="page-section d-none d-sm-block">
 			<div class="section m-0 p-0">
 				<div class="row align-items-stretch clearfix ">
@@ -172,8 +178,31 @@
 				</div>
 			</div>
 		</div>
+
+
+		
+		<!-- Coupon
+		============================================= -->
+		{{#if coupon_details}}
+		<div class="section mb-0 m-0"
+			style="background: url('images/common/promo-bg.jpg') no-repeat center center; background-size: cover; padding:80px 0;">
+			<div class="snowfall"></div>
+			<div class="mx-auto center" style="max-width: 1100px;">
+				<h3 class="mb-0 font-weight-medium  text-black">Get <span>{{coupon_details.coupon_amount}} %</span> off on orders of
+							{{coupon_details.minimum_amount}}/- or more.
+							Use Coupon:<span>{{coupon_details.coupon_code}}</span>					
+						<a href="/gallery"><button  class="button button-dark button-rounded my-0">
+							Start Shopping</button> </a>
+				</h3>
+			</div>
+		</div>
+		{{/if}}
+		
+
+		<!-- Our Menu
+		============================================= -->
 		<div class="section mb-0 mt-0"
-			style="background: #fee749 url('images/sections/4.jpg') no-repeat center right; background-size: cover; padding: 60px 0;">
+			style="background: #ffffff  url('images/sections/41.jpg') no-repeat center right; background-size: cover; padding: 60px 0;">
 			<div class="heading-block center mb-0 border-bottom-0">
 				<span class="font-primary ls1" style="font-size: 14px; color: #AAA">Sweet &amp; Tasty</span>
 				<h3 class="nott font-secondary ls0" style="font-size: 60px;line-height: 1.3;">Our Menu</h3>
@@ -198,9 +227,9 @@
 									<div class="jm-item-image">
 										<img src="../images/product-images/{{this._id}}.jpg"
 											alt="{{this.product_name}}" />
-										  {{#if this.percent}}
-                                    <div class="sale-flash badge badge-success p-2"> {{this.percent}} %Off*</div>
-                                    {{/if}}
+										{{#if this.percent}}
+										<div class="sale-flash badge badge-success p-2"> {{this.percent}} %Off*</div>
+										{{/if}}
 										<div class="jm-item-description text-center ">
 											<h4 class="text-white mb-0 mt-md-5 mt-xs-0">{{this.product_name}}</h4>
 											{{!-- <span>By {{this.ven_shop}}</span> --}}
@@ -226,10 +255,9 @@
 
 		<div class="clear"></div>
 
-
-
-
-		<div class="section bg-transparent d-none d-sm-block">
+		<!-- Services
+		============================================= -->
+		<div class="section bg-transparent d-none d-sm-block m-0">
 			<div class="d-none d-lg-block"
 				style="background: #FFF url('images/sections/3.jpg') no-repeat center center / cover; height: 100%;position: absolute; top: 0; left: 0; width: 100%">
 			</div>
@@ -252,11 +280,138 @@
 
 			</div>
 		</div>
-
-
 	</div>
-
 	<div
 		style="position: absolute; bottom: 0; left: 0; width: 100%; z-index: 3; background: url('images/sketch-header.png') repeat center bottom; background-size: auto 100%; height: 40px; margin-bottom: -10px;">
 	</div>
+
 </section><!-- #content end -->
+
+<!-- Modal -->
+{{#if coupon_details}}
+<div class="modal animated fadeInUp fast pr-0" id="modal-subscribe" role="dialog" displayed="false"
+	data-backdrop="static">
+
+	<div class="modal-dialog" role="subscribe">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close position-relative" data-dismiss="modal" aria-label="Close"
+					style="z-index: 1">
+					<span aria-hidden="true">&times;</span>
+				</button>
+
+				<div class="form-widget mx-auto" data-loader="button" style="padding: 30px">					
+					<h2 class="font-weight-bold h1 mb-3" style="letter-spacing: -2px">Get Special Discount!</h2>				
+					<h4 class=" nott ">Use<span>{{coupon_details.coupon_code}}</span>during Checkout 
+					and Get Additional <span class="text-danger">{{coupon_details.coupon_amount}}%</span> Off your First Order</h4>
+					
+					<a href="/user_login"><button name="" class="button btn-block btn-danger m-0 mt-2"
+							type="submit">Login Now</button></a>
+
+				
+				
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{{/if}}
+
+<script>
+
+	$(window).scroll(function () {
+		if ($(document).scrollTop() > 2000 && $("#modal-subscribe").attr("displayed") === "false") {
+			$('#modal-subscribe').modal('show');
+			$("#modal-subscribe").attr("displayed", "true");
+		}
+	});
+
+	jQuery('#modal-subscribe-form').on('formSubmitSuccess', function () {
+		$("#modal-subscribe").addClass("fadeOutDown");
+		setTimeout(function () { $('#modal-subscribe').modal('hide'); }, 400);
+		$("#modal-subscribe").attr("displayed", "false");
+	});
+
+	
+
+</script>
+
+
+<style>
+	/* Snowfall Effect
+-----------------------------------------------------------------*/
+
+	.snowfall {
+		background-image: url('/images/snow/s1.png'),
+			url('/images/snow/s2.png'),
+			url('/images/snow/s3.png');
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		-webkit-animation: snow 10s linear infinite;
+		-moz-animation: snow 10s linear infinite;
+		-ms-animation: snow 10s linear infinite;
+		animation: snow 10s linear infinite;
+	}
+
+	@keyframes snow {
+		0% {
+			background-position: 0px 0px, 0px 0px, 0px 0px;
+		}
+
+		50% {
+			background-position: 500px 500px, 100px 200px, -100px 150px;
+		}
+
+		100% {
+			background-position: 500px 1000px, 200px 400px, -100px 300px;
+		}
+	}
+
+	@-moz-keyframes snow {
+		0% {
+			background-position: 0px 0px, 0px 0px, 0px 0px;
+		}
+
+		50% {
+			background-position: 500px 500px, 100px 200px, -100px 150px;
+		}
+
+		100% {
+			background-position: 400px 1000px, 200px 400px, 100px 300px;
+		}
+	}
+
+	@-webkit-keyframes snow {
+		0% {
+			background-position: 0px 0px, 0px 0px, 0px 0px;
+		}
+
+		50% {
+			background-position: 500px 500px, 100px 200px, -100px 150px;
+		}
+
+		100% {
+			background-position: 500px 1000px, 200px 400px, -100px 300px;
+		}
+	}
+
+	@-ms-keyframes snow {
+		0% {
+			background-position: 0px 0px, 0px 0px, 0px 0px;
+		}
+
+		50% {
+			background-position: 500px 500px, 100px 200px, -100px 150px;
+		}
+
+		100% {
+			background-position: 500px 1000px, 200px 400px, -100px 300px;
+		}
+	}
+</style>

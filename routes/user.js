@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var UserHelpers = require("../helpers/user-helpers");
 var ProductHelpers = require("../helpers/product-helpers");
+const productHelpers = require("../helpers/product-helpers");
 var messagebird = require("messagebird")("NXdZZmOVZ5XRJJJD3SH1ugXJM");
 
 /* Verify Is User Logged in
@@ -37,7 +38,8 @@ router.get("/", async (req, res, next) => {
         cart_count = await UserHelpers.getCartCount(user._id);
         req.session.cart_count = cart_count;
     }
-    res.render("user/index", { user_status: true, user_details, latest_products, cart_count });
+    coupon_details = await productHelpers.getLatestCouponDetails();  
+    res.render("user/index", { user_status:true,user_details,latest_products,cart_count,coupon_details });
 });
 
 /* Check  User Email Exist or not

@@ -1498,7 +1498,9 @@ module.exports = {
     /* Check Coupon Exist or not 
     ============================================= */
     checkCouponCode: (coupon,subtotal,userId) => {       
-        var startDate = new Date()
+        var startDate = new Date();
+        startDate.setDate(startDate.getDate() - 1);
+        
         try {
             return new Promise(async (resolve, reject) => {
                 let coupon_details = await db
@@ -2066,13 +2068,7 @@ module.exports = {
                     .aggregate([
                         {
                             $unwind: "$products",
-                        },
-                        // {
-                        //     $match: {
-                        //       //  coupon_percent: { $ne: null },
-                        //       coupon_id: { $ne: null }
-                        //     },
-                        // },
+                        },                     
                         {
                             $lookup: {
                                 from: collection.USERS_COLLECTION,
