@@ -1735,7 +1735,7 @@ module.exports = {
                         },
                         {
                             $unwind: "$product",
-                        },                       
+                        },                                       
                         {
                             $group: {
                                 _id: "$_id",
@@ -1744,7 +1744,7 @@ module.exports = {
                                 paymentMethod: { $first: "$paymentMethod" },
                                 order_status: { $first: "$products.order_status" },
                                 created_date: { $first: "$created_date" },
-                                created_date_string: { $first: "$created_date_string" },
+                                created_date_string: { $first: "$created_date_string" },                               
                                 gross_amount: { $sum: { $multiply: ["$products.quantity", "$product.price"] } },
                                 total: { $sum: { $multiply: ["$products.quantity", "$products.price"] } },
                             },

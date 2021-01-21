@@ -1693,7 +1693,7 @@ module.exports = {
                 let coupon = await db
                     .get()
                     .collection(collection.COUPON_COLLECTION)
-                    .findOne({ coupon_code: couponData.coupon_code ,active:true});
+                    .findOne({ coupon_code: couponData.coupon_code,active:true});
                 if (coupon) {
                     resolve({ isCoupon: true });
                 } else {
